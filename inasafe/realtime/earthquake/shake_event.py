@@ -61,9 +61,6 @@ from PyQt4.QtCore import (
     QTranslator)
 # noinspection PyPackageRequirements
 from PyQt4.QtXml import QDomDocument
-from PyQt4.QtGui import (
-    QPainter,
-    QImage)
 
 from safe.test.utilities import get_qgis_app
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
@@ -79,7 +76,7 @@ from safe.utilities.resources import resources_path
 from safe.common.exceptions import TranslationLoadError
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid
 import safe.messaging as m
-from realtime.earthquake.shake_data import ShakeData
+from inasafe.realtime.earthquake import ShakeData
 from realtime.utilities import (
     shakemap_extract_dir,
     data_dir,

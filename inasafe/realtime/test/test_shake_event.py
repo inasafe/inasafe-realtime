@@ -29,9 +29,9 @@ import requests
 from qgis.core import QgsFeatureRequest
 
 from realtime.push_rest import InaSAFEDjangoREST
-from realtime.earthquake.push_shake import \
+from inasafe.realtime.earthquake import \
     push_shake_event_to_rest
-from realtime.earthquake.shake_event import ShakeEvent
+from inasafe.realtime.earthquake import ShakeEvent
 from realtime.utilities import base_data_dir
 from realtime.utilities import (
     shakemap_extract_dir,

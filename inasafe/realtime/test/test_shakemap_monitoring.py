@@ -10,7 +10,7 @@ import shutil
 import pyinotify
 import time
 
-from realtime.earthquake.notify_new_shake import watch_shakemaps_push, \
+from inasafe.realtime.earthquake import watch_shakemaps_push, \
     ShakemapPushHandler
 from realtime.utilities import realtime_logger_name
 from safe.common.utilities import temp_dir
