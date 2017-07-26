@@ -1,11 +1,10 @@
 # coding=utf-8
+import datetime
 import unittest
 
-import datetime
 from requests import codes
 
-from inasafe.realtime.earthquake import notify_realtime_rest
-from inasafe.realtime.earthquake import ShakeEvent
+from realtime.earthquake import notify_realtime_rest
 from realtime.push_rest import InaSAFEDjangoREST
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'

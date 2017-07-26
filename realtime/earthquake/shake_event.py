@@ -11,7 +11,6 @@ Contact : ole.moller.nielsen@gmail.com
      (at your option) any later version.
 
 """
-import time
 
 __author__ = 'tim@kartoza.com'
 __version__ = '0.5.0'
@@ -19,18 +18,24 @@ __date__ = '1/08/2012'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
                  'Disaster Reduction')
 
+import cPickle as pickle
+import logging
+import math
 import os
 import shutil
-# noinspection PyPep8Naming
-import cPickle as pickle
-import math
-import logging
 from datetime import datetime
-import numpy
-# noinspection PyPackageRequirements
-from tzlocal import get_localzone
-# declared in REQUIREMENTS.txt in docker-realtime-orchestration repo
 
+import numpy
+from PyQt4.QtCore import (
+    QCoreApplication,
+    QObject,
+    QVariant,
+    QFileInfo,
+    QUrl,
+    QSize,
+    Qt,
+    QTranslator)
+from PyQt4.QtXml import QDomDocument
 from qgis.core import (
     QgsPoint,
     QgsField,
@@ -49,20 +54,9 @@ from qgis.core import (
     QgsProviderRegistry,
     QgsFeatureRequest,
     QgsVectorDataProvider)
-
-from PyQt4.QtCore import (
-    QCoreApplication,
-    QObject,
-    QVariant,
-    QFileInfo,
-    QUrl,
-    QSize,
-    Qt,
-    QTranslator)
-# noinspection PyPackageRequirements
-from PyQt4.QtXml import QDomDocument
-
 from safe.test.utilities import get_qgis_app
+from tzlocal import get_localzone
+
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
 from safe.impact_functions.impact_function_manager import ImpactFunctionManager
@@ -76,7 +70,7 @@ from safe.utilities.resources import resources_path
 from safe.common.exceptions import TranslationLoadError
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid
 import safe.messaging as m
-from inasafe.realtime.earthquake import ShakeData
+from realtime.earthquake import ShakeData
 from realtime.utilities import (
     shakemap_extract_dir,
     data_dir,

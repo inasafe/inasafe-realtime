@@ -1,12 +1,12 @@
 # coding=utf-8
 
 import logging
-
 import os
 
-from realtime.celery_app import app
 from realtime.celeryconfig import EARTHQUAKE_WORKING_DIRECTORY
-from inasafe.realtime.earthquake import process_event
+
+from realtime.celery_app import app
+from realtime.earthquake import process_event
 from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'

@@ -1,20 +1,17 @@
 # coding=utf-8
 import logging
-import threading
+import os
+import shutil
+import time
 import unittest
 
-import os
-
-import shutil
-
 import pyinotify
-import time
-
-from inasafe.realtime.earthquake import watch_shakemaps_push, \
-    ShakemapPushHandler
-from realtime.utilities import realtime_logger_name
 from safe.common.utilities import temp_dir
 from safe.test.utilities import standard_data_path
+
+from realtime.earthquake import watch_shakemaps_push, \
+    ShakemapPushHandler
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/9/15'

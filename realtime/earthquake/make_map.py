@@ -24,10 +24,9 @@ import sys
 from urllib2 import URLError
 from zipfile import BadZipfile
 
-from inasafe.realtime.earthquake import ShakeEvent
-
-from inasafe.realtime.earthquake import push_shake_event_to_rest
-from inasafe.realtime.earthquake import ShakeData
+from realtime.earthquake import ShakeData
+from realtime.earthquake import ShakeEvent
+from realtime.earthquake import push_shake_event_to_rest
 from realtime.exceptions import EmptyShakeDirectoryError
 from realtime.utilities import data_dir, is_event_id, realtime_logger_name
 
