@@ -1,0 +1,3 @@
+# SAFE package
+git+https://github.com/akbargumbira/inasafe.git@add_setup
+# git+file:///home/akbar/dev/python/inasafe-dev@add_setup

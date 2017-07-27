@@ -1,3 +1,0 @@
-[submodule "libs/inasafe"]
-	path = libs/inasafe
-	url = git@github.com:inasafe/inasafe.git
