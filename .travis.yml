@@ -1,0 +1,29 @@
+sudo: required
+
+language: python
+
+python:
+  - "2.7"
+
+virtualenv:
+  system_site_packages: true
+
+services:
+  - docker
+
+branches:
+  only:
+    - develop
+
+install:
+  # build current docker image
+  - make build
+  - make up
+
+script:
+  # Nothing to do here at the moment
+  - pwd
+
+after_script:
+  # Clean up
+  - make down
