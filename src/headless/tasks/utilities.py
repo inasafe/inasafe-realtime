@@ -7,8 +7,10 @@ from zipfile import ZipFile
 import requests
 import shutil
 
-from safe.utilities.styling import set_vector_categorized_style, \
-    set_vector_graduated_style, setRasterStyle
+from safe.utilities.styling import (
+    set_vector_categorized_style,
+    set_vector_graduated_style,
+    setRasterStyle)
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '1/27/16'

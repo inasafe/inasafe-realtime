@@ -6,11 +6,17 @@ import shutil
 import tempfile
 import urlparse
 
-from bin.inasafe import CommandLineArguments, get_impact_function_list, \
-    run_impact_function, build_report, get_layer
+from inasafe_cli.inasafe import (
+    CommandLineArguments,
+    run_impact_function,
+    build_report,
+    get_layer)
 from headless.celeryconfig import DEPLOY_OUTPUT_DIR, DEPLOY_OUTPUT_URL
-from headless.tasks.utilities import download_layer, archive_layer, \
-    generate_styles, download_file
+from headless.tasks.utilities import (
+    download_layer,
+    archive_layer,
+    generate_styles,
+    download_file)
 from safe.utilities.metadata import read_iso19115_metadata
 
 from src.headless.celery_app import app
