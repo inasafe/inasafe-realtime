@@ -24,11 +24,11 @@ import sys
 from urllib2 import URLError
 from zipfile import BadZipfile
 
-from src.realtime import EmptyShakeDirectoryError
-from src.realtime import ShakeData
-from src.realtime import ShakeEvent
-from src.realtime import data_dir, is_event_id, realtime_logger_name
-from src.realtime import push_shake_event_to_rest
+from realtime.exceptions import EmptyShakeDirectoryError
+from realtime.earthquake.shake_data import ShakeData
+from realtime.earthquake.shake_event import ShakeEvent
+from realtime.utilities import data_dir, is_event_id, realtime_logger_name
+from realtime.earthquake.push_shake import push_shake_event_to_rest
 
 # Initialised in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())

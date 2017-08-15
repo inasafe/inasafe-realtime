@@ -18,7 +18,7 @@ __date__ = '13/05/2014'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
                  'Disaster Reduction')
 
-from src.realtime import setup_logger
+from realtime.utilities import setup_logger
 
 # Initialise logger
 setup_logger()

@@ -9,9 +9,10 @@ import pyinotify
 from safe.common.utilities import temp_dir
 from safe.test.utilities import standard_data_path
 
-from src.realtime import realtime_logger_name
-from src.realtime import watch_shakemaps_push, \
-    ShakemapPushHandler
+from realtime.utilities import realtime_logger_name
+from realtime.earthquake.notify_new_shake import (
+    watch_shakemaps_push,
+    ShakemapPushHandler)
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/9/15'

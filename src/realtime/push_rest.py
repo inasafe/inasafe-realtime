@@ -4,7 +4,7 @@ import os
 
 from hammock import Hammock
 
-from src.realtime import realtime_logger_name
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/1/15'

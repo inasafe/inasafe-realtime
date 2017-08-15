@@ -23,14 +23,14 @@ import os
 import shutil
 from datetime import datetime
 
-from src.realtime import (
+from realtime.exceptions import (
     FileNotFoundError,
     EventIdError,
     EventValidationError,
     CopyError,
     EmptyShakeDirectoryError)
-from src.realtime import is_event_id
-from src.realtime import (
+from realtime.utilities import (
+    is_event_id,
     shakemap_extract_dir,
     make_directory,
     realtime_logger_name)

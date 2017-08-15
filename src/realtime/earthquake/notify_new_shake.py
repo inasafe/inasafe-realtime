@@ -12,9 +12,9 @@ import sys
 import pyinotify
 from tzlocal import get_localzone
 
-from src.realtime import notify_realtime_rest
-from src.realtime import process_event
-from src.realtime import realtime_logger_name
+from realtime.earthquake.push_shake import notify_realtime_rest
+from realtime.earthquake.make_map import process_event
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha "lucernae" <lana.pcfre@gmail.com>'
 __date__ = '03/09/15'
