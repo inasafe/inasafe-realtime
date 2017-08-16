@@ -17,23 +17,24 @@ __date__ = '14/12/2014'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
                  'Disaster Reduction')
 
-import filecmp
-import logging
 import os
 import shutil
 from datetime import datetime
+import logging
+import filecmp
 
+
+from realtime.utilities import is_event_id
+from realtime.utilities import (
+    shakemap_extract_dir,
+    make_directory,
+    realtime_logger_name)
 from realtime.exceptions import (
     FileNotFoundError,
     EventIdError,
     EventValidationError,
     CopyError,
     EmptyShakeDirectoryError)
-from realtime.utilities import (
-    is_event_id,
-    shakemap_extract_dir,
-    make_directory,
-    realtime_logger_name)
 
 LOGGER = logging.getLogger(realtime_logger_name())
 

@@ -2,24 +2,16 @@
 import datetime
 import logging
 import os
-import shutil
 import tempfile
 import urlparse
 
-from inasafe_cli.inasafe import (
-    CommandLineArguments,
-    run_impact_function,
-    build_report,
-    get_layer)
+from bin.inasafe import CommandLineArguments, get_impact_function_list, \
+    run_impact_function, build_report, get_layer
+from headless.celery_app import app
 from headless.celeryconfig import DEPLOY_OUTPUT_DIR, DEPLOY_OUTPUT_URL
-from headless.tasks.utilities import (
-    download_layer,
-    archive_layer,
-    generate_styles,
-    download_file)
-from safe.utilities.metadata import read_iso19115_metadata
-
-from src.headless.celery_app import app
+from headless.tasks.utilities import download_layer, archive_layer, \
+    generate_styles, download_file
+from safe.utilities.keyword_io import KeywordIO
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '1/19/16'
@@ -61,10 +53,39 @@ def filter_impact_function(hazard=None, exposure=None):
     return result
 
 
-@app.task(queue='inasafe-headless')
+@app.task(queue='inasafe-headless-analysis')
 def run_analysis(hazard, exposure, function, aggregation=None,
-                 generate_report=False):
-    """Run analysis"""
+                 generate_report=False,
+                 requested_extent=None):
+
+    """Run analysis with a given combination
+
+    Proxy tasks for celery broker. It is not actually implemented here.
+    It is implemented in InaSAFE headless.tasks package
+
+    :param hazard: hazard layer url
+    :type hazard: str
+
+    :param exposure: exposure layer url
+    :type exposure: str
+
+    :param function: Impact Function ID of valid combination of
+        hazard and exposure
+    :type function: str
+
+    :param aggregation: aggregation layer url
+    :type aggregation: str
+
+    :param generate_report: set True to generate pdf report
+    :type generate_report: bool
+
+    :param requested_extent: An extent of BBOX format list to denote the area
+        of analysis. In CRS EPSG:4326
+    :type requested_extent: list(float)
+
+    :return: Impact layer url
+    :rtype: str
+    """
     hazard_file = download_layer(hazard)
     exposure_file = download_layer(exposure)
     aggregation_file = None
@@ -75,6 +96,8 @@ def run_analysis(hazard, exposure, function, aggregation=None,
     arguments.exposure = exposure_file
     arguments.aggregation = aggregation_file
     arguments.impact_function = function
+    if requested_extent:
+        arguments.extent = requested_extent
 
     # generate names for impact results
     # create date timestamp
@@ -126,11 +149,9 @@ def read_keywords_iso_metadata(metadata_url, keyword=None):
 
     :return: the keywords, or a dictionary with key-value pair
     """
-    filename = download_file(metadata_url)
-    # add xml extension
-    new_filename = filename + '.xml'
-    shutil.move(filename, new_filename)
-    keywords = read_iso19115_metadata(new_filename)
+    filename = download_file(metadata_url, direct_access=True)
+    keyword_io = KeywordIO()
+    keywords = keyword_io.read_keywords_file(filename)
     if keyword:
         if isinstance(keyword, tuple) or isinstance(keyword, list):
             ret_val = {}

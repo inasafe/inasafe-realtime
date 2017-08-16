@@ -4,7 +4,7 @@ import unittest
 from hammock import Hammock
 from requests import codes
 
-from src.realtime import INASAFE_REALTIME_REST_URL
+from realtime.push_rest import INASAFE_REALTIME_REST_URL, InaSAFEDjangoREST
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/2/15'

@@ -1,8 +1,8 @@
 # coding=utf-8
 import logging
 
-from src.realtime import app
-from src.realtime import realtime_logger_name
+from realtime.celery_app import app
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '2/17/16'

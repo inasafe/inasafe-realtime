@@ -1,4 +1,2 @@
-tzlocal==1.2
+tzlocal==1.2.2
 python-dateutil==2.5.3
-hammock==0.2.4
-pyinotify==0.9.6

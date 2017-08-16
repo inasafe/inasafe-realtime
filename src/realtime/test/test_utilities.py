@@ -17,20 +17,22 @@ __version__ = '0.5.0'
 __date__ = '30/07/2012'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
                  'Disaster Reduction')
-import datetime
-import logging
 import os
+import logging
 import unittest
+import datetime
 
+
+from PyQt4.QtCore import QObject, QCoreApplication
 from safe.common.utilities import log_file_path
-
-from src.realtime import (
+from realtime.utilities import (
     base_data_dir,
     shakemap_zip_dir,
     shakemap_extract_dir,
     shakemap_data_dir,
     report_data_dir,
     is_event_id,
+    purge_working_data,
     get_path_tail,
     realtime_logger_name)
 

@@ -18,13 +18,13 @@ __date__ = '21/02/2013'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
                  'Disaster Reduction')
 
-import logging
 import os
 import shutil
 import sys
-
-from src.realtime import realtime_logger_name
 from utilities import is_event_id
+import logging
+
+from realtime.utilities import realtime_logger_name
 
 # The logger is initialized in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())

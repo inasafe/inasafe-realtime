@@ -1,10 +1,11 @@
 # coding=utf-8
 import logging
+import os
 
-from src.realtime import ASH_WORKING_DIRECTORY
-from src.realtime import app
-from src.realtime import process_event
-from src.realtime import realtime_logger_name
+from realtime.ash.make_map import process_event
+from realtime.celery_app import app
+from realtime.celeryconfig import ASH_WORKING_DIRECTORY
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '7/15/16'

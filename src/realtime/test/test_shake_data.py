@@ -22,10 +22,9 @@ import os
 import shutil
 import unittest
 
+from realtime.earthquake.shake_data import ShakeData
 from safe.common.utilities import temp_dir
 from safe.test.utilities import standard_data_path
-
-from src.realtime import ShakeData
 
 # Shake ID for this test
 SHAKE_ID = '20131105060809'

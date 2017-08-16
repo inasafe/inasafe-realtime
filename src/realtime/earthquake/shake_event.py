@@ -11,6 +11,8 @@ Contact : ole.moller.nielsen@gmail.com
      (at your option) any later version.
 
 """
+import time
+from zipfile import ZipFile
 
 __author__ = 'tim@kartoza.com'
 __version__ = '0.5.0'
@@ -18,24 +20,18 @@ __date__ = '1/08/2012'
 __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
                  'Disaster Reduction')
 
-import cPickle as pickle
-import logging
-import math
 import os
 import shutil
+# noinspection PyPep8Naming
+import cPickle as pickle
+import math
+import logging
 from datetime import datetime
-
 import numpy
-from PyQt4.QtCore import (
-    QCoreApplication,
-    QObject,
-    QVariant,
-    QFileInfo,
-    QUrl,
-    QSize,
-    Qt,
-    QTranslator)
-from PyQt4.QtXml import QDomDocument
+# noinspection PyPackageRequirements
+from tzlocal import get_localzone
+# declared in REQUIREMENTS.txt in docker-realtime-orchestration repo
+
 from qgis.core import (
     QgsPoint,
     QgsField,
@@ -54,12 +50,28 @@ from qgis.core import (
     QgsProviderRegistry,
     QgsFeatureRequest,
     QgsVectorDataProvider)
+
+from PyQt4.QtCore import (
+    QCoreApplication,
+    QObject,
+    QVariant,
+    QFileInfo,
+    QUrl,
+    QSize,
+    Qt,
+    QTranslator)
+# noinspection PyPackageRequirements
+from PyQt4.QtXml import QDomDocument
+from PyQt4.QtGui import (
+    QPainter,
+    QImage)
+
 from safe.test.utilities import get_qgis_app
-from tzlocal import get_localzone
 
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
-from safe.impact_functions.impact_function_manager import ImpactFunctionManager
+from safe.impact_functions.impact_function_manager import \
+    ImpactFunctionManager
 from safe.storage.core import read_layer as safe_read_layer
 from safe.common.version import get_version
 from safe.common.utilities import romanise
@@ -70,13 +82,13 @@ from safe.utilities.resources import resources_path
 from safe.common.exceptions import TranslationLoadError
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid
 import safe.messaging as m
-from src.realtime import ShakeData
-from src.realtime import (
+from realtime.earthquake.shake_data import ShakeData
+from realtime.utilities import (
     shakemap_extract_dir,
     data_dir,
     realtime_logger_name,
     get_grid_source)
-from src.realtime import (
+from realtime.exceptions import (
     GridXmlFileNotFoundError,
     InvalidLayerError,
     ShapefileCreationError,
@@ -86,7 +98,6 @@ from src.realtime import (
     EmptyShakeDirectoryError,
     EventIdError)
 
-
 LOGGER = logging.getLogger(realtime_logger_name())
 
 
@@ -95,6 +106,7 @@ class ShakeEvent(QObject):
 
     Including epicenter, magnitude etc.
     """
+
     def __init__(self,
                  working_dir,
                  event_id=None,
@@ -163,11 +175,18 @@ class ShakeEvent(QObject):
             self.data.extract()
             self.event_id = self.data.event_id
 
+        LOGGER.info('Shake ID: %s' % self.event_id)
+
         # Convert grid.xml (we'll give the title with event_id)
         # RM: convert event_id to str too. This avoid the layer name is
         # falsely read as int
         self.shake_grid = ShakeGrid(
             str(self.event_id), get_grid_source(), self.grid_file_path())
+        # RM: add smoothed grid version. Only used for display in the map
+        self.shake_grid_smooth = ShakeGrid(
+            str(self.event_id), get_grid_source(), self.grid_file_path(),
+            output_basename='mmi-smooth',
+            smoothed=True)
 
         self.population_raster_path = population_raster_path
         self.geonames_sqlite_path = geonames_sqlite_path
@@ -206,6 +225,12 @@ class ShakeEvent(QObject):
         self.translator = None
         self.locale = locale
         self.setup_i18n()
+
+        # mmi zip path
+        self.mmi_zip_path = os.path.join(
+            shakemap_extract_dir(),
+            self.event_id,
+            'mmi_output.zip')
 
     # noinspection PyMethodMayBeStatic
     def check_environment(self):
@@ -390,7 +415,8 @@ class ShakeEvent(QObject):
         memory_layer.commitChanges()
 
         LOGGER.debug('Writing mem layer to shp: %s' % output_file)
-        # Explicitly giving all options, not really needed but nice for clarity
+        # Explicitly giving all options, not really needed but nice for
+        # clarity
         error_message = ''
         options = []
         layer_options = []
@@ -659,7 +685,8 @@ class ShakeEvent(QObject):
                 'Could not add new attributes to this layer.')
 
     def city_search_box_memory_layer(self, force_flag=False):
-        """Return the search boxes used to search for cities as a memory layer.
+        """Return the search boxes used to search for cities as a memory
+        layer.
 
         This is mainly useful for diagnostic purposes.
 
@@ -700,7 +727,8 @@ class ShakeEvent(QObject):
             LOGGER.exception(
                 'Unable to add features to city search boxes memory layer')
             raise CityMemoryLayerCreationError(
-                'Could not add any features to city search boxes memory layer')
+                'Could not add any features to city search boxes memory '
+                'layer')
 
         memory_layer.commitChanges()
         memory_layer.updateExtents()
@@ -712,7 +740,8 @@ class ShakeEvent(QObject):
         return memory_layer
 
     def sorted_impacted_cities(self, row_count=5):
-        """Return a data structure with place, mmi, pop sorted by mmi then pop.
+        """Return a data structure with place, mmi, pop sorted by mmi then
+        pop.
 
         :param row_count: optional limit to how many rows should be
                 returned. Defaults to 5 if not specified.
@@ -800,7 +829,8 @@ class ShakeEvent(QObject):
                 'roman': roman,
                 'dist_to': distance_to,
                 'dir_to': direction_to,
-                'dir_from': direction_from}
+                'dir_from': direction_from
+            }
             cities.append(city)
         LOGGER.debug('%s features added to sorted impacted cities list.')
         # LOGGER.exception(cities)
@@ -894,11 +924,13 @@ class ShakeEvent(QObject):
 
         .. note:: Population will be rounded pop / 1000
 
-        The icon img will be an image with an icon showing the relevant colour.
+        The icon img will be an image with an icon showing the relevant
+        colour.
 
         :returns:
             two tuple of:
-                A Table object (see :func:`safe.impact_functions.tables.Table`)
+                A Table object (see
+                :func:`safe.impact_functions.tables.Table`)
                 A file path to the html file saved to disk.
 
         :raise: Propagates any exceptions.
@@ -970,7 +1002,7 @@ class ShakeEvent(QObject):
 
         affected_row = m.Row()
         affected_row.add(
-            m.Cell(self.tr('People Affected (x 1000)'), header=True))
+            m.Cell(self.tr('People Exposed (x 1000)'), header=True))
 
         impact_row = m.Row()
         impact_row.add(m.Cell(self.tr('Perceived Shaking'), header=True))
@@ -981,12 +1013,14 @@ class ShakeEvent(QObject):
             if mmi in self.affected_counts:
                 # noinspection PyTypeChecker
                 affected_row.add(m.Cell(
-                    '%i' % round(self.affected_counts[mmi] / 1000)))
+                    '%i' % round(self.affected_counts[mmi] / 1000),
+                    style_class='number'))
             else:
                 # noinspection PyTypeChecker
-                affected_row.add(m.Cell(0.00))
+                affected_row.add(m.Cell(0.00, style_class='number'))
 
-            impact_row.add(m.Cell(self.mmi_shaking(mmi)))
+            impact_row.add(m.Cell(
+                self.mmi_shaking(mmi), style_class='shaking'))
 
         table.add(header_row)
         table.add(affected_row)
@@ -1025,15 +1059,18 @@ class ShakeEvent(QObject):
                 self.displaced_counts and self.affected_counts will be
                 populated.
                 self.*Counts are dicts containing fatality / displaced /
-                affected counts for the shake events. Keys for the dict will be
-                MMI classes (I-X) and values will be count type for that class.
-            str: Path to the html report showing a table of affected people per
+                affected counts for the shake events. Keys for the dict
+                will be
+                MMI classes (I-X) and values will be count type for that
+                class.
+            str: Path to the html report showing a table of affected people
+            per
                 mmi interval.
         """
         if (
-                population_raster_path is None or (
-                    not os.path.isfile(population_raster_path) and not
-                    os.path.islink(population_raster_path))):
+                        population_raster_path is None or (
+                            not os.path.isfile(population_raster_path) and not
+                        os.path.islink(population_raster_path))):
 
             exposure_path = self._get_population_path()
         else:
@@ -1052,7 +1089,7 @@ class ShakeEvent(QObject):
         clipped_exposure_layer = safe_read_layer(
             str(clipped_exposure.source()))
 
-        function_id = 'ITBFatalityFunction'
+        function_id = 'ITBBayesianFatalityFunction'
         function = ImpactFunctionManager().get(function_id)
         function.hazard = clipped_hazard_layer
         function.exposure = clipped_exposure_layer
@@ -1302,8 +1339,9 @@ class ShakeEvent(QObject):
 
         # Make sure the map layers have all been removed before we
         # start otherwise in batch mode we will get overdraws.
+        map_registry = QgsMapLayerRegistry.instance()
         # noinspection PyArgumentList
-        QgsMapLayerRegistry.instance().removeAllMapLayers()
+        map_registry.removeAllMapLayers()
 
         mmi_shape_file = self.shake_grid.mmi_to_shapefile(
             force_flag=force_flag)
@@ -1314,7 +1352,8 @@ class ShakeEvent(QObject):
         # 'average', 'invdist', 'nearest' - currently only nearest works
         algorithm = 'nearest'
         try:
-            contours_shapefile = self.shake_grid.mmi_to_contours(
+            # We just display the smoothed version
+            contours_shapefile = self.shake_grid_smooth.mmi_to_contours(
                 force_flag=force_flag,
                 algorithm=algorithm)
         except:
@@ -1346,10 +1385,12 @@ class ShakeEvent(QObject):
             project_path = os.environ['INASAFE_REALTIME_PROJECT']
         else:
             project_path = os.path.join(data_dir(), 'realtime.qgs')
+
+        qgs_project = QgsProject.instance()
         # noinspection PyArgumentList
-        QgsProject.instance().setFileName(project_path)
+        qgs_project.setFileName(project_path)
         # noinspection PyArgumentList
-        QgsProject.instance().read()
+        qgs_project.read()
 
         # Load the contours and cities shapefile into the map
         layers_to_add = []
@@ -1366,7 +1407,7 @@ class ShakeEvent(QObject):
                 # noinspection PyArgumentList
                 layers_to_add.append(cities_layer)
         # noinspection PyArgumentList
-        QgsMapLayerRegistry.instance().addMapLayers(layers_to_add)
+        map_registry.addMapLayers(layers_to_add)
 
         # Load our template
         if 'INASAFE_REALTIME_TEMPLATE' in os.environ:
@@ -1398,7 +1439,8 @@ class ShakeEvent(QObject):
         LOGGER.debug(location_info)
         substitution_map = {
             'location-info': location_info,
-            'version': self.version()}
+            'version': self.version()
+        }
         substitution_map.update(self.event_dict())
         LOGGER.debug(substitution_map)
 
@@ -1418,6 +1460,9 @@ class ShakeEvent(QObject):
         # its extents to the event.
         map_canvas = composition.getComposerItemById('main-map')
         if map_canvas is not None:
+            layer_list = [l.id() for l in IFACE.mapCanvas().layers()]
+            map_canvas.setKeepLayerSet(True)
+            map_canvas.setLayerSet(layer_list)
             map_canvas.setNewExtent(self.extent_with_cities)
             map_canvas.renderModeUpdateCachedImage()
         else:
@@ -1507,12 +1552,24 @@ class ShakeEvent(QObject):
 
         # Save a QGIS project that you can open in QGIS
         # noinspection PyArgumentList
-        project = QgsProject.instance()
         project_path = os.path.join(
             shakemap_extract_dir(),
             self.event_id,
             'project.qgs')
-        project.write(QFileInfo(project_path))
+        qgs_project.write(QFileInfo(project_path))
+
+        # Create a zipped mmi data
+        extract_path = os.path.join(
+            shakemap_extract_dir(),
+            self.event_id)
+        with ZipFile(self.mmi_zip_path, 'w') as zipf:
+            for root, dirs, files in os.walk(extract_path):
+                for f in files:
+                    _, ext = os.path.splitext(f)
+                    if (f.startswith('mmi') and
+                            not f == 'mmi_output.zip'):
+                        filename = os.path.join(root, f)
+                        zipf.write(filename, arcname=f)
 
     def generate_result_path(self):
         """Generate path file for the result
@@ -1590,13 +1647,14 @@ class ShakeEvent(QObject):
         """
         event_dict = self.event_dict()
         event_string = (
-            'M %(mmi)s %(date)s %(time)s '
-            '%(latitude-name)s: %(latitude-value)s '
-            '%(longitude-name)s: %(longitude-value)s '
-            '%(depth-name)s: %(depth-value)s%(depth-unit)s '
-            '%(located-label)s %(distance)s%(distance-unit)s '
-            '%(bearing-compass)s '
-            '%(direction-relation)s %(shake-grid-location)s') % event_dict
+                           'M %(mmi)s %(date)s %(time)s '
+                           '%(latitude-name)s: %(latitude-value)s '
+                           '%(longitude-name)s: %(longitude-value)s '
+                           '%(depth-name)s: %(depth-value)s%(depth-unit)s '
+                           '%(located-label)s %(distance)s%(distance-unit)s '
+                           '%(bearing-compass)s '
+                           '%(direction-relation)s %('
+                           'shake-grid-location)s') % event_dict
         return event_string
 
     def event_dict(self):
@@ -1609,7 +1667,7 @@ class ShakeEvent(QObject):
         """
         map_name = self.tr('Estimated Earthquake Impact')
         exposure_table_name = self.tr(
-            'Estimated number of people affected by each MMI level')
+            'Estimated number of people exposed by each MMI level')
         fatalities_name = self.tr('Estimated fatalities')
         fatalities_count = self.fatality_total
 
@@ -1624,21 +1682,23 @@ class ShakeEvent(QObject):
         city_table_name = self.tr('Nearby Places')
         legend_name = self.tr('Population count per grid cell')
         limitations = self.tr(
-            'This impact estimation is automatically generated and only takes'
-            ' into account the population and cities affected by different '
-            'levels of ground shaking. The estimate is based on ground '
-            'shaking data from BMKG, population count data derived by '
-            'Australian Government from worldpop.org.uk, place information '
-            'from geonames.org and software developed by BNPB. '
-            'Limitations in the estimates of '
-            'ground shaking, population and place names datasets may '
-            'result in significant misrepresentation of the on-the-ground '
-            'situation in the figures shown here. Consequently decisions '
-            'should not be made solely on the information presented here and '
-            'should always be verified by ground truthing and other reliable '
-            'information sources. The fatality calculation assumes that '
-            'no fatalities occur for shake levels below MMI 4. Fatality '
-            'counts of less than 50 are disregarded.')
+            'This impact estimation is automatically generated and only '
+            'takes into account the population and cities affected by '
+            'different levels of ground shaking. The estimate is based on '
+            'ground shaking data from BMKG, population count data derived '
+            'by DMInnovation from worldpop.org.uk and BPS Census Data 2010, '
+            'place information data provided by Indonesian Geospatial '
+            'Portal at http://tanahair.indonesia.go.id and software '
+            'developed by BNPB. '
+            'Limitations in the estimates of ground shaking, population and '
+            'place names datasets may result in significant '
+            'misrepresentation of the on-the-ground situation in the '
+            'figures shown here. Consequently, decisions should not be made '
+            'solely on the information presented here and should always be '
+            'verified by ground truthing and other reliable information '
+            'sources. The fatality calculation assumes that no fatalities '
+            'occur for shake levels below MMI 4. Fatality counts of less '
+            'than 50 are rounded down.')
         software_tag = self.tr(
             'This report was created using InaSAFE version %s. Visit '
             'http://inasafe.org for more information.') % get_version()
@@ -1845,7 +1905,8 @@ class ShakeEvent(QObject):
             'affected_counts': self.affected_counts,
             'extent_with_cities': extent_with_cities,
             'zoom_factor': self.zoom_factor,
-            'search_boxes': self.search_boxes}
+            'search_boxes': self.search_boxes
+        }
 
         event_string = (
             'latitude: %(latitude)s\n'
@@ -1901,8 +1962,9 @@ class ShakeEvent(QObject):
                 os.pardir))
         translation_path = os.path.join(
             root,
+            'realtime',
             'i18n',
-            'inasafe_' + str(locale_name) + '.qm')
+            'inasafe_realtime_' + str(locale_name) + '.qm')
         if os.path.exists(translation_path):
             self.translator = QTranslator()
             result = self.translator.load(translation_path)

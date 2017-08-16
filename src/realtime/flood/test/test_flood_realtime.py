@@ -3,9 +3,9 @@ import logging
 import os
 import unittest
 
-from src.realtime import PetaJakartaAPI
-from src.realtime import process_event
-from src.realtime import realtime_logger_name
+from realtime.flood.make_map import process_event
+from realtime.flood.peta_jakarta_api import PetaJakartaAPI
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 

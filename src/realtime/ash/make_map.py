@@ -6,9 +6,9 @@ import sys
 
 from dateutil.parser import parse
 
-from src.realtime import AshEvent
-from src.realtime import push_ash_event_to_rest
-from src.realtime import realtime_logger_name
+from realtime.ash.ash_event import AshEvent
+from realtime.ash.push_ash import push_ash_event_to_rest
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '7/13/16'

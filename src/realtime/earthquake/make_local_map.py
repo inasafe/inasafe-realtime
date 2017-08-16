@@ -3,7 +3,7 @@
 # Tim Sutton, April 2013.
 import sys
 
-from src.realtime import ShakeEvent
+from realtime.earthquake.shake_event import ShakeEvent
 
 if __name__ == '__main__':
     working_dir = sys.argv[1]
