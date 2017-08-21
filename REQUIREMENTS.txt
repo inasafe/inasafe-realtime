@@ -1,0 +1,12 @@
+# SAFE package
+git+https://github.com/inasafe/inasafe.git@develop
+# git+file:///home/akbar/dev/python/inasafe-dev@develop
+
+# SAFE CLI
+git+https://github.com/akbargumbira/inasafe_cli.git
+
+# SAFE extras needed by safe (parameters, pydispatch, raven, simplejson)
+git+https://github.com/inasafe/parameters.git@master
+PyDispatcher
+raven
+simplejson
