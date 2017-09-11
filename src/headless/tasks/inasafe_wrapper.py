@@ -23,7 +23,7 @@ LOGGER = logging.getLogger('InaSAFE')
 
 
 @app.task(queue='inasafe-headless-analysis')
-def run_analysis(hazard, exposure, function, aggregation=None,
+def run_analysis(hazard, exposure, aggregation=None,
                  generate_report=False,
                  requested_extent=None):
 
@@ -37,10 +37,6 @@ def run_analysis(hazard, exposure, function, aggregation=None,
 
     :param exposure: exposure layer url
     :type exposure: str
-
-    :param function: Impact Function ID of valid combination of
-        hazard and exposure
-    :type function: str
 
     :param aggregation: aggregation layer url
     :type aggregation: str
@@ -61,10 +57,9 @@ def run_analysis(hazard, exposure, function, aggregation=None,
     if aggregation:
         aggregation_file = download_layer(aggregation)
     arguments = CommandLineArguments()
-    arguments.hazard = hazard_file
-    arguments.exposure = exposure_file
-    arguments.aggregation = aggregation_file
-    arguments.impact_function = function
+    arguments.hazard_path = hazard_file
+    arguments.exposure_path = exposure_file
+    arguments.aggregation_path = aggregation_file
     if requested_extent:
         arguments.extent = requested_extent
 
@@ -77,34 +72,23 @@ def run_analysis(hazard, exposure, function, aggregation=None,
     except:
         pass
 
-    # create temporary file name without extension
-    tmp = tempfile.mktemp(dir=deploy_dir)
-    arguments.output_file = tmp
-    impact_layer = run_impact_function(arguments)
-
-    if impact_layer.is_raster:
-        new_name = '%s.tif' % tmp
-    else:
-        new_name = '%s.shp' % tmp
-
-    # generating qml styles file
-    qgis_impact_layer = get_layer(new_name)
-    generate_styles(impact_layer, qgis_impact_layer)
+    # create temporary directory name
+    tmp = tempfile.mkdtemp(dir=deploy_dir)
+    arguments.output_dir = tmp
+    status, msg, impact_function = run_impact_function(arguments)
 
     # if asked to generate report
     if generate_report:
-        arguments.report_template = ''
-        arguments.output_file = new_name
-        build_report(arguments)
+        build_report(arguments, impact_function)
 
     # archiving the layer
-    new_name = archive_layer(new_name)
+    new_name = archive_layer(impact_function.impact.source())
     # new_name is a file path to archived layer
     # we need to return the url
     new_basename = os.path.basename(new_name)
     output_url = urlparse.urljoin(
         DEPLOY_OUTPUT_URL,
-        '%s/%s' % (date_folder, new_basename)
+        '%s/%s/%s' % (date_folder, tmp, new_basename)
     )
     return output_url
 

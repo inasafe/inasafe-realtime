@@ -110,7 +110,7 @@ def download_layer(url):
     with ZipFile(filename) as zipf:
         name_list = zipf.namelist()
         zipf.extractall(path=dir_name)
-        layer_extensions = ['.shp', '.tif', '.asc']
+        layer_extensions = ['.shp', '.tif', '.asc', '.geojson']
         layer_ext = None
         for name in name_list:
             for ext in layer_extensions:
