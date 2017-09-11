@@ -6,7 +6,6 @@ import tempfile
 import unittest
 import urlparse
 
-import headless
 from headless.celery_app import app
 from headless.celeryconfig import DEPLOY_OUTPUT_DIR, DEPLOY_OUTPUT_URL
 from headless.tasks.celery_test_setup import update_celery_configuration
@@ -14,6 +13,9 @@ from headless.tasks.inasafe_wrapper import (
     run_analysis,
     read_keywords_iso_metadata)
 from headless.tasks.utilities import archive_layer
+
+import safe
+
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '1/29/16'
@@ -28,29 +30,25 @@ class TestTaskCallFilesystem(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestTaskCallFilesystem, self).__init__(*args, **kwargs)
 
-        default_work_dir = os.path.dirname(headless.__file__)
-        default_work_dir = os.path.abspath(
-            os.path.join(default_work_dir, '../'))
-        self.inasafe_work_dir = os.environ.get(
-            'InaSAFEQGIS', default_work_dir)
+        self.safe_dir = os.path.dirname(safe.__file__)
 
     def convert_path(self, path):
         return path
 
     def setUp(self):
         # Modify test behavior of celery based on environment settings
-        update_celery_configuration(app)
+        # update_celery_configuration(app)
 
         # generate tempfile
         hazard = os.path.join(
-            self.inasafe_work_dir,
-            'safe/test/data/hazard/continuous_flood_20_20.asc')
+            self.safe_dir,
+            'test/data/hazard/continuous_flood_20_20.asc')
         exposure = os.path.join(
-            self.inasafe_work_dir,
-            'safe/test/data/exposure/pop_binary_raster_20_20.asc')
+            self.safe_dir,
+            'test/data/exposure/pop_binary_raster_20_20.asc')
         aggregation = os.path.join(
-            self.inasafe_work_dir,
-            'safe/test/data/boundaries/district_osm_jakarta.shp')
+            self.safe_dir,
+            'test/data/aggregation/district_osm_jakarta.geojson')
         hazard = archive_layer(hazard)
         exposure = archive_layer(exposure)
         aggregation = archive_layer(aggregation)
@@ -72,8 +70,8 @@ class TestTaskCallFilesystem(unittest.TestCase):
         self.aggregation_temp = self.convert_path(aggregation_temp)
 
         self.keywords_file = os.path.join(
-            self.inasafe_work_dir,
-            'safe/test/data/hazard/continuous_flood_20_20.xml')
+            self.safe_dir,
+            'test/data/hazard/continuous_flood_20_20.xml')
 
     def tearDown(self):
         shutil.rmtree(self.test_deploy_dir)
@@ -82,7 +80,6 @@ class TestTaskCallFilesystem(unittest.TestCase):
         celery_result = run_analysis.delay(
                 self.hazard_temp,
                 self.exposure_temp,
-                'FloodEvacuationRasterHazardFunction',
                 aggregation=self.aggregation_temp,
                 generate_report=True)
 
