@@ -130,7 +130,7 @@ class AshEvent(QObject):
         else:
             self.template_path = self.ash_fixtures_dir('realtime-ash.qpt')
 
-        dateformat = '%Y%m%d%H%M%S'
+        dateformat = '%Y%m%d%H%M%S%z'
         timestring = self.time.strftime(dateformat)
         self.event_id = '%s-%s' % (timestring, self.volcano_name)
 
@@ -247,10 +247,8 @@ class AshEvent(QObject):
         return os.path.join(self.working_dir, event_folder, self.locale, path)
 
     def event_dict(self):
-        tz = pytz.timezone('Asia/Jakarta')
-        timestamp = self.time.astimezone(tz=tz)
-        time_format = '%-d-%b-%Y %H:%M:%S'
-        timestamp_string = timestamp.strftime(time_format)
+        time_format = '%-d-%b-%Y %H:%M:%S %Z %z'
+        timestamp_string = self.time.strftime(time_format)
         point = QgsPoint(
             self.longitude,
             self.latitude)
