@@ -2,7 +2,7 @@
 <context>
     <name>AshEvent</name>
     <message>
-        <location filename="ash_event.py" line="703"/>
+        <location filename="ash_event.py" line="699"/>
         <source>People Affected</source>
         <translation>Persona afectada</translation>
     </message>
@@ -119,183 +119,183 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation>Impacto de ceniza volcánica</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="24"/>
-        <source>Volcano: %s, %s</source>
-        <translation>Volcán: %s, %s</translation>
-    </message>
-    <message>
-        <location filename="report_text.py" line="27"/>
-        <source>Province: %s</source>
-        <translation>Provincia: %s</translation>
-    </message>
-    <message>
-        <location filename="report_text.py" line="28"/>
-        <source>Alert Level: %s</source>
-        <translation>Nivel de alerta: %s</translation>
-    </message>
-    <message>
-        <location filename="report_text.py" line="32"/>
-        <source>Position: %s, %s; Eruption Column Height (a.s.l) - %d m</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="report_text.py" line="37"/>
-        <source>Elapsed time since event: %s hour(s) and %s minute(s)</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="report_text.py" line="39"/>
+        <location filename="report_text.py" line="46"/>
         <source>Potential impact at each fallout level</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="41"/>
+        <location filename="report_text.py" line="48"/>
         <source>Nearby places</source>
         <translation>Lugares cercanos</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="42"/>
+        <location filename="report_text.py" line="49"/>
         <source>Land Cover Impact</source>
         <translation>Impacto en la cubierta del suelo</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="43"/>
+        <location filename="report_text.py" line="50"/>
         <source>The impact estimation is automatically generated and only takes into account the population, cities and land cover affected by different levels of volcanic ash fallout at surface level. The estimate is based on volcanic ash fallout data from Badan Geologi, population count data derived by DMInnovation from worldpop.org.uk, place information and land cover classification data provided by Indonesian Geospatial Portal at http://portal.ina-sdi.or.id and software developed by BNPB. Limitation in the estimates of surface fallout, population and place names datasets may result in a significant misrepresentation of the on-the-surface situation in the figures shown here. Consequently, decisions should not be made solely on the information presented here and should always be verified by ground truthing and other reliable information sources.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="60"/>
-        <source>This report was created using InaSAFE version %s. Visit http://inasafe.org for more information. </source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="report_text.py" line="63"/>
+        <location filename="report_text.py" line="71"/>
         <source>Supported by DMInnovation, Geoscience Australia and the World Bank-GFDRR</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="146"/>
+        <location filename="report_text.py" line="155"/>
         <source>Fallout Level</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="134"/>
+        <location filename="report_text.py" line="143"/>
         <source>Very Low</source>
         <translation>Muy Bajo</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="135"/>
+        <location filename="report_text.py" line="144"/>
         <source>Low</source>
         <translation>Bajo</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="136"/>
+        <location filename="report_text.py" line="145"/>
         <source>Moderate</source>
         <translation>Moderado</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="137"/>
+        <location filename="report_text.py" line="146"/>
         <source>High</source>
         <translation>Alto</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="138"/>
+        <location filename="report_text.py" line="147"/>
         <source>Very High</source>
         <translation>Muy alto</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="96"/>
+        <location filename="report_text.py" line="105"/>
         <source>Potential Impact</source>
         <translation>Impacto potencial</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="97"/>
+        <location filename="report_text.py" line="106"/>
         <source>Impact on health (respiration), livestock, and contamination of water supply.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="98"/>
+        <location filename="report_text.py" line="107"/>
         <source>Damage to transportation routes (e.g. airports, roads, railways); damage to critical infrastructure (e.g. electricity supply); damage to more vulnerable agricultural crops (e.g. rice fields)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="99"/>
+        <location filename="report_text.py" line="108"/>
         <source>Damage to less vulnerable agricultural crops (e.g. tea plantations) and destruction of more vulnerable crops; destruction of critical infrastructure; cosmetic (non-structural) damage to buildings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="100"/>
+        <location filename="report_text.py" line="109"/>
         <source>Dry loading on buildings causing structural damage but not collapse; Wet loading on buildings (i.e. ash loading + heavy rainfall) causing structural collapse.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="101"/>
+        <location filename="report_text.py" line="110"/>
         <source>Dry loading on buildings causing structural collapse.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="106"/>
+        <location filename="report_text.py" line="115"/>
         <source>Estimated People Affected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="108"/>
+        <location filename="report_text.py" line="117"/>
         <source>Ash Thickness Range (cm)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="116"/>
+        <location filename="report_text.py" line="125"/>
         <source>Forest</source>
         <translation>Bosque</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="117"/>
+        <location filename="report_text.py" line="126"/>
         <source>Plantation</source>
         <translation>Plantación</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="118"/>
+        <location filename="report_text.py" line="127"/>
         <source>Water Supply</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="119"/>
+        <location filename="report_text.py" line="128"/>
         <source>Settlement</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="120"/>
+        <location filename="report_text.py" line="129"/>
         <source>Rice Field</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="125"/>
+        <location filename="report_text.py" line="134"/>
         <source>Land Cover Type</source>
         <translation>Tipo de cubierta del suelo</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="126"/>
+        <location filename="report_text.py" line="135"/>
         <source>Area affected (km&lt;sup&gt;2&lt;/sup&gt;)</source>
         <translation>Área afectada (km&lt;sup&gt;2&lt;/sup&gt;)</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="127"/>
+        <location filename="report_text.py" line="136"/>
         <source>No area affected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="144"/>
+        <location filename="report_text.py" line="153"/>
         <source>Name</source>
         <translation>Nombre</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="145"/>
+        <location filename="report_text.py" line="154"/>
         <source>People / Airport affected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="147"/>
+        <location filename="report_text.py" line="156"/>
         <source>No nearby cities or airport affected</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="24"/>
+        <source>Volcano: {volcano_name}, {time:%-d-%b-%Y %H:%M:%S} {zone} {time:%z}</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="30"/>
+        <source>Province: {region}</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="32"/>
+        <source>Alert Level: {alert_level}</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="35"/>
+        <source>Position: {lon}, {lat}; Eruption Column Height (a.s.l) - {eruption_height} m</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="42"/>
+        <source>Elapsed time since event: {hour} hour(s) and {minute} minute(s)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="67"/>
+        <source>This report was created using InaSAFE version {version}. Visit http://inasafe.org for more information. </source>
         <translation type="unfinished"/>
     </message>
 </context>

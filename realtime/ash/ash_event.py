@@ -247,8 +247,6 @@ class AshEvent(QObject):
         return os.path.join(self.working_dir, event_folder, self.locale, path)
 
     def event_dict(self):
-        time_format = '%-d-%b-%Y %H:%M:%S %Z %z'
-        timestamp_string = self.time.strftime(time_format)
         point = QgsPoint(
             self.longitude,
             self.latitude)
@@ -263,7 +261,7 @@ class AshEvent(QObject):
 
         event = self.report_text.qpt_token(
             volcano_name=self.volcano_name,
-            timestamp_string=timestamp_string,
+            time=self.time,
             region=self.region,
             alert_level=self.alert_level,
             longitude_string=longitude_string,
