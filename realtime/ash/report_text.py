@@ -14,28 +14,35 @@ class ReportText(QObject):
 
     def qpt_token(
             self,
-            volcano_name=None, timestamp_string=None, region=None,
+            volcano_name=None, time=None, region=None,
             alert_level=None, longitude_string=None, latitude_string=None,
             eruption_height=None, elapsed_hour=None, elapsed_minute=None,
             version=None):
         """Token string for QPT template"""
         event = {
             'report-title': self.tr('Volcanic Ash Impact'),
-            'report-timestamp': self.tr('Volcano: %s, %s') % (
-                volcano_name,
-                timestamp_string),
-            'report-province': self.tr('Province: %s') % (region,),
-            'report-alert-level': self.tr('Alert Level: %s') % (
-                alert_level.capitalize(),),
+            'report-timestamp': self.tr(
+                'Volcano: {volcano_name}, {time:%-d-%b-%Y %H:%M:%S} '
+                '{zone} {time:%z}').format(
+                    volcano_name=volcano_name,
+                    time=time,
+                    zone=time.tzinfo.zone),
+            'report-province': self.tr('Province: {region}').format(
+                region=region),
+            'report-alert-level': self.tr(
+                'Alert Level: {alert_level}').format(
+                    alert_level=alert_level.capitalize()),
             'report-location': self.tr(
-                'Position: %s, %s;'
-                ' Eruption Column Height (a.s.l) - %d m') % (
-                                   longitude_string,
-                                   latitude_string,
-                                   eruption_height),
+                'Position: {lon}, {lat}; '
+                'Eruption Column Height (a.s.l) '
+                '- {eruption_height} m').format(
+                    lon=longitude_string,
+                    lat=latitude_string,
+                    eruption_height=eruption_height),
             'report-elapsed': self.tr(
-                'Elapsed time since event: %s hour(s) and %s minute(s)') % (
-                                  elapsed_hour, elapsed_minute),
+                'Elapsed time since event: '
+                '{hour} hour(s) and {minute} minute(s)').format(
+                    hour=elapsed_hour, minute=elapsed_minute),
             'header-impact-table': self.tr(
                 'Potential impact at each fallout level'),
             'header-nearby-table': self.tr('Nearby places'),
@@ -58,10 +65,12 @@ class ReportText(QObject):
                 'by ground truthing and other reliable information sources.'
             ),
             'content-notes': self.tr(
-                'This report was created using InaSAFE version %s. Visit '
-                'http://inasafe.org for more information. ') % version,
+                'This report was created using InaSAFE version {version}. '
+                'Visit http://inasafe.org for more information. ').format(
+                    version=version),
             'content-support': self.tr(
-                'Supported by DMInnovation, Geoscience Australia and the World Bank-GFDRR')
+                'Supported by DMInnovation, Geoscience Australia and '
+                'the World Bank-GFDRR')
         }
         return event
 
