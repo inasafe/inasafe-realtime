@@ -218,7 +218,7 @@
             <gco:CharacterString/>
           </datatype>
           <source>
-            <gco:CharacterString> PetaJakarta</gco:CharacterString>
+            <gco:CharacterString>PetaBencana</gco:CharacterString>
           </source>
           <layer_purpose>
             <gco:CharacterString>hazard</gco:CharacterString>
@@ -250,7 +250,7 @@
           <gmd:onLine>
             <gmd:CI_OnlineResource>
               <gmd:linkage>
-                <gmd:URL>http://petajakarta.org</gmd:URL>
+                <gmd:URL>https://petabencana.id</gmd:URL>
               </gmd:linkage>
             </gmd:CI_OnlineResource>
           </gmd:onLine>
