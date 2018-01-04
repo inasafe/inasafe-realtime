@@ -59,7 +59,8 @@ def download_file(url, direct_access=False, user=None, password=None):
         # Headers is a CaseInsensitive keys. check content-disposition
         if 'content-disposition' in r.headers:
             content_disposition = r.headers['content-disposition']
-            fname = re.findall("filename=[\'\"]?(.+)[\'\"]", content_disposition)
+            fname = re.findall(
+                "filename=[\'\"]?(.+)[\'\"]", content_disposition)
             _, ext = os.path.splitext(fname[0])
             shutil.move(tmpfile, '%s%s' % (tmpfile, ext))
             tmpfile = '%s%s' % (tmpfile, ext)

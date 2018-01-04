@@ -9,7 +9,8 @@ from zipfile import ZipFile
 import pytz
 import shutil
 
-from PyQt4.QtCore import QCoreApplication, QObject, QFileInfo, QUrl, QTranslator
+from PyQt4.QtCore import (
+    QCoreApplication, QObject, QFileInfo, QUrl, QTranslator)
 from PyQt4.QtXml import QDomDocument
 from qgis.core import (
     QgsProject,
