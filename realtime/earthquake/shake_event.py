@@ -97,6 +97,7 @@ from realtime.exceptions import (
     MapComposerError,
     EmptyShakeDirectoryError,
     EventIdError)
+from safe.utilities.rounding import fatalities_range
 
 LOGGER = logging.getLogger(realtime_logger_name())
 
@@ -1671,13 +1672,7 @@ class ShakeEvent(QObject):
         fatalities_name = self.tr('Estimated fatalities')
         fatalities_count = self.fatality_total
 
-        # put the estimate into neat ranges 0-100, 100-1000, 1000-10000. etc
-        lower_limit = 0
-        upper_limit = 100
-        while fatalities_count > upper_limit:
-            lower_limit = upper_limit
-            upper_limit = math.pow(upper_limit, 2)
-        fatalities_range = '%i - %i' % (lower_limit, upper_limit)
+        fatalities_range_string = fatalities_range(fatalities_count)
 
         city_table_name = self.tr('Nearby Places')
         legend_name = self.tr('Population count per grid cell')
@@ -1750,7 +1745,7 @@ class ShakeEvent(QObject):
             'software-tag': software_tag,
             'credits': credits_text,
             'fatalities-name': fatalities_name,
-            'fatalities-range': fatalities_range,
+            'fatalities-range': fatalities_range_string,
             'fatalities-count': '%s' % fatalities_count,
             'mmi': '%s' % self.shake_grid.magnitude,
             'date': '%s-%s-%s' % (
