@@ -1,0 +1,45 @@
+version: "2"
+services:
+
+  inasafe-realtime-worker:
+    build: docker-realtime
+    command: /usr/bin/ssh -D
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/home/app/inasafe
+      - ../src/realtime:/home/app/realtime
+      - ../floodmaps:/home/realtime/floodmaps
+      - ../ashmaps:/home/realtime/ashmaps
+      - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
+    ports:
+      # expose ssh ports
+      - "{{ docker_port_forward.inasafe_realtime.ssh }}:22"
+
+  inasafe-shakemap-monitor:
+    build: docker-realtime
+    command: /usr/bin/ssh -D
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/home/app/inasafe
+      - ../src/realtime:/home/app/realtime
+      - ../shakemaps:/home/realtime/shakemaps
+      - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
+    ports:
+      # expose ssh ports
+      - "{{ docker_port_forward.inasafe_shakemap_monitor.ssh }}:22"
+
+  inasafe-shakemap-corrected-monitor:
+    build: docker-realtime
+    command: /usr/bin/ssh -D
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/home/app/inasafe
+      - ../src/realtime:/home/app/realtime
+      - ../shakemaps-corrected:/home/realtime/shakemaps
+      - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
+    ports:
+      # expose ssh ports
+      - "{{ docker_port_forward.inasafe_shakemap_corrected_monitor.ssh }}:22"

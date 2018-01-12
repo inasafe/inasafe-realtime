@@ -1,0 +1,46 @@
+---
+
+use_pycharm: yes
+remote_user: lucernae
+remote_group: staff
+project_path: "/Users/lucernae/Documents/WorkingDir/Projects/InaSAFE/inasafe-realtime"
+
+interpreters:
+  inasafe_realtime:
+    name: 'InaSAFE Realtime Hazard Container'
+    domain_alias: 'docker-inasafe-realtime'
+    ssh_port: &inasafe_realtime_ssh_port 35103
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: &inasafe_realtime_host_ip 192.168.1.7
+  inasafe_shakemap_monitor:
+    name: 'InaSAFE Realtime Hazard Shakemap Monitor Container'
+    domain_alias: 'docker-inasafe-realtime'
+    ssh_port: &inasafe_shakemap_monitor_ssh_port 35104
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: *inasafe_realtime_host_ip
+  inasafe_shakemap_corrected_monitor:
+    name: 'InaSAFE Realtime Hazard Shakemap Corrected Monitor Container'
+    domain_alias: 'docker-inasafe-realtime'
+    ssh_port: &inasafe_shakemap_corrected_monitor_ssh_port 35105
+    pycharm_helpers: /root/.pycharm_helpers
+    ipaddress: *inasafe_realtime_host_ip
+
+inasafe:
+  repo: https://github.com/inasafe/inasafe.git
+  remote: upstream
+  version: develop
+  depth: 1
+
+docker_port_forward:
+  inasafe_realtime:
+    ssh: *inasafe_realtime_ssh_port
+  inasafe_shakemap_monitor:
+    ssh: *inasafe_shakemap_monitor_ssh_port
+  inasafe_shakemap_corrected_monitor:
+    ssh: *inasafe_shakemap_corrected_monitor_ssh_port
+
+realtime_rest_api:
+  host: *inasafe_realtime_host_ip
+  port: 61102
+  user: test@realtime.inasafe.org
+  password: thepaassword

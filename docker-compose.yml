@@ -1,5 +1,0 @@
-version: '2'
-services:
-  inasafe-realtime:
-    image: inasafe/inasafe-realtime
-    command: ./docker-entrypoint.sh prod inasafe-headless
