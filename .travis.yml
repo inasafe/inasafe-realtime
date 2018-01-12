@@ -15,8 +15,16 @@ branches:
   only:
     - develop
 
+before_install:
+  - sudo apt-get -y update
+  - sudo apt-get -y install libssl-dev
+  - sudo pip install ansible
+
 install:
   # build current docker image
+  - cd deployment
+  - cp ansible/development/group_vars/all.travis.yml ansible/development/group_vars/all.yml
+  - make setup-ansible ANSIBLE_ARGS="--extra-vars='ansible_sudo_pass=\"\"' --extra-vars='pycharm_version=\"\"' --skip-tags=development"
   - make build
   - make up
 

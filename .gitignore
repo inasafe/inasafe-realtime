@@ -3,3 +3,14 @@ venv
 
 .DS_Store
 *.pyc
+
+inasafe/*
+/deployment/docker-realtime/realtime-rest.env
+deployment/pycharm-helpers/*
+docker-compose.override.yml
+deployment/ansible/development/group_vars/all
+deployment/ansible/development/group_vars/all.yml
+deployment/ansible/tmp/*
+site.retry
+!deployment/ansible/tmp/.gitkeep
+!/deployment/ansible/development/roles/inasafe/tasks/main.yml

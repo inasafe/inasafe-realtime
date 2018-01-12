@@ -1,8 +1,0 @@
-# SAFE package
-inasafe-core
-# git+https://github.com/inasafe/inasafe.git@develop
-# git+file:///home/akbar/dev/python/inasafe-dev@develop
-
-# SAFE CLI
-inasafe-cli
-# git+https://github.com/akbargumbira/inasafe_cli.git

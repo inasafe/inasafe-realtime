@@ -1,0 +1,37 @@
+version: '2'
+services:
+
+  rabbitmq:
+    image: library/rabbitmq
+    restart: on-failure
+
+  inasafe-realtime-worker:
+    build: docker-realtime
+    command: ./docker-entrypoint.sh prod inasafe-headless
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/home/app/inasafe
+      - ../src/realtime:/home/app/realtime
+      - ../floodmaps:/home/realtime/floodmaps
+      - ../ashmaps:/home/realtime/ashmaps
+
+  inasafe-shakemap-monitor:
+    build: docker-realtime
+    command: ./docker-entrypoint.sh prod inasafe-headless
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/home/app/inasafe
+      - ../src/realtime:/home/app/realtime
+      - ../shakemaps:/home/realtime/shakemaps
+
+  inasafe-shakemap-corrected-monitor:
+    build: docker-realtime
+    command: ./docker-entrypoint.sh prod inasafe-headless
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/home/app/inasafe
+      - ../src/realtime:/home/app/realtime
+      - ../shakemaps-corrected:/home/realtime/shakemaps
