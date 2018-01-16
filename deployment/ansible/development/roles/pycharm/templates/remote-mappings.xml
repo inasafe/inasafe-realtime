@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@ssh://root@{{ interpreters.inasafe_realtime.domain_alias }}:{{ interpreters.inasafe_realtime.ssh_port }}/usr/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$/inasafe" remote-root="/home/app/inasafe" />
+              <mapping local-root="$PROJECT_DIR$/inasafe" remote-root="/usr/share/qgis/python/plugins/inasafe" />
               <mapping local-root="$PROJECT_DIR$/src/realtime" remote-root="/home/app/realtime" />
             </list>
           </settings>
@@ -14,7 +14,7 @@
         <remote-mappings server-id="python@ssh://root@{{ interpreters.inasafe_shakemap_monitor.domain_alias }}:{{ interpreters.inasafe_shakemap_monitor.ssh_port }}/usr/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$/inasafe" remote-root="/home/app/inasafe" />
+              <mapping local-root="$PROJECT_DIR$/inasafe" remote-root="/usr/share/qgis/python/plugins/inasafe" />
               <mapping local-root="$PROJECT_DIR$/src/realtime" remote-root="/home/app/realtime" />
             </list>
           </settings>
@@ -22,7 +22,7 @@
         <remote-mappings server-id="python@ssh://root@{{ interpreters.inasafe_shakemap_corrected_monitor.domain_alias }}:{{ interpreters.inasafe_shakemap_corrected_monitor.ssh_port }}/usr/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$/inasafe" remote-root="/home/app/inasafe" />
+              <mapping local-root="$PROJECT_DIR$/inasafe" remote-root="/usr/share/qgis/python/plugins/inasafe" />
               <mapping local-root="$PROJECT_DIR$/src/realtime" remote-root="/home/app/realtime" />
             </list>
           </settings>

@@ -1,9 +1,6 @@
 # coding=utf-8
 
-from realtime.tasks.flood import *  # noqa
-from realtime.tasks.earthquake import *  # noqa
-from realtime.tasks.generic import *  # noqa
-from realtime.tasks.ash import *  # noqa
-
-__author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
-__date__ = '12/11/15'
+__copyright__ = "Copyright 2016, The InaSAFE Project"
+__license__ = "GPL version 3"
+__email__ = "info@inasafe.org"
+__revision__ = ':%H$'

@@ -1,23 +1,4 @@
 # coding=utf-8
-"""
-InaSAFE Disaster risk assessment tool developed by AusAid and World Bank
-- **Helpers, globals and general utilities for the realtime package**
-
-Contact : ole.moller.nielsen@gmail.com
-
-.. note:: This program is free software; you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
-
-"""
-import logging
-
-__author__ = 'tim@kartoza.com'
-__version__ = '0.5.0'
-__date__ = '19/07/2012'
-__copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
-                 'Disaster Reduction')
 
 import os
 import shutil
@@ -25,6 +6,12 @@ from datetime import datetime
 import ntpath
 
 from safe.common.custom_logging import setup_logger as setup_logger_safe
+
+__author__ = 'tim@kartoza.com'
+__version__ = '0.5.0'
+__date__ = '19/07/2012'
+__copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
+                 'Disaster Reduction')
 
 
 def base_data_dir():

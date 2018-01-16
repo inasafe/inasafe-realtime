@@ -7,31 +7,57 @@ services:
 
   inasafe-realtime-worker:
     build: docker-realtime
-    command: ./docker-entrypoint.sh prod inasafe-headless
+    command: /docker-entrypoint.sh prod inasafe-realtime-worker
+    working_dir: /home/app
     env_file:
       - ./docker-realtime/realtime-rest.env
     volumes:
-      - ../inasafe:/home/app/inasafe
+      - ../inasafe:/usr/share/qgis/python/plugins/inasafe
       - ../src/realtime:/home/app/realtime
       - ../floodmaps:/home/realtime/floodmaps
       - ../ashmaps:/home/realtime/ashmaps
+    environment:
+      - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      - DISPLAY=:99
+      - C_FORCE_ROOT=True
+      - INASAFE_LOCALE=id
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_WORK_DIR=/home/realtime
+    links:
+      - rabbitmq
 
   inasafe-shakemap-monitor:
     build: docker-realtime
-    command: ./docker-entrypoint.sh prod inasafe-headless
+    command: /docker-entrypoint.sh prod inasafe-realtime-monitor
+    working_dir: /home/app
     env_file:
       - ./docker-realtime/realtime-rest.env
     volumes:
-      - ../inasafe:/home/app/inasafe
+      - ../inasafe:/usr/share/qgis/python/plugins/inasafe
       - ../src/realtime:/home/app/realtime
       - ../shakemaps:/home/realtime/shakemaps
+    environment:
+      - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      - DISPLAY=:99
+      - C_FORCE_ROOT=True
+      - INASAFE_LOCALE=id
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_WORK_DIR=/home/realtime
 
   inasafe-shakemap-corrected-monitor:
     build: docker-realtime
-    command: ./docker-entrypoint.sh prod inasafe-headless
+    command: /docker-entrypoint.sh prod inasafe-realtime-monitor
+    working_dir: /home/app
     env_file:
       - ./docker-realtime/realtime-rest.env
     volumes:
-      - ../inasafe:/home/app/inasafe
+      - ../inasafe:/usr/share/qgis/python/plugins/inasafe
       - ../src/realtime:/home/app/realtime
       - ../shakemaps-corrected:/home/realtime/shakemaps
+    environment:
+      - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      - DISPLAY=:99
+      - C_FORCE_ROOT=True
+      - INASAFE_LOCALE=id
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_WORK_DIR=/home/realtime
