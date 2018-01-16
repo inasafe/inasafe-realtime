@@ -22,26 +22,32 @@ before_install:
 
 install:
   # build current docker image
-  - cd deployment
+  - pushd deployment
   - cp ansible/development/group_vars/all.travis.yml ansible/development/group_vars/all.yml
   - make setup-ansible ANSIBLE_ARGS="--extra-vars='ansible_sudo_pass=\"\"' --extra-vars='pycharm_version=\"\"' --skip-tags=development"
   - make build
   - make up
   - make status
-  - cd ../
+  - popd
 
 script:
   - flake8 src
   # Check realtime settings
-  - cd deployment
+  - pushd deployment
   - make coverage-tests
-  - cd ../
+  - popd
 
 after_script:
   # Clean up
+  - pushd deployment
   - make down
+  - popd
 
 after_success:
-  - cd src/realtime
+  - pushd src
+  # Fix path (codecov.yml doesn't work)
+  # Replace parent directory to travis directory, because we are running
+  # coverage using docker mount
+  - sed -i 's/home\/app/home\/travis\/build\/inasafe\/inasafe-realtime\/src/g' .coverage
   - codecov
-  - cd ../../
+  - popd

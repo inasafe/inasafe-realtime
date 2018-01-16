@@ -44,8 +44,9 @@ package-tests:
 
 coverage-tests:
 	@-docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v
-	@echo "Copying coverage files"
-	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker cp .coverage realtime/.coverage
+
+travis-coverage-tests:
+	@-docker-compose -p $(PROJECT_ID) exec `bash <(curl -s https://codecov.io/env)` inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v && codecov
 
 down:
 	@docker-compose -p $(PROJECT_ID) down
