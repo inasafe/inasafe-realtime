@@ -13,7 +13,7 @@ services:
       - ./docker-realtime/realtime-rest.env
     volumes:
       - ../inasafe:/usr/share/qgis/python/plugins/inasafe
-      - ../src/realtime:/home/app/realtime
+      - ../src:/home/app
       - ../floodmaps:/home/realtime/floodmaps
       - ../ashmaps:/home/realtime/ashmaps
     environment:
@@ -34,7 +34,7 @@ services:
       - ./docker-realtime/realtime-rest.env
     volumes:
       - ../inasafe:/usr/share/qgis/python/plugins/inasafe
-      - ../src/realtime:/home/app/realtime
+      - ../src:/home/app
       - ../shakemaps:/home/realtime/shakemaps
     environment:
       - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
@@ -52,7 +52,7 @@ services:
       - ./docker-realtime/realtime-rest.env
     volumes:
       - ../inasafe:/usr/share/qgis/python/plugins/inasafe
-      - ../src/realtime:/home/app/realtime
+      - ../src:/home/app
       - ../shakemaps-corrected:/home/realtime/shakemaps
     environment:
       - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
