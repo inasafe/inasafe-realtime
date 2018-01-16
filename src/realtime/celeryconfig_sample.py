@@ -3,17 +3,18 @@
 Celery configuration file
 """
 import os
+import ast
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/30/15'
 
 
 # This is a default value
-BROKER_URL = os.environ.get('INASAFE_REALTIME_BROKER_HOST')
+broker_url = os.environ.get('INASAFE_REALTIME_BROKER_HOST')
 
-CELERY_RESULT_BACKEND = BROKER_URL
+result_backend = broker_url
 
-CELERY_ROUTES = {
+task_routes = {
     'realtime.tasks.flood': {
         'queue': 'inasafe-realtime'
     },
@@ -37,10 +38,16 @@ CELERY_ROUTES = {
 # **NIGHTMARE** to your celery worker. Read about this particular settings
 # here:
 # http://docs.celeryproject.org/en/3.1/configuration.html#celeryd-concurrency
-CELERYD_CONCURRENCY = 1
-CELERYD_PREFETCH_MULTIPLIER = 1
+worker_concurrency = 1
+worker_prefetch_multiplier = 1
 
-CELERY_ALWAYS_EAGER = os.environ.get('CELERY_ALWAYS_EAGER', 'False') == 'True'
+# Celery config
+task_serializer = 'pickle'
+accept_content = {'pickle'}
+result_serializer = 'pickle'
+
+task_always_eager = ast.literal_eval(os.environ.get(
+    'task_always_eager', 'False'))
 
 FLOOD_WORKING_DIRECTORY = os.environ.get(
     'FLOODMAPS_DIR')

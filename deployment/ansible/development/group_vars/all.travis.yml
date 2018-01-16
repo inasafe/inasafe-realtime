@@ -31,6 +31,15 @@ inasafe:
   version: develop
   depth: 1
 
+inasafe_realtime_worker:
+  command: /docker-entrypoint.sh dev
+
+inasafe_shakemap_monitor:
+  command: /docker-entrypoint.sh dev
+
+inasafe_shakemap_corrected_monitor:
+  command: /docker-entrypoint.sh dev
+
 docker_port_forward:
   inasafe_realtime:
     ssh: *inasafe_realtime_ssh_port

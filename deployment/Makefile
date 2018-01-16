@@ -27,6 +27,26 @@ up:
 	@echo "--------------------------"
 	@docker-compose -p $(PROJECT_ID) up -d
 
+worker-shell:
+	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker /bin/bash
+
+worker-logs:
+	@docker-compose -p $(PROJECT_ID) logs -f --tail=30 inasafe-realtime-worker
+
+shakemap-monitor-shell:
+	@docker-compose -p $(PROJECT_ID) exec inasafe-shakemap-monitor /bin/bash
+
+shakemap-monitor-logs:
+	@docker-compose -p $(PROJECT_ID) logs -f --tail=30 inasafe-shakemap-monitor
+
+package-tests:
+	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker python -m unittest discover -s realtime -v
+
+coverage-tests:
+	@-docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v
+	@echo "Copying coverage files"
+	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker cp .coverage realtime/.coverage
+
 down:
 	@docker-compose -p $(PROJECT_ID) down
 

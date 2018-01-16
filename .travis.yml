@@ -18,7 +18,7 @@ branches:
 before_install:
   - sudo apt-get -y update
   - sudo apt-get -y install libssl-dev
-  - sudo pip install ansible
+  - sudo pip install -r REQUIREMENTS-TRAVIS.txt
 
 install:
   # build current docker image
@@ -27,11 +27,21 @@ install:
   - make setup-ansible ANSIBLE_ARGS="--extra-vars='ansible_sudo_pass=\"\"' --extra-vars='pycharm_version=\"\"' --skip-tags=development"
   - make build
   - make up
+  - make status
+  - cd ../
 
 script:
-  # Nothing to do here at the moment
-  - pwd
+  - flake8 src
+  # Check realtime settings
+  - cd deployment
+  - make coverage-tests
+  - cd ../
 
 after_script:
   # Clean up
   - make down
+
+after_success:
+  - cd src/realtime
+  - codecov
+  - cd ../../

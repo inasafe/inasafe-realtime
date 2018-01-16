@@ -12,8 +12,9 @@ import datetime
 import pyinotify
 from tzlocal import get_localzone
 
-from realtime.earthquake.make_map import process_event
-from realtime.earthquake.push_shake import notify_realtime_rest
+from realtime.earthquake.process_event import process_event
+from realtime.earthquake.notify_rest import notify_realtime_rest
+from realtime.earthquake.settings import GRID_FILE_PATTERN, INASAFE_LOCALE
 from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha "lucernae" <lana.pcfre@gmail.com>'
@@ -42,13 +43,13 @@ class ShakemapPushHandler(pyinotify.ProcessEvent):
         """
         # we only listen to pushed output/grid.xml files
         rel_path = os.path.relpath(event.pathname, self.working_dir)
-        pattern = re.compile('^(?P<shake_id>\d{14})/output/grid\.xml$')
+        pattern = re.compile(GRID_FILE_PATTERN)
         if os.path.exists(event.pathname) and pattern.search(rel_path):
             # if we got grid.xml
             LOGGER.info('Got grid.xml: %s' % rel_path)
             if self.callback:
                 shake_id = pattern.match(rel_path).group('shake_id')
-                self.callback(shake_id=shake_id)
+                self.callback(shake_id=shake_id, grid_file=event.pathname)
 
     def process_IN_MOVED_TO(self, event):
         """Handle rename event of grid.xml.
@@ -85,12 +86,9 @@ def watch_shakemaps_push(
 if __name__ == '__main__':
     working_dir = sys.argv[1]
 
-    if 'INASAFE_LOCALE' in os.environ:
-        locale_option = os.environ['INASAFE_LOCALE']
-    else:
-        locale_option = 'en'
+    locale_option = INASAFE_LOCALE
 
-    def process_shakemap(shake_id=None):
+    def process_shakemap(shake_id=None, grid_file=None):
         """Process a given shake_id for realtime shake"""
         LOGGER.info('Inotify received new shakemap')
         tz = get_localzone()
@@ -99,10 +97,9 @@ if __name__ == '__main__':
         while not done:
             try:
                 done = process_event(
-                    working_dir=working_dir,
-                    event_id=shake_id,
-                    locale=locale_option)
-            except Exception as e:  # pylint: disable=W0702
+                    shake_id=shake_id,
+                    grid_file=grid_file)
+            except BaseException as e:  # pylint: disable=W0702
                 LOGGER.info('Process event failed')
                 LOGGER.exception(e)
                 LOGGER.info('Retrying to process event')
