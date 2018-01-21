@@ -1,9 +1,9 @@
 # coding=utf-8
 
+import ntpath
 import os
 import shutil
 from datetime import datetime
-import ntpath
 
 from safe.common.custom_logging import setup_logger as setup_logger_safe
 
@@ -15,7 +15,8 @@ __copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
 
 
 def base_data_dir():
-    """Create (if needed) and return the path to the base realtime data dir."""
+    """Create (if needed) and return the path to the base realtime data dir.
+    """
     if 'INASAFE_WORK_DIR' in os.environ:
         base_data_directory = os.environ['INASAFE_WORK_DIR']
     else:

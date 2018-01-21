@@ -5,6 +5,9 @@ language: python
 python:
   - "2.7"
 
+env:
+  - ON_TRAVIS=True
+
 virtualenv:
   system_site_packages: true
 
@@ -31,9 +34,8 @@ install:
   - popd
 
 script:
-  - flake8 src
-  # Check realtime settings
   - pushd deployment
+  - make check-flake8
   - make coverage-tests
   - popd
 

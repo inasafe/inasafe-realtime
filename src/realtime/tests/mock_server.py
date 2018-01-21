@@ -1,7 +1,7 @@
 # coding=utf-8
 import logging
-import requests
 
+import requests
 from http.server import BaseHTTPRequestHandler
 from realtime.utilities import realtime_logger_name
 

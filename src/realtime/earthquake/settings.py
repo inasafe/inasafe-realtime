@@ -3,8 +3,8 @@
 Settings file for Shakemap Realtime
 """
 import os
-from safe.gui.tools.shake_grid.shake_grid import USE_ASCII
 
+from safe.gui.tools.shake_grid.shake_grid import USE_ASCII
 
 # Grid xml file pattern to catch
 GRID_FILE_PATTERN = os.environ.get(

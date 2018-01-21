@@ -2,8 +2,8 @@
 """
 Celery configuration file
 """
-import os
 import ast
+import os
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/30/15'

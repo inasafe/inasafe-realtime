@@ -1,12 +1,16 @@
 # coding=utf-8
+import logging
 import os
+
 from PyQt4.QtCore import QObject
-from qgis._core import QgsRasterLayer
+from qgis.core import QgsRasterLayer
+from realtime.utilities import get_grid_source, realtime_logger_name
 
 from realtime.earthquake.localizations import ShakeHazardString
 from realtime.earthquake.settings import EQ_GRID_SOURCE_TYPE
-from realtime.utilities import get_grid_source
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid, USE_ASCII
+
+LOGGER = logging.getLogger(realtime_logger_name())
 
 
 class ShakeHazard(QObject):
@@ -39,7 +43,6 @@ class ShakeHazard(QObject):
             output_dir = os.path.dirname(grid_file)
         if not output_basename:
             output_basename = 'hazard'
-        self.hazard_path = os.path.join(output_dir, output_basename)
 
         self._shake_grid = ShakeGrid(
             '', get_grid_source(), self.grid_file,
@@ -145,3 +148,9 @@ class ShakeHazard(QObject):
         :rtype: QgsRasterLayer
         """
         return QgsRasterLayer(self.hazard_path)
+
+    def is_valid(self):
+        """Validate InaSAFE Layer generation."""
+        if self.hazard_exists and self.hazard_layer.isValid():
+            return True
+        return False

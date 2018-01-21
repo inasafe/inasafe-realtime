@@ -1,8 +1,10 @@
 # coding=utf-8
 
 from celery import Celery
-# initialize qgis_app
+
 from safe.test.utilities import get_qgis_app
+
+# initialize qgis_app
 QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
