@@ -3,19 +3,19 @@
 
 This will make new shakemap processed after a user is pushing a shakemap.
 """
+import datetime
 import logging
 import os
 import re
 import sys
 
-import datetime
 import pyinotify
+from realtime.utilities import realtime_logger_name
 from tzlocal import get_localzone
 
-from realtime.earthquake.process_event import process_event
 from realtime.earthquake.notify_rest import notify_realtime_rest
+from realtime.earthquake.process_event import process_event
 from realtime.earthquake.settings import GRID_FILE_PATTERN, INASAFE_LOCALE
-from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha "lucernae" <lana.pcfre@gmail.com>'
 __date__ = '03/09/15'

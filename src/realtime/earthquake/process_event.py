@@ -2,12 +2,13 @@
 
 import logging
 
+from realtime.utilities import realtime_logger_name
+
 from realtime.earthquake.notify_rest import notify_realtime_rest, \
     notify_shake_hazard_to_rest
 from realtime.earthquake.settings import EQ_GRID_ALGORITHM
 from realtime.earthquake.shake_hazard import ShakeHazard
 from realtime.settings import INASAFE_FORCE
-from realtime.utilities import realtime_logger_name
 
 # Initialised in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -27,7 +28,7 @@ def process_event(shake_id=None, grid_file=None, output_dir=None):
     force_flag = INASAFE_FORCE
     algorithm = EQ_GRID_ALGORITHM
 
-    # Convert Grid into hazard file
+    # Convert Grid into InaSAFE Layer
     try:
         shake_hazard = ShakeHazard(
             grid_file=grid_file, force_flag=force_flag, algorithm=algorithm,
@@ -39,6 +40,9 @@ def process_event(shake_id=None, grid_file=None, output_dir=None):
     except BaseException as e:
         LOGGER.exception(e)
         LOGGER.info('Hazard layer preparation failed.')
+        return False
+
+    LOGGER.info('Successfully processed Shake ID: {0}'.format(shake_id))
 
     # inform new hazard file to InaSAFE Django
     ret = notify_shake_hazard_to_rest(shake_hazard)

@@ -48,6 +48,9 @@ coverage-tests:
 travis-coverage-tests:
 	@-docker-compose -p $(PROJECT_ID) exec `bash <(curl -s https://codecov.io/env)` inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v && codecov
 
+check-flake8:
+	@flake8 ../src/
+
 down:
 	@docker-compose -p $(PROJECT_ID) down
 

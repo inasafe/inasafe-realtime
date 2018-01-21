@@ -1,17 +1,19 @@
 # coding=utf-8
 import logging
 import os
+import shutil
 import unittest
 from threading import Thread
 
 from http.server import HTTPServer
+from realtime import settings
+from realtime.utilities import realtime_logger_name
 
 from realtime.earthquake.process_event import process_event
 from realtime.earthquake.settings import EQ_GRID_ALGORITHM
 from realtime.earthquake.shake_hazard import ShakeHazard
-from realtime import settings
+from realtime.settings import ON_TRAVIS
 from realtime.tests.mock_server import InaSAFEDjangoMockServerHandler
-from realtime.utilities import realtime_logger_name
 from safe.test.qgis_app import qgis_app
 from safe.utilities.keyword_io import KeywordIO
 
@@ -29,6 +31,13 @@ class TestShakeHazard(unittest.TestCase):
         self.output_dir = self.fixture_path('../output')
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
+
+    def tearDown(self):
+        if ON_TRAVIS:
+            try:
+                shutil.rmtree(self.output_dir)
+            except BaseException:
+                pass
 
     def test_grid_conversion(self):
         """Test Shake Grid conversion to InaSAFE Hazard Layer."""
@@ -51,7 +60,7 @@ class TestShakeHazard(unittest.TestCase):
             'source': 'BMKG (Badan Meteorologi, Klimatologi, dan Geofisika) '
                       'Indonesia',
             'source_type': 'initial',
-            'time_zone': 'Asia/Jakarta',
+            '_time_zone': 'Asia/Jakarta',
             'timestamp': '2016-12-14 00:57:04+07:07'
         }
 
@@ -64,13 +73,13 @@ class TestShakeHazard(unittest.TestCase):
             'magnitude': shake_hazard.magnitude,
             'source': shake_hazard.source,
             'source_type': shake_hazard.source_type,
-            'time_zone': shake_hazard.time_zone,
+            '_time_zone': shake_hazard.time_zone,
             'timestamp': str(shake_hazard.timestamp)
         }
 
         self.assertDictEqual(expected_data, actual_data)
 
-        self.assertTrue(shake_hazard.hazard_layer.isValid())
+        self.assertTrue(shake_hazard.is_valid())
 
         expected_extra_keywords = {
             u'earthquake_event_id': u'20161214005704',
@@ -107,9 +116,11 @@ class TestShakeHazard(unittest.TestCase):
         mock_server_thread.setDaemon(True)
         mock_server_thread.start()
 
-        process_event(
+        ret_val = process_event(
             shake_id='20161214005704',
             grid_file=self.fixture_path('grid.xml'),
             output_dir=self.output_dir)
+
+        self.assertTrue(ret_val)
 
         mock_server.shutdown()

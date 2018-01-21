@@ -9,6 +9,5 @@ class TestGeneralConfiguration(unittest.TestCase):
     def test_import_inasafe(self):
         """Test that Realtime properly run InaSAFE."""
         # Test import safe package
-        import safe # noqa
         # Test instantiate QGIS instance
         APP, IFACE = qgis_app()
