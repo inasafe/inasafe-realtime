@@ -11,6 +11,7 @@ from realtime.utilities import realtime_logger_name
 
 from realtime.flood.data_source import load_data_api_object
 from realtime.flood.flood_hazard import FloodHazard
+from realtime.flood.notify_rest import notify_flood_hazard_to_rest
 from realtime.flood.settings import FLOOD_ID_FORMAT, FLOOD_ID_REGEXP, \
     FLOOD_HAZARD_DEFAULT_BASENAME
 
@@ -114,6 +115,8 @@ def process_event(
         LOGGER.info('Hazard layer preparation failed.')
 
     LOGGER.info('Successfully processed Flood ID {0}'.format(flood_id))
+
+    notify_flood_hazard_to_rest(flood_hazard)
 
     return True
 

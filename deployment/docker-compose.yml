@@ -4,6 +4,7 @@ services:
   rabbitmq:
     image: library/rabbitmq
     restart: on-failure
+    network_mode: bridge
 
   inasafe-realtime-worker:
     build: docker-realtime
@@ -25,6 +26,7 @@ services:
       - INASAFE_WORK_DIR=/home/realtime
     links:
       - rabbitmq
+    network_mode: bridge
 
   inasafe-shakemap-monitor:
     build: docker-realtime
@@ -43,6 +45,7 @@ services:
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
+    network_mode: bridge
 
   inasafe-shakemap-corrected-monitor:
     build: docker-realtime
@@ -61,3 +64,4 @@ services:
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
+    network_mode: bridge

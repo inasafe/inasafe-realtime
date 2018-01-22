@@ -36,12 +36,23 @@ class TestFloodHazard(unittest.TestCase):
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
 
+        # mock url
+        self.inasafe_django_rest_url = settings.INASAFE_REALTIME_REST_URL
+        self.mock_host = 'localhost'
+        self.mock_port = 8000
+        settings.INASAFE_REALTIME_REST_URL = (
+            'http://{host}:{port}/realtime/api/v1').format(
+            host=self.mock_host, port=self.mock_port)
+
     def tearDown(self):
         if ON_TRAVIS:
             try:
                 shutil.rmtree(self.output_dir)
             except BaseException:
                 pass
+
+            # restore url
+            settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
 
     def test_geojson_conversion(self):
         """Test Shake Grid conversion to InaSAFE Hazard Layer."""
@@ -100,12 +111,8 @@ class TestFloodHazard(unittest.TestCase):
     def test_process_event_file(self):
         """Test process event executions from hazard file."""
         # Configure Mock Server
-        mock_host = 'localhost'
-        mock_port = 8000
-        settings.INASAFE_REALTIME_REST_URL = (
-            'http://localhost:8000/realtime/api/v1')
         mock_server = HTTPServer(
-            (mock_host, mock_port), InaSAFEDjangoMockServerHandler)
+            (self.mock_host, self.mock_port), InaSAFEDjangoMockServerHandler)
         mock_server_thread = Thread(target=mock_server.serve_forever)
         mock_server_thread.setDaemon(True)
         mock_server_thread.start()
@@ -119,25 +126,22 @@ class TestFloodHazard(unittest.TestCase):
                 'filename': self.fixture_path('flood_data.json')
             })
 
-        self.assertTrue(ret_val)
-
         mock_server.shutdown()
+
+        self.assertTrue(ret_val)
 
     def test_process_event_petabencana(self):
         """Test process event executions from mocked PetaBencana API."""
         # Configure Mock Server
-        mock_host = 'localhost'
-        mock_port = 8000
-        settings.INASAFE_REALTIME_REST_URL = (
-            'http://localhost:8000/realtime/api/v1')
         mock_server = HTTPServer(
-            (mock_host, mock_port), InaSAFEDjangoMockServerHandler)
+            (self.mock_host, self.mock_port), InaSAFEDjangoMockServerHandler)
         mock_server_thread = Thread(target=mock_server.serve_forever)
         mock_server_thread.setDaemon(True)
         mock_server_thread.start()
 
         # patch mock response
-        # We are using python requests, so we can mock the requests object.
+        # We are using python requests, so we can mock the
+        # requests object.
         with mock.patch('requests.get') as get_mock:
             get_mock.return_value = mock_response = mock.Mock()
             mock_response.status_code = 200
@@ -161,6 +165,6 @@ class TestFloodHazard(unittest.TestCase):
                     'level': 'rw'
                 })
 
-        self.assertTrue(ret_val)
-
         mock_server.shutdown()
+
+        self.assertTrue(ret_val)
