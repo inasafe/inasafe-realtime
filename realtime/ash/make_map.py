@@ -24,6 +24,7 @@ def process_event(
         volcano_name=None,
         volcano_location=None,
         eruption_height=None,
+        vent_height=None,
         region=None,
         alert_level=None,
         hazard_url=None):
@@ -66,6 +67,7 @@ def process_event(
             volcano_name=volcano_name,
             volcano_location=volcano_location,
             eruption_height=eruption_height,
+            vent_height=vent_height,
             region=region,
             alert_level=alert_level,
             overview_path=overview_path,
@@ -120,6 +122,7 @@ def extract_folder_metadata(event_folder):
     metadata['event_time'] = parse(metadata['event_time'])
     return metadata
 
+
 if __name__ == '__main__':
     LOGGER.info('-------------------------------------------')
 
@@ -149,6 +152,7 @@ if __name__ == '__main__':
             volcano_name=event_metadata['volcano_name'],
             volcano_location=event_metadata['volcano_location'],
             eruption_height=event_metadata['eruption_height'],
+            vent_height=event_metadata['vent_height'],
             region=event_metadata['region'],
             alert_level=event_metadata['alert_level'])
         LOGGER.info('Process event end.')
