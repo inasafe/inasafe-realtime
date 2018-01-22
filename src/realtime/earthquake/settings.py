@@ -11,6 +11,10 @@ GRID_FILE_PATTERN = os.environ.get(
     'GRID_FILE_PATTERN',
     '(?P<shake_id>\d{14})/grid\.xml$')
 
+GRID_FILE_DEFAULT_LOCATION = os.environ.get(
+    'GRID_FILE_DEFAULT_LOCATION',
+    '{shake_id}/grid.xml')
+
 # INASAFE Locale used
 INASAFE_LOCALE = os.environ.get(
     'INASAFE_LOCALE',

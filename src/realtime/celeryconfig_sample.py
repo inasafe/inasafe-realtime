@@ -3,14 +3,17 @@
 Celery configuration file
 """
 import ast
+import logging
 import os
 
-__author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
-__date__ = '12/30/15'
+from realtime.utilities import realtime_logger_name
+
+LOGGER = logging.getLogger(realtime_logger_name())
 
 
 # This is a default value
 broker_url = os.environ.get('INASAFE_REALTIME_BROKER_HOST')
+LOGGER.info('Broker url {0}'.format(broker_url))
 
 result_backend = broker_url
 
@@ -48,10 +51,3 @@ result_serializer = 'pickle'
 
 task_always_eager = ast.literal_eval(os.environ.get(
     'task_always_eager', 'False'))
-
-FLOOD_WORKING_DIRECTORY = os.environ.get(
-    'FLOODMAPS_DIR')
-EARTHQUAKE_WORKING_DIRECTORY = os.environ.get(
-    'SHAKEMAPS_DIR')
-ASH_WORKING_DIRECTORY = os.environ.get(
-    'ASHMAPS_DIR')

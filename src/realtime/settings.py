@@ -24,3 +24,10 @@ INASAFE_FORCE = ast.literal_eval(os.environ.get(
 ON_TRAVIS = ast.literal_eval(os.environ.get(
     'ON_TRAVIS',
     'False'))
+
+FLOOD_WORKING_DIRECTORY = os.environ.get(
+    'FLOODMAPS_DIR')
+EARTHQUAKE_WORKING_DIRECTORY = os.environ.get(
+    'SHAKEMAPS_DIR')
+ASH_WORKING_DIRECTORY = os.environ.get(
+    'ASHMAPS_DIR')
