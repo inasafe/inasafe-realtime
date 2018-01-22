@@ -14,6 +14,8 @@ Contact : ole.moller.nielsen@gmail.com
 import time
 from zipfile import ZipFile
 
+import pytz
+
 __author__ = 'tim@kartoza.com'
 __version__ = '0.5.0'
 __date__ = '1/08/2012'
@@ -1794,9 +1796,9 @@ class ShakeEvent(QObject):
         eq_date = self.shake_grid.time
 
         # get current local time
-        now = datetime.now()
+        now = datetime.utcnow().replace(tzinfo=pytz.utc)
         local_tz = get_localzone()
-        now = now.replace(tzinfo=local_tz)
+        now = now.astimezone(local_tz)
         time_delta = now - eq_date
 
         # Work out string to report time elapsed after quake
