@@ -59,6 +59,7 @@ class AshEvent(QObject):
             volcano_name=None,
             volcano_location=None,
             eruption_height=None,
+            vent_height=None,
             region=None,
             alert_level=None,
             locale=None,
@@ -111,7 +112,8 @@ class AshEvent(QObject):
         else:
             self.longitude = None
             self.latitude = None
-        self.erupction_height = eruption_height
+        self.eruption_height = eruption_height
+        self.vent_height = vent_height
         self.region = region
         self.alert_level = alert_level
         self.locale = locale
@@ -234,7 +236,8 @@ class AshEvent(QObject):
             'volcano_name': self.volcano_name,
             'volcano_location': self.volcano_location,
             'alert_level': self.alert_level,
-            'eruption_height': self.erupction_height,
+            'eruption_height': self.eruption_height,
+            'vent_height': self.vent_height,
             'event_time': self.time.strftime(dateformat),
             'region': self.region
         }
@@ -267,7 +270,8 @@ class AshEvent(QObject):
             alert_level=self.alert_level,
             longitude_string=longitude_string,
             latitude_string=latitude_string,
-            eruption_height=self.erupction_height,
+            eruption_height=self.eruption_height,
+            vent_height=self.vent_height,
             elapsed_hour=elapsed_hour,
             elapsed_minute=elapsed_minute,
             version=get_version()

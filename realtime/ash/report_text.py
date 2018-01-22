@@ -16,10 +16,29 @@ class ReportText(QObject):
             self,
             volcano_name=None, time=None, region=None,
             alert_level=None, longitude_string=None, latitude_string=None,
-            eruption_height=None, elapsed_hour=None, elapsed_minute=None,
-            version=None):
+            eruption_height=0, vent_height=0, elapsed_hour=None,
+            elapsed_minute=None, version=None):
         """Token string for QPT template"""
+
+        eruption_height_asl = eruption_height + vent_height
+
         event = {
+            # This section is from event variable
+            'event-volcano-name': volcano_name,
+            'event-time': self.tr('{time:%-d-%b-%Y %H:%M:%S}').format(
+                time=time),
+            'event-region': str(region),
+            'event-alert-level': alert_level,
+            'event-longitude': longitude_string,
+            'event-latitude': latitude_string,
+            'event-eruption-height': str(eruption_height),
+            'event-vent-height': str(vent_height),
+            'event-eruption-height-asl': str(eruption_height_asl),
+            'event-elapsed-hour': str(elapsed_hour),
+            'event-elapsed-minute': str(elapsed_minute),
+            'inasafe-version': version,
+
+            # This section is from pregenerated variable
             'report-title': self.tr('Volcanic Ash Impact'),
             'report-timestamp': self.tr(
                 'Volcano: {volcano_name}, {time:%-d-%b-%Y %H:%M:%S} '
@@ -35,10 +54,10 @@ class ReportText(QObject):
             'report-location': self.tr(
                 'Position: {lon}, {lat}; '
                 'Eruption Column Height (a.s.l) '
-                '- {eruption_height} m').format(
+                '- {eruption_height_asl} m').format(
                     lon=longitude_string,
                     lat=latitude_string,
-                    eruption_height=eruption_height),
+                    eruption_height_asl=eruption_height_asl),
             'report-elapsed': self.tr(
                 'Elapsed time since event: '
                 '{hour} hour(s) and {minute} minute(s)').format(
