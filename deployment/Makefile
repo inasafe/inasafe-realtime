@@ -43,7 +43,10 @@ package-tests:
 	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker python -m unittest discover -s realtime -v
 
 coverage-tests:
-	@-docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v
+	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v
+
+celery-async-tests:
+	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker python -m unittest discover -s realtime/tasks -v
 
 travis-coverage-tests:
 	@-docker-compose -p $(PROJECT_ID) exec `bash <(curl -s https://codecov.io/env)` inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v && codecov

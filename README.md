@@ -159,7 +159,7 @@ debugging features like breakpoints, etc.
 
 To test you shakemap monitor, you need drop a shake grid.xml file into
 ‘shakemaps’ directory in this kind of directory structure:
-shakemaps/<YYMMDDHHmmss>/grid.xml
+shakemaps/\<YYMMDDHHmmss>/grid.xml
 
 If it’s working properly, the worker will pick up the grid.xml,
 and process it.

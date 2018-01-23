@@ -4,10 +4,10 @@ import os
 
 from PyQt4.QtCore import QObject
 from qgis.core import QgsRasterLayer
-from realtime.utilities import get_grid_source, realtime_logger_name
 
 from realtime.earthquake.localizations import ShakeHazardString
 from realtime.earthquake.settings import EQ_GRID_SOURCE_TYPE
+from realtime.utilities import get_grid_source, realtime_logger_name
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid, USE_ASCII
 
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -18,7 +18,7 @@ class ShakeHazard(QObject):
 
     def __init__(
             self, grid_file=None, force_flag=False, algorithm=USE_ASCII,
-            output_dir=None, output_basename=None):
+            source_type=None, output_dir=None, output_basename=None):
         """Create Shake Hazard event placeholder object.
 
         :param grid_file: filepath of grid.xml
@@ -50,7 +50,9 @@ class ShakeHazard(QObject):
             output_basename=output_basename)
         self.hazard_path = self.shake_grid.mmi_to_raster(
             force_flag=force_flag, algorithm=algorithm)
-        self.source_type = EQ_GRID_SOURCE_TYPE
+        if not source_type:
+            source_type = EQ_GRID_SOURCE_TYPE
+        self.source_type = source_type
 
     @property
     def shake_grid(self):

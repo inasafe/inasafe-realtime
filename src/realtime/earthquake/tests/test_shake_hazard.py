@@ -3,17 +3,15 @@ import logging
 import os
 import shutil
 import unittest
-from threading import Thread
 
-from http.server import HTTPServer
 from realtime import settings
-from realtime.utilities import realtime_logger_name
-
 from realtime.earthquake.process_event import process_event
 from realtime.earthquake.settings import EQ_GRID_ALGORITHM
 from realtime.earthquake.shake_hazard import ShakeHazard
 from realtime.settings import ON_TRAVIS
-from realtime.tests.mock_server import InaSAFEDjangoMockServerHandler
+from realtime.tests.mock_server import InaSAFEDjangoMockServer, \
+    InaSAFEDjangoMockServerHandler
+from realtime.utilities import realtime_logger_name
 from safe.test.qgis_app import qgis_app
 from safe.utilities.keyword_io import KeywordIO
 
@@ -40,6 +38,11 @@ class TestShakeHazard(unittest.TestCase):
             'http://{host}:{port}/realtime/api/v1').format(
             host=self.mock_host, port=self.mock_port)
 
+        # # Configure Mock Server
+        self.mock_server = InaSAFEDjangoMockServer(
+            self.mock_host, self.mock_port, InaSAFEDjangoMockServerHandler)
+        self.mock_server.start_server()
+
     def tearDown(self):
         if ON_TRAVIS:
             try:
@@ -47,8 +50,11 @@ class TestShakeHazard(unittest.TestCase):
             except BaseException:
                 pass
 
-            # restore url
-            settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
+        # restore url
+        settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
+
+        # shutdown mock server
+        self.mock_server.shutdown()
 
     def test_grid_conversion(self):
         """Test Shake Grid conversion to InaSAFE Hazard Layer."""
@@ -71,7 +77,7 @@ class TestShakeHazard(unittest.TestCase):
             'source': 'BMKG (Badan Meteorologi, Klimatologi, dan Geofisika) '
                       'Indonesia',
             'source_type': 'initial',
-            '_time_zone': 'Asia/Jakarta',
+            'time_zone': 'Asia/Jakarta',
             'timestamp': '2016-12-14 00:57:04+07:07'
         }
 
@@ -84,7 +90,7 @@ class TestShakeHazard(unittest.TestCase):
             'magnitude': shake_hazard.magnitude,
             'source': shake_hazard.source,
             'source_type': shake_hazard.source_type,
-            '_time_zone': shake_hazard.time_zone,
+            'time_zone': shake_hazard.time_zone,
             'timestamp': str(shake_hazard.timestamp)
         }
 
@@ -116,18 +122,9 @@ class TestShakeHazard(unittest.TestCase):
 
     def test_process_event(self):
         """Test process event executions."""
-        # Configure Mock Server
-        mock_server = HTTPServer(
-            (self.mock_host, self.mock_port), InaSAFEDjangoMockServerHandler)
-        mock_server_thread = Thread(target=mock_server.serve_forever)
-        mock_server_thread.setDaemon(True)
-        mock_server_thread.start()
-
         ret_val = process_event(
             shake_id='20161214005704',
             grid_file=self.fixture_path('grid.xml'),
             output_dir=self.output_dir)
 
         self.assertTrue(ret_val)
-
-        mock_server.shutdown()

@@ -2,19 +2,19 @@
 
 import logging
 
-from realtime.utilities import realtime_logger_name
-
 from realtime.earthquake.notify_rest import notify_realtime_rest, \
     notify_shake_hazard_to_rest
 from realtime.earthquake.settings import EQ_GRID_ALGORITHM
 from realtime.earthquake.shake_hazard import ShakeHazard
 from realtime.settings import INASAFE_FORCE
+from realtime.utilities import realtime_logger_name
 
 # Initialised in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())
 
 
-def process_event(shake_id=None, grid_file=None, output_dir=None):
+def process_event(shake_id=None, grid_file=None, source_type=None,
+                  output_dir=None):
     """Process event and convert it to hazard layer
 
     :return: Return True if succeeded
@@ -32,7 +32,7 @@ def process_event(shake_id=None, grid_file=None, output_dir=None):
     try:
         shake_hazard = ShakeHazard(
             grid_file=grid_file, force_flag=force_flag, algorithm=algorithm,
-            output_dir=output_dir)
+            source_type=source_type, output_dir=output_dir)
         if shake_hazard.hazard_exists:
             LOGGER.info('Hazard layer exists: {0}'.format(
                 shake_hazard.hazard_path))

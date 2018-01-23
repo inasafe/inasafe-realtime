@@ -2,10 +2,10 @@
 
 from celery import Celery
 
-from safe.test.utilities import get_qgis_app
+from safe.test.qgis_app import qgis_app
 
 # initialize qgis_app
-QGIS_APP, CANVAS, IFACE, PARENT = get_qgis_app()
+APP, IFACE = qgis_app()
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '12/11/15'

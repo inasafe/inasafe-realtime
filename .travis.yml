@@ -6,7 +6,11 @@ python:
   - "2.7"
 
 env:
-  - ON_TRAVIS=True
+  global:
+    - ON_TRAVIS=True
+  matrix:
+    - TASK_ALWAYS_EAGER=True
+    - TASK_ALWAYS_EAGER=False
 
 virtualenv:
   system_site_packages: true
@@ -31,6 +35,7 @@ install:
   - make build
   - make up
   - make status
+  - cat docker-compose.override.yml
   - popd
 
 script:
@@ -51,5 +56,7 @@ after_success:
   # Replace parent directory to travis directory, because we are running
   # coverage using docker mount
   - sed -i 's/home\/app/home\/travis\/build\/inasafe\/inasafe-realtime\/src/g' .coverage
+  - cat .coverage
   - codecov
+  - cat coverage.xml
   - popd

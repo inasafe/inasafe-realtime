@@ -4,7 +4,9 @@ venv
 .DS_Store
 *.pyc
 
-
+floodmaps
+shakemaps
+ashmaps
 .coverage
 /inasafe/
 /deployment/docker-realtime/realtime-rest.env
