@@ -6,14 +6,14 @@ import re
 from datetime import datetime
 
 import pytz
-from realtime.exceptions import EventIdError
-from realtime.utilities import realtime_logger_name
 
+from realtime.exceptions import EventIdError
 from realtime.flood.data_source import load_data_api_object
 from realtime.flood.flood_hazard import FloodHazard
 from realtime.flood.notify_rest import notify_flood_hazard_to_rest
 from realtime.flood.settings import FLOOD_ID_FORMAT, FLOOD_ID_REGEXP, \
     FLOOD_HAZARD_DEFAULT_BASENAME
+from realtime.utilities import realtime_logger_name
 
 # Initialized in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -24,13 +24,15 @@ def process_event(
         output_dir=None, data_source=None,
         data_source_args=None):
     """Process floodmap event.
-
     :param working_dir: Path for processing results
     :type working_dir: str
 
     :param flood_id: (Optional) if provided, will use the value for
         id
     :type flood_id: str
+
+    :param time_zone: Timezone of Flood Hazard
+    :type time_zone: pytz.tzinfo.DstTzInfo
 
     :param output_dir: (Optional) if provided, will use the value for
         output directory
@@ -41,8 +43,6 @@ def process_event(
 
     :param data_source_args: Supply this for Data Source API method
     :type data_source_args: dict
-
-    :param
     """
 
     event_time = None

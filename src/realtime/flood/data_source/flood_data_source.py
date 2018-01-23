@@ -3,6 +3,7 @@ import json
 import logging
 
 import requests
+
 from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'

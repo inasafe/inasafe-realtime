@@ -12,6 +12,14 @@ services:
       - ../floodmaps:/home/realtime/floodmaps
       - ../ashmaps:/home/realtime/ashmaps
       - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
+
+    {% if 'environment' in inasafe_realtime_worker %}
+
+    environment:
+        - TASK_ALWAYS_EAGER={{ inasafe_realtime_worker.environment.task_always_eager }}
+
+    {% endif %}
+
     ports:
       # expose ssh ports
       - "{{ docker_port_forward.inasafe_realtime.ssh }}:22"
@@ -26,6 +34,14 @@ services:
       - ../src/realtime:/home/app/realtime
       - ../shakemaps:/home/realtime/shakemaps
       - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
+
+    {% if 'environment' in inasafe_realtime_worker %}
+
+    environment:
+        - TASK_ALWAYS_EAGER={{ inasafe_realtime_worker.environment.task_always_eager }}
+
+    {% endif %}
+
     ports:
       # expose ssh ports
       - "{{ docker_port_forward.inasafe_shakemap_monitor.ssh }}:22"
@@ -40,6 +56,14 @@ services:
       - ../src/realtime:/home/app/realtime
       - ../shakemaps-corrected:/home/realtime/shakemaps
       - ./pycharm-helpers/inasafe-realtime:/root/.pycharm_helpers
+
+    {% if 'environment' in inasafe_realtime_worker %}
+
+    environment:
+        - TASK_ALWAYS_EAGER={{ inasafe_realtime_worker.environment.task_always_eager }}
+
+    {% endif %}
+
     ports:
       # expose ssh ports
       - "{{ docker_port_forward.inasafe_shakemap_corrected_monitor.ssh }}:22"

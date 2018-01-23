@@ -10,12 +10,13 @@ import re
 import sys
 
 import pyinotify
-from realtime.utilities import realtime_logger_name
 from tzlocal import get_localzone
 
 from realtime.earthquake.notify_rest import notify_realtime_rest
 from realtime.earthquake.process_event import process_event
-from realtime.earthquake.settings import GRID_FILE_PATTERN, INASAFE_LOCALE
+from realtime.earthquake.settings import GRID_FILE_PATTERN, \
+    EQ_GRID_SOURCE_TYPE
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha "lucernae" <lana.pcfre@gmail.com>'
 __date__ = '03/09/15'
@@ -86,11 +87,10 @@ def watch_shakemaps_push(
 if __name__ == '__main__':
     working_dir = sys.argv[1]
 
-    locale_option = INASAFE_LOCALE
-
     def process_shakemap(shake_id=None, grid_file=None):
         """Process a given shake_id for realtime shake"""
         LOGGER.info('Inotify received new shakemap')
+        source_type = EQ_GRID_SOURCE_TYPE
         tz = get_localzone()
         notify_realtime_rest(datetime.datetime.now(tz=tz))
         done = False
@@ -98,7 +98,8 @@ if __name__ == '__main__':
             try:
                 done = process_event(
                     shake_id=shake_id,
-                    grid_file=grid_file)
+                    grid_file=grid_file,
+                    source_type=source_type)
             except BaseException as e:  # pylint: disable=W0702
                 LOGGER.info('Process event failed')
                 LOGGER.exception(e)

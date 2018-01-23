@@ -46,7 +46,6 @@ RUN fc-cache -f -v
 ADD REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip install -r REQUIREMENTS.txt
 
-ADD run-env-linux.sh /run-env-linux.sh
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 

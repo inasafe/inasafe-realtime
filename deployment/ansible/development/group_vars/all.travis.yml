@@ -32,13 +32,15 @@ inasafe:
   depth: 1
 
 inasafe_realtime_worker:
-  command: /docker-entrypoint.sh dev
+  command: /docker-entrypoint.sh prod inasafe-realtime-worker
+  environment:
+    task_always_eager: "${TASK_ALWAYS_EAGER}"
 
 inasafe_shakemap_monitor:
-  command: /docker-entrypoint.sh dev
+  command: /docker-entrypoint.sh prod inasafe-realtime-monitor
 
 inasafe_shakemap_corrected_monitor:
-  command: /docker-entrypoint.sh dev
+  command: /docker-entrypoint.sh prod inasafe-realtime-monitor
 
 docker_port_forward:
   inasafe_realtime:
@@ -49,7 +51,7 @@ docker_port_forward:
     ssh: *inasafe_shakemap_corrected_monitor_ssh_port
 
 realtime_rest_api:
-  host: *inasafe_realtime_host_ip
-  port: 61102
+  host: localhost
+  port: 8000
   user: test@realtime.inasafe.org
   password: thepaassword

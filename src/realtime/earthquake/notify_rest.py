@@ -4,11 +4,11 @@ import logging
 
 import pytz
 import requests
+
 from realtime.exceptions import RESTRequestFailedError
 from realtime.push_rest import InaSAFEDjangoREST
-from realtime.utilities import realtime_logger_name
-
 from realtime.settings import INASAFE_REALTIME_DATETIME_FORMAT
+from realtime.utilities import realtime_logger_name
 
 __author__ = 'Rizky Maulana Nugraha "lucernae" <lana.pcfre@gmail.com>'
 __date__ = '07/07/15'

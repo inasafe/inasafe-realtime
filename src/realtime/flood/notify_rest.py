@@ -2,6 +2,7 @@
 import logging
 
 import requests
+
 from realtime.exceptions import RESTRequestFailedError
 from realtime.push_rest import (
     InaSAFEDjangoREST)

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="US-ASCII" standalone="yes"?>
-<shakemap_grid xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xmlns="http://inatews.bmkg.go.id/shakemap"
-               event_id="20161214005704" shakemap_id="20161214005704"
-               shakemap_version="1" code_version="3.5"
-               process_timestamp="2016-12-13T18:39:33Z"
-               shakemap_originator="us" map_status="RELEASED"
-               shakemap_event_type="ACTUAL">
+<shakemap_grid
+        xmlns="http://inatews.bmkg.go.id/shakemap"
+        event_id="20161214005704" shakemap_id="20161214005704"
+        shakemap_version="1" code_version="3.5"
+        process_timestamp="2016-12-13T18:39:33Z"
+        shakemap_originator="us" map_status="RELEASED"
+        shakemap_event_type="ACTUAL">
 <event magnitude="3.5" depth="3" lat="4.920000" lon="96.550000" event_timestamp="2016-12-14T00:57:04WIB" event_network="" event_description="Aceh " />
 <grid_specification lon_min="95.300000" lat_min="3.675000" lon_max="97.800000" lat_max="6.165000" nominal_lon_spacing="0.025000" nominal_lat_spacing="0.024900" nlon="101" nlat="101" />
 <grid_field index="1" name="LON" units="dd" />

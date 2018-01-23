@@ -17,6 +17,8 @@ services:
       - ../src:/home/app
       - ../floodmaps:/home/realtime/floodmaps
       - ../ashmaps:/home/realtime/ashmaps
+      - ../shakemaps:/home/realtime/shakemaps
+      - ../shakemaps-corrected:/home/realtime/shakemaps-corrected
     environment:
       - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
       - DISPLAY=:99
@@ -24,6 +26,9 @@ services:
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      - ASHMAPS_DIR=/home/realtime/ashmaps
     links:
       - rabbitmq
     network_mode: bridge
@@ -45,6 +50,9 @@ services:
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      - ASHMAPS_DIR=/home/realtime/ashmaps
     network_mode: bridge
 
   inasafe-shakemap-corrected-monitor:
@@ -64,4 +72,7 @@ services:
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      - ASHMAPS_DIR=/home/realtime/ashmaps
     network_mode: bridge

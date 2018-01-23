@@ -5,10 +5,10 @@ from shutil import copy
 
 from PyQt4.QtCore import QObject
 from qgis.core import QgsVectorLayer
-from realtime.utilities import realtime_logger_name
 
 from realtime.flood.localizations import FloodHazardString
 from realtime.flood.settings import FLOOD_HAZARD_DEFAULT_BASENAME
+from realtime.utilities import realtime_logger_name
 from safe.utilities.keyword_io import KeywordIO
 
 LOGGER = logging.getLogger(realtime_logger_name())

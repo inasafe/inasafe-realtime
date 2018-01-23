@@ -5,19 +5,18 @@ import os
 import shutil
 import unittest
 from datetime import datetime
-from threading import Thread
 
 import mock
 import pytz
-from http.server import HTTPServer
-from realtime import settings
-from realtime.utilities import realtime_logger_name
 
+from realtime import settings
 from realtime.flood.data_source import DATA_SOURCE_DICT
 from realtime.flood.flood_hazard import FloodHazard
 from realtime.flood.process_events import process_event
 from realtime.settings import ON_TRAVIS
-from realtime.tests.mock_server import InaSAFEDjangoMockServerHandler
+from realtime.tests.mock_server import InaSAFEDjangoMockServerHandler, \
+    InaSAFEDjangoMockServer
+from realtime.utilities import realtime_logger_name
 from safe.test.qgis_app import qgis_app
 from safe.utilities.keyword_io import KeywordIO
 
@@ -44,6 +43,11 @@ class TestFloodHazard(unittest.TestCase):
             'http://{host}:{port}/realtime/api/v1').format(
             host=self.mock_host, port=self.mock_port)
 
+        # # Configure Mock Server
+        self.mock_server = InaSAFEDjangoMockServer(
+            self.mock_host, self.mock_port, InaSAFEDjangoMockServerHandler)
+        self.mock_server.start_server()
+
     def tearDown(self):
         if ON_TRAVIS:
             try:
@@ -51,8 +55,11 @@ class TestFloodHazard(unittest.TestCase):
             except BaseException:
                 pass
 
-            # restore url
-            settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
+        # restore url
+        settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
+
+        # shutdown mock server
+        self.mock_server.shutdown()
 
     def test_geojson_conversion(self):
         """Test Shake Grid conversion to InaSAFE Hazard Layer."""
@@ -110,13 +117,6 @@ class TestFloodHazard(unittest.TestCase):
 
     def test_process_event_file(self):
         """Test process event executions from hazard file."""
-        # Configure Mock Server
-        mock_server = HTTPServer(
-            (self.mock_host, self.mock_port), InaSAFEDjangoMockServerHandler)
-        mock_server_thread = Thread(target=mock_server.serve_forever)
-        mock_server_thread.setDaemon(True)
-        mock_server_thread.start()
-
         ret_val = process_event(
             working_dir=self.output_dir,
             flood_id='2017022105-6-rw',
@@ -126,19 +126,10 @@ class TestFloodHazard(unittest.TestCase):
                 'filename': self.fixture_path('flood_data.json')
             })
 
-        mock_server.shutdown()
-
         self.assertTrue(ret_val)
 
     def test_process_event_petabencana(self):
         """Test process event executions from mocked PetaBencana API."""
-        # Configure Mock Server
-        mock_server = HTTPServer(
-            (self.mock_host, self.mock_port), InaSAFEDjangoMockServerHandler)
-        mock_server_thread = Thread(target=mock_server.serve_forever)
-        mock_server_thread.setDaemon(True)
-        mock_server_thread.start()
-
         # patch mock response
         # We are using python requests, so we can mock the
         # requests object.
@@ -164,7 +155,5 @@ class TestFloodHazard(unittest.TestCase):
                     'duration': 6,
                     'level': 'rw'
                 })
-
-        mock_server.shutdown()
 
         self.assertTrue(ret_val)
