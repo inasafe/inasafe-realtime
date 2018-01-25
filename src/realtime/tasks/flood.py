@@ -21,7 +21,7 @@ LOGGER = logging.getLogger(realtime_logger_name())
 def process_flood(
         flood_id=None, time_zone=pytz.timezone('Asia/Jakarta'),
         data_source='petabencana', data_source_args=None):
-    """
+    """Celery task for flood hazard.
     :param flood_id: (Optional) if provided, will use the value for
         id
     :type flood_id: str

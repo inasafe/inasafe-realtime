@@ -20,7 +20,7 @@ LOGGER = logging.getLogger(realtime_logger_name())
 @app.task(
     name='realtime.tasks.earthquake.process_shake', queue='inasafe-realtime')
 def process_shake(event_id=None, grid_file=None, source_type='initial'):
-    """
+    """Celery task for shake hazard.
 
     :param event_id: Event id of shake
     :type event_id: str
@@ -29,7 +29,8 @@ def process_shake(event_id=None, grid_file=None, source_type='initial'):
         directory
     :type grid_file: str
 
-    :param source_type: The type of grid source
+    :param source_type: The type of grid source. Available value:
+        initial, post-processed
     :type source_type: str
 
     :return:

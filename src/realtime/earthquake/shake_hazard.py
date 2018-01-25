@@ -6,8 +6,8 @@ from PyQt4.QtCore import QObject
 from qgis.core import QgsRasterLayer
 
 from realtime.earthquake.localizations import ShakeHazardString
-from realtime.earthquake.settings import EQ_GRID_SOURCE_TYPE
-from realtime.utilities import get_grid_source, realtime_logger_name
+from realtime.earthquake.settings import EQ_GRID_SOURCE_TYPE, EQ_GRID_SOURCE
+from realtime.utilities import realtime_logger_name
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid, USE_ASCII
 
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -30,6 +30,10 @@ class ShakeHazard(QObject):
         :param algorithm: MMI generation algorithm (based on InaSAFE core)
         :type algorithm: str
 
+        :param source_type: The type of grid source. Available value:
+            initial, post-processed
+        :type source_type: str
+
         :param output_dir: optional output location
         :type output_dir: str
 
@@ -44,8 +48,10 @@ class ShakeHazard(QObject):
         if not output_basename:
             output_basename = 'hazard'
 
+        grid_source = EQ_GRID_SOURCE or self.localization.grid_source
+
         self._shake_grid = ShakeGrid(
-            '', get_grid_source(), self.grid_file,
+            '', grid_source, self.grid_file,
             output_dir=output_dir,
             output_basename=output_basename)
         self.hazard_path = self.shake_grid.mmi_to_raster(

@@ -149,7 +149,7 @@ class TestFloodCeleryTasks(unittest.TestCase):
 
     @unittest.skipIf(
         not task_always_eager,
-        'Only run this tests synchronously.'
+        'Only run this tests synchronously. '
         'Because it needs a patched PetaBencana REST API.')
     def test_process_event_petabencana(self):
         """Test celery executions for petabencana hazard source."""

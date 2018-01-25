@@ -7,7 +7,8 @@ from PyQt4.QtCore import QObject
 from qgis.core import QgsVectorLayer
 
 from realtime.flood.localizations import FloodHazardString
-from realtime.flood.settings import FLOOD_HAZARD_DEFAULT_BASENAME
+from realtime.flood.settings import FLOOD_HAZARD_DEFAULT_BASENAME, \
+    FLOOD_ID_FORMAT
 from realtime.utilities import realtime_logger_name
 from safe.utilities.keyword_io import KeywordIO
 
@@ -18,9 +19,9 @@ class FloodHazard(QObject):
     """Class placeholder for Flood hazard object."""
 
     def __init__(
-            self, flood_id, event_time, time_zone, duration, level,
-            geojson_file_path,
-            data_source, output_dir=None, output_basename=None):
+            self, event_time, time_zone, duration, level,
+            geojson_file_path, data_source,
+            flood_id=None, output_dir=None, output_basename=None):
         """Create Flood hazard event placeholder object.
 
         :param flood_id: Flood ID
@@ -55,12 +56,20 @@ class FloodHazard(QObject):
 
         super(FloodHazard, self).__init__()
         self.localization = FloodHazardString()
-        self._flood_id = flood_id
         self._event_time = event_time
         self._time_zone = time_zone
         self._duration = duration
         self._level = level
         self._data_source = data_source
+
+        if flood_id:
+            self._flood_id = flood_id
+        else:
+            self._flood_id = FLOOD_ID_FORMAT.format(
+                event_time=self.event_time,
+                duration=self.duration,
+                level=self.level)
+        self._hazard_features = 0
 
         if not output_dir:
             output_dir = os.path.dirname(geojson_file_path)
@@ -95,11 +104,6 @@ class FloodHazard(QObject):
                 *path))
 
     def copy_style(self):
-        """Copy style from the OSM resource directory to the output path.
-
-        .. versionadded: 3.3
-
-        """
         source_qml_path = self.resource_path('flood-style.qml')
         output_qml_path = self.hazard_path.replace('json', 'qml')
         LOGGER.info('Copying qml to: {0}'.format(output_qml_path))
@@ -258,5 +262,5 @@ class FloodHazard(QObject):
                 hazard_val = int(f[hazard_value_field])
                 if hazard_val >= 2:
                     self._hazard_features += 1
-            except BaseException:
+            except ValueError:
                 continue

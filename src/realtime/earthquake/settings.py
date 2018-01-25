@@ -26,6 +26,7 @@ SHAKE_TIMESTAMP_FORMAT = os.environ.get(
 
 EQ_GRID_SOURCE = os.environ.get('EQ_GRID_SOURCE')
 
+# Available value, initial and post-processed
 EQ_GRID_SOURCE_TYPE = os.environ.get('EQ_GRID_SOURCE_TYPE', 'initial')
 
 EQ_GRID_ALGORITHM = os.environ.get('EQ_GRID_ALGORITHM', USE_ASCII)

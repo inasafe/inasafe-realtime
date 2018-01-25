@@ -62,11 +62,10 @@ class TestFloodHazard(unittest.TestCase):
         self.mock_server.shutdown()
 
     def test_geojson_conversion(self):
-        """Test Shake Grid conversion to InaSAFE Hazard Layer."""
+        """Test GeoJSON conversion to InaSAFE Hazard Layer."""
         time_zone = pytz.timezone('Asia/Jakarta')
         data_source = DATA_SOURCE_DICT['petabencana']
         flood_hazard = FloodHazard(
-            flood_id='2017022105-6-rw',
             event_time=datetime(2017, 02, 21, 05, tzinfo=pytz.utc),
             time_zone=time_zone,
             duration=6,
