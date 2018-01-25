@@ -35,6 +35,7 @@ inasafe_realtime_worker:
   command: /docker-entrypoint.sh prod inasafe-realtime-worker
   environment:
     task_always_eager: "${TASK_ALWAYS_EAGER}"
+    on_travis: "${ON_TRAVIS}"
 
 inasafe_shakemap_monitor:
   command: /docker-entrypoint.sh prod inasafe-realtime-monitor

@@ -17,6 +17,19 @@ def process_event(shake_id=None, grid_file=None, source_type=None,
                   output_dir=None):
     """Process event and convert it to hazard layer
 
+    :param shake_id: (optional) Suspected shake_id (taken from folder name)
+    :type shake_id: str
+
+    :param grid_file: filepath of grid.xml
+    :type grid_file: str
+
+    :param source_type: The type of grid source. Available value:
+        initial, post-processed
+    :type source_type: str
+
+    :param output_dir: optional output location
+    :type output_dir: str
+
     :return: Return True if succeeded
     :rtype: bool
     """

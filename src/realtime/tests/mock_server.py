@@ -25,6 +25,10 @@ class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
         LOGGER.info('Mock POST Requests.')
         LOGGER.info('Request path: {0}'.format(self.path))
         self.send_response(requests.codes.ok)
+        LOGGER.info('Request body extraction.')
+        content_len = int(self.headers.getheader('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        LOGGER.info('Request body: {0}'.format(post_body))
         self.end_headers()
         return
 
@@ -32,6 +36,10 @@ class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
         LOGGER.info('Mock PUT Requests.')
         LOGGER.info('Request path: {0}'.format(self.path))
         self.send_response(requests.codes.ok)
+        LOGGER.info('Request body extraction.')
+        content_len = int(self.headers.getheader('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        LOGGER.info('Request body: {0}'.format(post_body))
         self.end_headers()
         return
 
@@ -73,7 +81,7 @@ class InaSAFEDjangoMockServer(object):
 
                 # attempt to shutdown pid
                 os.kill(pid_number, signal.SIGTERM)
-            except ValueError:
+            except (ValueError, OverflowError):
                 pass
 
         self.thread.start()

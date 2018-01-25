@@ -33,6 +33,10 @@ inasafe:
 
 inasafe_realtime_worker:
   command: /docker-entrypoint.sh dev
+# Uncomment and edit the following lines to switch celery mode
+#  environment:
+#    task_always_eager: "${TASK_ALWAYS_EAGER}"
+#    on_travis: "${ON_TRAVIS}"
 
 inasafe_shakemap_monitor:
   command: /docker-entrypoint.sh dev

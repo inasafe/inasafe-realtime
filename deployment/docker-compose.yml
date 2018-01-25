@@ -23,6 +23,8 @@ services:
       - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
       - DISPLAY=:99
       - C_FORCE_ROOT=True
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
@@ -47,6 +49,8 @@ services:
       - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
       - DISPLAY=:99
       - C_FORCE_ROOT=True
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime
@@ -69,6 +73,8 @@ services:
       - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
       - DISPLAY=:99
       - C_FORCE_ROOT=True
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
       - INASAFE_LOCALE=id
       - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
       - INASAFE_WORK_DIR=/home/realtime

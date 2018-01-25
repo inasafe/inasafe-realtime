@@ -54,7 +54,7 @@ def process_event(
         duration = 6
         level = 'rw'
         flood_id = FLOOD_ID_FORMAT.format(
-            time=event_time, duration=duration, level=level)
+            event_time=event_time, duration=duration, level=level)
     else:
         # validate flood id
         if not validate_flood_id(flood_id):
@@ -103,9 +103,8 @@ def process_event(
     # Convert into InaSAFE Layer
     try:
         flood_hazard = FloodHazard(
-            flood_id, event_time, time_zone, duration, level,
-            geojson_file_path,
-            data_api)
+            event_time, time_zone, duration, level,
+            geojson_file_path, data_api)
 
         if flood_hazard.hazard_exists:
             LOGGER.info('Hazard layer exists: {0}'.format(
@@ -160,8 +159,8 @@ def parse_flood_id(flood_id):
     month = int(result.group('month'))
     day = int(result.group('day'))
     hour = int(result.group('hour'))
-    duration = int(result.group('_duration'))
-    level = result.group('_level')
+    duration = int(result.group('duration'))
+    level = result.group('level')
 
     event_time = datetime(year, month, day, hour, tzinfo=pytz.utc)
     return event_time, duration, level

@@ -157,12 +157,18 @@ In addition to run configuration in ```Run``` mode, you can also run it in
 ```Debug``` mode by clicking the Debug button. This allows you to use PyCharm
 debugging features like breakpoints, etc.
 
-To test you shakemap monitor, you need drop a shake grid.xml file into
+To test your shakemap monitor, you need drop a shake grid.xml file into
 ‘shakemaps’ directory in this kind of directory structure:
 shakemaps/\<YYMMDDHHmmss>/grid.xml
 
 If it’s working properly, the worker will pick up the grid.xml,
 and process it.
+
+You can run unittests in PyCharm. To do so, highlight your
+test files, methods or packages and open context menu, then
+click Run unittests...
+
+Tests that runs in PyCharm will run in synchronous mode.
 
 ## Step 6: Production image build
 
@@ -171,3 +177,63 @@ Will be implemented later
 ## Step 7: Publishing updated images to production
 
 Will be implemented later
+
+
+# Advanced Guide
+
+## Change celery async mode
+
+InaSAFE Realtime Hazard services uses Celery to handle loads. Because
+of the way celery architecture works, it was optimized for asynchronous
+job. However, sometimes debugging only functional usage in synchronous
+mode is preferred. That is why the default pycharm unittests run in
+synchronous mode. To switch into async mode, you can put additional
+configuration in your `all.yml` file like this:
+
+```
+inasafe_realtime_worker:
+  environment:
+    task_always_eager: True
+    on_travis: False
+```
+
+Explanation for above: put another yaml key called `task_always_eager`
+and `on_travis` in that `inasafe_realtime_worker.environment` tree.
+
+After that, run again `make setup-ansible` to refresh your new configuration
+
+In celery async mode, your test will hang while waiting for task results.
+Your task can only be executed by the worker, so make sure to start
+`Celery Workers` Run configuration before running your tests.
+
+## Configuring mock InaSAFE Django server
+
+InaSAFE Realtime Hazard services will try to communicate with InaSAFE Django
+via REST API. Your test will fail if you do not put correct credentials
+for the rest API. Yaml configuration tree for this is in:
+
+```
+realtime_rest_api:
+  host: *inasafe_realtime_host_ip
+  port: 61102
+  user: test@realtime.inasafe.org
+  password: thepaassword
+```
+
+Change the value into your actual InaSAFE Django test instance.
+
+If you don't want to use real django server, you can use preconfigured
+mock server. Change above value into this:
+
+```
+realtime_rest_api:
+  host: localhost
+  port: 8000
+  user: test@realtime.inasafe.org
+  password: thepaassword
+```
+
+Then run `make setup-ansible` to refresh your configuration.
+
+Note that this is a mock server that only able to test REST request but
+don't actually check the content and always returned HTTP 200 code (OK).

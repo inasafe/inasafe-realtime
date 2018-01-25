@@ -27,6 +27,9 @@ up:
 	@echo "--------------------------"
 	@docker-compose -p $(PROJECT_ID) up -d
 
+realtime-worker:
+	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker /docker-entrypoint.sh prod inasafe-realtime-worker
+
 worker-shell:
 	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker /bin/bash
 
