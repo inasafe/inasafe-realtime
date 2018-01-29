@@ -97,8 +97,9 @@ class AshEvent(QObject):
         if event_time:
             self.time = event_time
         else:
-            self.time = datetime.datetime.now().replace(
-                tzinfo=pytz.timezone('Asia/Jakarta'))
+            utc_now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+            zone = pytz.timezone('Asia/Jakarta')
+            self.time = utc_now.astimezone(zone)
 
         # Check timezone awareness
         if not self.time.tzinfo:

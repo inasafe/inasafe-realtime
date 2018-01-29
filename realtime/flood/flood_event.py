@@ -104,6 +104,7 @@ class FloodEvent(QObject):
             hour = int(result.group('hour'))
             duration = int(result.group('duration'))
             level = result.group('level')
+            self.flood_data_source = 'petabencana'
         else:
             self.flood_data_source = 'petabencana'
 

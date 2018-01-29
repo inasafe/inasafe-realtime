@@ -7,6 +7,7 @@ import shutil
 
 import datetime
 
+import pytz
 from pytz import timezone
 
 from realtime.ash.ash_event import AshEvent
@@ -31,8 +32,8 @@ class TestAshTemplate(unittest.TestCase):
             volcano_name='Nama Gunung',
             volcano_location=[124.2, 6.9],
             eruption_height=7000,
-            event_time=datetime.datetime.now().replace(
-                tzinfo=timezone('Asia/Jakarta')),
+            event_time=datetime.datetime.utcnow().replace(
+                tzinfo=pytz.utc).astimezone('Asia/Jakarta'),
             region='East Java',
             alert_level='Siaga',
             hazard_path=self.data_dir('hazard.tif'))
