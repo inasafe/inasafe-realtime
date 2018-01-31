@@ -16,22 +16,6 @@ RUN dpkg-divert --local --rename --add /sbin/initctl
 
 RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
-# This section taken on 2 July 2015 from
-# https://docs.docker.com/examples/running_ssh_service/
-# Sudo is needed by pycharm when it tries to pip install packages
-RUN apt-get update -y; apt-get install -y --force-yes openssh-server sudo
-RUN mkdir /var/run/sshd
-RUN echo 'root:docker' | chpasswd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
-
-# End of cut & paste section
-
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
 RUN apt-get -y update; apt-get -y --force-yes install git xvfb python-setuptools python-dev libssl-dev libffi-dev python-scipy
@@ -49,14 +33,17 @@ RUN pip install -r REQUIREMENTS.txt
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-# Environment variable
-ENV C_FORCE_ROOT="True" \
-	PYTHONPATH="/home/app" \
-	DISPLAY=":99" \
-	INASAFE_HEADLESS_BROKER_HOST="amqp://guest:guest@rabbitmq:5672/" \
-	QGIS_LOG_FILE="/tmp/inasafe/realtime/logs/qgis.log" \
-	QGIS_DEBUG_FILE="/tmp/inasafe/realtime/logs/qgis-debug.log" \
-	QGIS_DEBUG="0" \
-	INASAFE_WORK_DIR="/tmp/inasafe"
+# Install InaSAFE Core
+RUN mkdir -p /usr/share/qgis/python/plugins
+WORKDIR /usr/share/qgis/python/plugins
+ARG INASAFE_CORE_TAG=develop
+RUN git clone --branch ${INASAFE_CORE_TAG} --depth 1 https://github.com/inasafe/inasafe.git inasafe
 
-CMD ["/docker-entrypoint.sh", "prod", "inasafe-headless"]
+# Install InaSAFE Realtime Hazard
+RUN mkdir -p /home/app
+WORKDIR /home/app
+ARG INASAFE_REALTIME_TAG=develop
+RUN git clone --branch ${INASAFE_REALTIME_TAG} --depth 1 https://github.com/inasafe/inasafe-realtime.git source
+RUN ln -s source/src/realtime realtime
+
+CMD ["/docker-entrypoint.sh", "prod", "inasafe-realtime-worker"]
