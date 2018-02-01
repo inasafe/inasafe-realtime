@@ -23,6 +23,7 @@ def process_ash(
         volcano_location=None,
         eruption_height=None,
         vent_height=None,
+        forecast_duration=None,
         region=None,
         alert_level=None,
         hazard_url=None):
@@ -43,6 +44,7 @@ def process_ash(
             volcano_location=volcano_location,
             eruption_height=eruption_height,
             vent_height=vent_height,
+            forecast_duration=forecast_duration,
             region=region,
             alert_level=alert_level,
             hazard_url=hazard_url)

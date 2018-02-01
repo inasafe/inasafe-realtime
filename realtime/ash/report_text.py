@@ -16,7 +16,8 @@ class ReportText(QObject):
             self,
             volcano_name=None, time=None, region=None,
             alert_level=None, longitude_string=None, latitude_string=None,
-            eruption_height=0, vent_height=0, elapsed_hour=None,
+            eruption_height=0, vent_height=0,
+            forecast_duration=None,elapsed_hour=None,
             elapsed_minute=None, version=None):
         """Token string for QPT template"""
 
@@ -33,6 +34,7 @@ class ReportText(QObject):
             'event-latitude': latitude_string,
             'event-eruption-height': str(eruption_height),
             'event-vent-height': str(vent_height),
+            'event-forecast-duration': str(forecast_duration),
             'event-eruption-height-asl': str(eruption_height_asl),
             'event-elapsed-hour': str(elapsed_hour),
             'event-elapsed-minute': str(elapsed_minute),
