@@ -60,6 +60,7 @@ class AshEvent(QObject):
             volcano_location=None,
             eruption_height=None,
             vent_height=None,
+            forecast_duration=None,
             region=None,
             alert_level=None,
             locale=None,
@@ -79,6 +80,8 @@ class AshEvent(QObject):
         :param volcano_name:
         :param volcano_location:
         :param eruption_height:
+        :param vent_height:
+        :param forecast_duration:
         :param region:
         :param alert_level:
         :param locale:
@@ -115,6 +118,7 @@ class AshEvent(QObject):
             self.latitude = None
         self.eruption_height = eruption_height
         self.vent_height = vent_height
+        self.forecast_duration = forecast_duration
         self.region = region
         self.alert_level = alert_level
         self.locale = locale
@@ -273,6 +277,7 @@ class AshEvent(QObject):
             latitude_string=latitude_string,
             eruption_height=self.eruption_height,
             vent_height=self.vent_height,
+            forecast_duration=self.forecast_duration,
             elapsed_hour=elapsed_hour,
             elapsed_minute=elapsed_minute,
             version=get_version()
