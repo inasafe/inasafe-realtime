@@ -71,24 +71,30 @@ class ReportText(QObject):
             'content-disclaimer': self.tr(
                 'The impact estimation is automatically generated and only '
                 'takes into account the population, cities and land cover '
-                'affected by different levels of volcanic ash fallout at '
-                'surface level. The estimate is based on volcanic ash '
-                'fallout data from Badan Geologi, population count data '
-                'derived by DMInnovation from worldpop.org.uk, place '
-                'information and land cover classification data provided by '
-                'Indonesian Geospatial Portal at http://portal.ina-sdi.or.id '
-                'and software developed by BNPB. Limitation in the estimates '
-                'of surface fallout, population and place names datasets may '
-                'result in a significant misrepresentation of the '
-                'on-the-surface situation in the figures shown here. '
-                'Consequently, decisions should not be made solely on the '
-                'information presented here and should always be verified '
-                'by ground truthing and other reliable information sources.'
+                'affected by different levels of volcanic ash fallout on the '
+                'ground. The estimate is based on volcanic ash fallout data '
+                'from Badan Geologi, population count data derived by '
+                'DMInnovation from worldpop.org.uk, place information and '
+                'land cover classification data provided by Indonesian '
+                'Geospatial Portal at http://portal.ina-sdi.or.id and '
+                'software developed by BNPB. Limitation in the estimates of '
+                'surface fallout, population and place names datasets may '
+                'result in a significant misrepresentation of the on-the-'
+                'surface situation in the figures shown here. Consequently, '
+                'decisions should not be made solely on the information '
+                'presented here and should always be verified by ground '
+                'truthing and other reliable information sources.'
             ),
             'content-notes': self.tr(
                 'This report was created using InaSAFE version {version}. '
                 'Visit http://inasafe.org for more information. ').format(
                     version=version),
+            'content-airport-notes': self.tr(
+                'This report does not include the potential impact of '
+                'airborne volcanic ash on aviation services. Nearby airports '
+                'may already be affected or become affected in future by ash '
+                'fall on ground or other hazards.'
+            ),
             'content-support': self.tr(
                 'Supported by DMInnovation, Geoscience Australia and '
                 'the World Bank-GFDRR')
@@ -187,5 +193,7 @@ class ReportText(QObject):
             'name_header': self.tr('Name'),
             'affected_header': self.tr('People / Airport affected'),
             'fallout_header': self.tr('Fallout Level'),
-            'empty_rows': self.tr('No nearby cities or airport affected')
+            'empty_rows': self.tr('No nearby cities or airports are affected '
+                                  'by forecast ash fall on the ground in this '
+                                  'report')
         }
