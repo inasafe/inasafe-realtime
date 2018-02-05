@@ -1,6 +1,7 @@
 # coding=utf-8
 
 from PyQt4.QtCore import QObject
+from datetime import timedelta
 
 __author__ = 'Rizky Maulana Nugraha <lana.pcfre@gmail.com>'
 __date__ = '2/11/2017'
@@ -17,11 +18,12 @@ class ReportText(QObject):
             volcano_name=None, time=None, region=None,
             alert_level=None, longitude_string=None, latitude_string=None,
             eruption_height=0, vent_height=0,
-            forecast_duration=None,elapsed_hour=None,
+            forecast_duration=None, elapsed_hour=None,
             elapsed_minute=None, version=None):
         """Token string for QPT template"""
 
         eruption_height_asl = eruption_height + vent_height
+        model_expire = time + timedelta(days=forecast_duration)
 
         event = {
             # This section is from event variable
@@ -64,6 +66,15 @@ class ReportText(QObject):
                 'Elapsed time since event: '
                 '{hour} hour(s) and {minute} minute(s)').format(
                     hour=elapsed_hour, minute=elapsed_minute),
+            'report-model-duration': self.tr(
+                'Model duration: {duration} day(s)').format(
+                duration=forecast_duration
+            ),
+            'report-model-expire': self.tr(
+                'Report expires: {time_expire:%-d-%b-%Y %H:%M:%S}'
+            ).format(
+                time_expire=model_expire
+            ),
             'header-impact-table': self.tr(
                 'Potential impact at each fallout level'),
             'header-nearby-table': self.tr('Nearby places'),
