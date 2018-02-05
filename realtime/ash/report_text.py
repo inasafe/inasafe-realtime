@@ -37,6 +37,8 @@ class ReportText(QObject):
             'event-eruption-height': str(eruption_height),
             'event-vent-height': str(vent_height),
             'event-forecast-duration': str(forecast_duration),
+            'event-model-expire': self.tr('{time:%-d-%b-%Y %H:%M:%S}').format(
+                time=model_expire),
             'event-eruption-height-asl': str(eruption_height_asl),
             'event-elapsed-hour': str(elapsed_hour),
             'event-elapsed-minute': str(elapsed_minute),
@@ -71,9 +73,10 @@ class ReportText(QObject):
                 duration=forecast_duration
             ),
             'report-model-expire': self.tr(
-                'Report expires: {time_expire:%-d-%b-%Y %H:%M:%S}'
-            ).format(
-                time_expire=model_expire
+                'Report expires: {time_expire:%-d-%b-%Y %H:%M:%S} '
+                '{zone} {time_expire:%z}').format(
+                time_expire=model_expire,
+                zone=model_expire.tzinfo.zone
             ),
             'header-impact-table': self.tr(
                 'Potential impact at each fallout level'),
