@@ -28,31 +28,31 @@ up:
 	@docker-compose -p $(PROJECT_ID) up -d
 
 realtime-worker:
-	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker /docker-entrypoint.sh prod inasafe-realtime-worker
+	@docker-compose -p $(PROJECT_ID) exec worker /docker-entrypoint.sh prod worker
 
 worker-shell:
-	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker /bin/bash
+	@docker-compose -p $(PROJECT_ID) exec worker /bin/bash
 
 worker-logs:
-	@docker-compose -p $(PROJECT_ID) logs -f --tail=30 inasafe-realtime-worker
+	@docker-compose -p $(PROJECT_ID) logs -f --tail=30 worker
 
 shakemap-monitor-shell:
-	@docker-compose -p $(PROJECT_ID) exec inasafe-shakemap-monitor /bin/bash
+	@docker-compose -p $(PROJECT_ID) exec shakemap-monitor /bin/bash
 
 shakemap-monitor-logs:
-	@docker-compose -p $(PROJECT_ID) logs -f --tail=30 inasafe-shakemap-monitor
+	@docker-compose -p $(PROJECT_ID) logs -f --tail=30 shakemap-monitor
 
 package-tests:
-	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker python -m unittest discover -s realtime -v
+	@docker-compose -p $(PROJECT_ID) exec worker python -m unittest discover -s realtime -v
 
 coverage-tests:
-	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v
+	@docker-compose -p $(PROJECT_ID) exec worker coverage run --branch --source=realtime -m unittest discover -s realtime -v
 
 celery-async-tests:
-	@docker-compose -p $(PROJECT_ID) exec inasafe-realtime-worker python -m unittest discover -s realtime/tasks -v
+	@docker-compose -p $(PROJECT_ID) exec worker python -m unittest discover -s realtime/tasks -v
 
 travis-coverage-tests:
-	@-docker-compose -p $(PROJECT_ID) exec `bash <(curl -s https://codecov.io/env)` inasafe-realtime-worker coverage run --branch --source=realtime -m unittest discover -s realtime -v && codecov
+	@-docker-compose -p $(PROJECT_ID) exec `bash <(curl -s https://codecov.io/env)` worker coverage run --branch --source=realtime -m unittest discover -s realtime -v && codecov
 
 check-flake8:
 	@flake8 ../src/
