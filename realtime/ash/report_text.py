@@ -86,11 +86,7 @@ class ReportText(QObject):
                 'The impact estimation is automatically generated and only '
                 'takes into account the population, cities and land cover '
                 'affected by different levels of volcanic ash fallout on the '
-                'ground. The estimation does not include the potential impact '
-                'of airborne volcanic ash on aviation services. Nearby '
-                'airports may already be affected or become affected in '
-                'future by ash fall on the ground or by other hazards.The '
-                'estimate is based on volcanic ash fallout data '
+                'ground. The estimate is based on volcanic ash fallout data '
                 'from Badan Geologi, population count data derived by '
                 'DMInnovation from worldpop.org.uk, place information and '
                 'land cover classification data provided by Indonesian '
@@ -107,6 +103,12 @@ class ReportText(QObject):
                 'This report was created using InaSAFE version {version}. '
                 'Visit http://inasafe.org for more information. ').format(
                     version=version),
+            'content-airport-notes': self.tr(
+                'This report does not include the potential impact of '
+                'airborne volcanic ash on aviation services. Nearby airports '
+                'may already be affected or become affected in future by ash '
+                'fall on ground or other hazards.'
+            ),
             'content-support': self.tr(
                 'Supported by DMInnovation, Geoscience Australia and '
                 'the World Bank-GFDRR')
