@@ -50,13 +50,5 @@ ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 # Environment variable
-ENV C_FORCE_ROOT="True" \
-	PYTHONPATH="/home/app" \
-	DISPLAY=":99" \
-	INASAFE_HEADLESS_BROKER_HOST="amqp://guest:guest@rabbitmq:5672/" \
-	QGIS_LOG_FILE="/tmp/inasafe/realtime/logs/qgis.log" \
-	QGIS_DEBUG_FILE="/tmp/inasafe/realtime/logs/qgis-debug.log" \
-	QGIS_DEBUG="0" \
-	INASAFE_WORK_DIR="/tmp/inasafe"
 
 CMD ["/docker-entrypoint.sh", "prod", "inasafe-headless"]
