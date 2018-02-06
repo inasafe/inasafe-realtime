@@ -4,7 +4,7 @@
 		<style>
 			table{
 				border-collapse: collapse;
-				font-size:14px;
+				font-size:12px;
 				font-family: "Ubuntu";
 			}
 
@@ -17,31 +17,31 @@
 				font-weight:bold;
 				width:15.5%;
 				background-color:#0F74BC;
-				text-align:left;
+				text-align:center;
 			}
 			.lv2{
 				font-weight:bold;
 				width:15.5%;
 				background-color:#00ADEF;
-				text-align:left;
+				text-align:center;
 			}
 			.lv3{
 				font-weight:bold;
 				width:15.5%;
 				background-color:#FFF004;
-				text-align:left;
+				text-align:center;
 			}
 			.lv4{
 				font-weight:bold;
 				width:15.5%;
 				background-color:#FCB040;
-				text-align:left;
+				text-align:center;
 			}
 			.lv5{
 				font-weight:bold;
 				width:15.5%;
 				background-color:#E32031;
-				text-align:left;
+				text-align:center;
 			}
 			.top{
 				vertical-align:top;
@@ -50,7 +50,7 @@
 	</head>
 	<body>
 		<table width="100%">
-			<tr>
+			<tr style="font-size: 14px;">
 				{% for h in table_header %}
 					{% if loop.first %}
 						<th width="22.5%">
@@ -62,16 +62,16 @@
 			</tr>
 			<tr style="background-color:#f2f2f2">
 				<td>{{ affected_header|safe }}</td>
-				<td style="font-weight:bold">{{ very_low }}</td>
-				<td style="font-weight:bold">{{ low }}</td>
-				<td style="font-weight:bold">{{ medium }}</td>
-				<td style="font-weight:bold">{{ high }}</td>
-				<td style="font-weight:bold">{{ very_high }}</td>
+				<td style="font-weight:bold; text-align:right">{{ very_low }}</td>
+				<td style="font-weight:bold; text-align:right">{{ low }}</td>
+				<td style="font-weight:bold; text-align:right">{{ medium }}</td>
+				<td style="font-weight:bold; text-align:right">{{ high }}</td>
+				<td style="font-weight:bold; text-align:right">{{ very_high }}</td>
 			</tr>
 			<tr style="font-size:11px; line-height:1.2">
 				{% for h in potential_impact_header %}
 					{% if loop.first %}
-						<td style="font-size:14px" class="top">
+						<td style="font-size:12px" class="top">
 					{% else %}
 						<td class="top">
 					{% endif %}
