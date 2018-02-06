@@ -134,127 +134,127 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="112"/>
+        <location filename="report_text.py" line="110"/>
         <source>Supported by DMInnovation, Geoscience Australia and the World Bank-GFDRR</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="209"/>
+        <location filename="report_text.py" line="207"/>
         <source>Fallout Level</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="197"/>
+        <location filename="report_text.py" line="195"/>
         <source>Very Low</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="198"/>
+        <location filename="report_text.py" line="196"/>
         <source>Low</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="199"/>
+        <location filename="report_text.py" line="197"/>
         <source>Moderate</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="200"/>
+        <location filename="report_text.py" line="198"/>
         <source>High</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="201"/>
+        <location filename="report_text.py" line="199"/>
         <source>Very High</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="146"/>
+        <location filename="report_text.py" line="144"/>
         <source>Potential Impact</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="147"/>
+        <location filename="report_text.py" line="145"/>
         <source>Impact on health (respiration), livestock, and contamination of water supply.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="150"/>
+        <location filename="report_text.py" line="148"/>
         <source>Damage to transportation routes (e.g. airports, roads, railways); damage to critical infrastructure (e.g. electricity supply); damage to more vulnerable agricultural crops (e.g. rice fields)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="155"/>
+        <location filename="report_text.py" line="153"/>
         <source>Damage to less vulnerable agricultural crops (e.g. tea plantations) and destruction of more vulnerable crops; destruction of critical infrastructure; cosmetic (non-structural) damage to buildings</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="160"/>
+        <location filename="report_text.py" line="158"/>
         <source>Dry loading on buildings causing structural damage but not collapse; Wet loading on buildings (i.e. ash loading + heavy rainfall) causing structural collapse.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="164"/>
+        <location filename="report_text.py" line="162"/>
         <source>Dry loading on buildings causing structural collapse.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="169"/>
+        <location filename="report_text.py" line="167"/>
         <source>Estimated People Affected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="171"/>
+        <location filename="report_text.py" line="169"/>
         <source>Ash Thickness Range (cm)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="179"/>
+        <location filename="report_text.py" line="177"/>
         <source>Forest</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="180"/>
+        <location filename="report_text.py" line="178"/>
         <source>Plantation</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="181"/>
+        <location filename="report_text.py" line="179"/>
         <source>Water Supply</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="182"/>
+        <location filename="report_text.py" line="180"/>
         <source>Settlement</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="183"/>
+        <location filename="report_text.py" line="181"/>
         <source>Rice Field</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="188"/>
+        <location filename="report_text.py" line="186"/>
         <source>Land Cover Type</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="189"/>
+        <location filename="report_text.py" line="187"/>
         <source>Area affected (km&lt;sup&gt;2&lt;/sup&gt;)</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="190"/>
+        <location filename="report_text.py" line="188"/>
         <source>No area affected</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="207"/>
+        <location filename="report_text.py" line="205"/>
         <source>Name</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="208"/>
+        <location filename="report_text.py" line="206"/>
         <source>People / Airport affected</source>
         <translation type="unfinished"/>
     </message>
@@ -279,7 +279,7 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="102"/>
+        <location filename="report_text.py" line="106"/>
         <source>This report was created using InaSAFE version {version}. Visit http://inasafe.org for more information. </source>
         <translation type="unfinished"/>
     </message>
@@ -304,18 +304,13 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="report_text.py" line="85"/>
-        <source>The impact estimation is automatically generated and only takes into account the population, cities and land cover affected by different levels of volcanic ash fallout on the ground. The estimate is based on volcanic ash fallout data from Badan Geologi, population count data derived by DMInnovation from worldpop.org.uk, place information and land cover classification data provided by Indonesian Geospatial Portal at http://portal.ina-sdi.or.id and software developed by BNPB. Limitation in the estimates of surface fallout, population and place names datasets may result in a significant misrepresentation of the on-the-surface situation in the figures shown here. Consequently, decisions should not be made solely on the information presented here and should always be verified by ground truthing and other reliable information sources.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="report_text.py" line="106"/>
-        <source>This report does not include the potential impact of airborne volcanic ash on aviation services. Nearby airports may already be affected or become affected in future by ash fall on ground or other hazards.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="report_text.py" line="210"/>
+        <location filename="report_text.py" line="208"/>
         <source>No nearby cities or airports are affected by forecast ash fall on the ground in this report</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="report_text.py" line="85"/>
+        <source>The impact estimation is automatically generated and only takes into account the population, cities and land cover affected by different levels of volcanic ash fallout on the ground. The estimation does not include the potential impact of airborne volcanic ash on aviation services. Nearby airports may already be affected or become affected in future by ash fall on the ground or by other hazards.The estimate is based on volcanic ash fallout data from Badan Geologi, population count data derived by DMInnovation from worldpop.org.uk, place information and land cover classification data provided by Indonesian Geospatial Portal at http://portal.ina-sdi.or.id and software developed by BNPB. Limitation in the estimates of surface fallout, population and place names datasets may result in a significant misrepresentation of the on-the-surface situation in the figures shown here. Consequently, decisions should not be made solely on the information presented here and should always be verified by ground truthing and other reliable information sources.</source>
         <translation type="unfinished"/>
     </message>
 </context>
