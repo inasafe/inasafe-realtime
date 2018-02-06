@@ -144,127 +144,127 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation>Dampak Penutup Lahan</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="110"/>
+        <location filename="report_text.py" line="112"/>
         <source>Supported by DMInnovation, Geoscience Australia and the World Bank-GFDRR</source>
         <translation>Didukung oleh DMInnovation, Geoscience Australia dan Bank Dunia-GFDRR</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="207"/>
+        <location filename="report_text.py" line="209"/>
         <source>Fallout Level</source>
         <translation>Tingkat Jatuhan</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="195"/>
+        <location filename="report_text.py" line="197"/>
         <source>Very Low</source>
         <translation>Sangat Rendah</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="196"/>
+        <location filename="report_text.py" line="198"/>
         <source>Low</source>
         <translation>Rendah</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="197"/>
+        <location filename="report_text.py" line="199"/>
         <source>Moderate</source>
         <translation>Sedang</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="198"/>
+        <location filename="report_text.py" line="200"/>
         <source>High</source>
         <translation>Tinggi</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="199"/>
+        <location filename="report_text.py" line="201"/>
         <source>Very High</source>
         <translation>Sangat Tinggi</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="144"/>
+        <location filename="report_text.py" line="146"/>
         <source>Potential Impact</source>
         <translation>Potensi Dampak</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="145"/>
+        <location filename="report_text.py" line="147"/>
         <source>Impact on health (respiration), livestock, and contamination of water supply.</source>
         <translation>Dampak pada kesehatan (respirasi), ternak, dan kontaminasi persediaan air.</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="148"/>
+        <location filename="report_text.py" line="150"/>
         <source>Damage to transportation routes (e.g. airports, roads, railways); damage to critical infrastructure (e.g. electricity supply); damage to more vulnerable agricultural crops (e.g. rice fields)</source>
         <translation>Kerusakan pada rute transportasi (contoh: bandara, jalan, rel kereta api); kerusakan pada infrastruktur kritis (contoh: persediaan kelistrikan); kerusakan pada tanaman pertanian yang lebih rentan (contoh: sawah)</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="153"/>
+        <location filename="report_text.py" line="155"/>
         <source>Damage to less vulnerable agricultural crops (e.g. tea plantations) and destruction of more vulnerable crops; destruction of critical infrastructure; cosmetic (non-structural) damage to buildings</source>
         <translation>Kerusakan pada tanaman pertanian yang kerentanan lebih sedikit (contoh: perkebunan teh) dan kerusakan tanaman yang lebih rentan; kerusakan pada infrastruktur kritis; kerusakan kosmetik (non-struktural) pada bangunan</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="158"/>
+        <location filename="report_text.py" line="160"/>
         <source>Dry loading on buildings causing structural damage but not collapse; Wet loading on buildings (i.e. ash loading + heavy rainfall) causing structural collapse.</source>
         <translation>Muatan kering pada bangunan menyebabkan kerusakan struktural tetapi tidak runtuh; beban kering pada bangunan (misalnya muatan abu + hujan deras) mengakibatkan keruntuhan struktural.</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="162"/>
+        <location filename="report_text.py" line="164"/>
         <source>Dry loading on buildings causing structural collapse.</source>
         <translation>Muatan kering pada bangunan mengakibatkan keruntuhan struktur.</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="167"/>
+        <location filename="report_text.py" line="169"/>
         <source>Estimated People Affected</source>
         <translation>Perkiraan Penduduk Terdampak</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="169"/>
+        <location filename="report_text.py" line="171"/>
         <source>Ash Thickness Range (cm)</source>
         <translation>Rentang Ketebalan Abu (cm)</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="177"/>
+        <location filename="report_text.py" line="179"/>
         <source>Forest</source>
         <translation>Hutan</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="178"/>
+        <location filename="report_text.py" line="180"/>
         <source>Plantation</source>
         <translation>Perkebunan</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="179"/>
+        <location filename="report_text.py" line="181"/>
         <source>Water Supply</source>
         <translation>Persediaan Air</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="180"/>
+        <location filename="report_text.py" line="182"/>
         <source>Settlement</source>
         <translation>Pemukiman</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="181"/>
+        <location filename="report_text.py" line="183"/>
         <source>Rice Field</source>
         <translation>Ladang Padi</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="186"/>
+        <location filename="report_text.py" line="188"/>
         <source>Land Cover Type</source>
         <translation>Tipe Penutup Lahan</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="187"/>
+        <location filename="report_text.py" line="189"/>
         <source>Area affected (km&lt;sup&gt;2&lt;/sup&gt;)</source>
         <translation>Area terdampak (km&lt;sup&gt;2&lt;/sup&gt;)</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="188"/>
+        <location filename="report_text.py" line="190"/>
         <source>No area affected</source>
         <translation>Tidak ada wilayah terdampak</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="205"/>
+        <location filename="report_text.py" line="207"/>
         <source>Name</source>
         <translation>Nama</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="206"/>
+        <location filename="report_text.py" line="208"/>
         <source>People / Airport affected</source>
         <translation>Penduduk / Bandara terdampak</translation>
     </message>
@@ -289,7 +289,7 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation>Waktu berlalu sejak kejadian: {hour} jam dan {minute} menit</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="106"/>
+        <location filename="report_text.py" line="102"/>
         <source>This report was created using InaSAFE version {version}. Visit http://inasafe.org for more information. </source>
         <translation>Laporan ini dibuat dengan menggunakan InaSAFE versi {version}. Kunjungi http://inasafe.org untuk informasi lebih lanjut.</translation>
     </message>
@@ -314,14 +314,19 @@ Jl. Abdul Muis No. 66, Telp. 121
         <translation>Laporan kadaluarsa: {time_expire:%-d-%b-%Y %H:%M:%S} {zone} {time_expire:%z}</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="208"/>
-        <source>No nearby cities or airports are affected by forecast ash fall on the ground in this report</source>
-        <translation>Tidak ada kota maupun bandara disekitar gunungapi yang terdampak oleh prakiraan jatuhan abu di permukaan tanah pada laporan ini.</translation>
+        <location filename="report_text.py" line="85"/>
+        <source>The impact estimation is automatically generated and only takes into account the population, cities and land cover affected by different levels of volcanic ash fallout on the ground. The estimate is based on volcanic ash fallout data from Badan Geologi, population count data derived by DMInnovation from worldpop.org.uk, place information and land cover classification data provided by Indonesian Geospatial Portal at http://portal.ina-sdi.or.id and software developed by BNPB. Limitation in the estimates of surface fallout, population and place names datasets may result in a significant misrepresentation of the on-the-surface situation in the figures shown here. Consequently, decisions should not be made solely on the information presented here and should always be verified by ground truthing and other reliable information sources.</source>
+        <translation>Perkiraan dampak ini dihasilkan secara otomatis dan hanya memperhitungkan penduduk, data perkotaan dan penutup lahan yang terdampak oleh berbagai tingkat curahan abu vulkanik di permukaan tanah. Perkiraan ini berdasarkan pada data curahan abu vulkanik yang bersumber dari Badan Geologi, data jumlah penduduk yang diturunkan oleh DMInnovation dari worldpop.org.uk, informasi tempat dari geonames.org, data klasifikasi penutup lahan dari Portal Geospasial Indonesia di http://portal.ina-sdi.or.id dan perangkat lunak yang dikembangkan oleh BNPB. Batasan dalam perkiraan curahan abu vulkanik, data populasi, dan data nama tempat dapat menghasilkan kesalahan representasi yang signifikan dari situasi yang sebenarnya terjadi. Oleh karena itu, keputusan tidak seharusnya diambil semata-mata hanya berdasarkan informasi yang ditunjukkan disini dan seharusnya selalu diperiksa kebenarannya dengan survey lapangan ataupun dari sumber informasi lainnya yang terpercaya.</translation>
     </message>
     <message>
-        <location filename="report_text.py" line="85"/>
-        <source>The impact estimation is automatically generated and only takes into account the population, cities and land cover affected by different levels of volcanic ash fallout on the ground. The estimation does not include the potential impact of airborne volcanic ash on aviation services. Nearby airports may already be affected or become affected in future by ash fall on the ground or by other hazards.The estimate is based on volcanic ash fallout data from Badan Geologi, population count data derived by DMInnovation from worldpop.org.uk, place information and land cover classification data provided by Indonesian Geospatial Portal at http://portal.ina-sdi.or.id and software developed by BNPB. Limitation in the estimates of surface fallout, population and place names datasets may result in a significant misrepresentation of the on-the-surface situation in the figures shown here. Consequently, decisions should not be made solely on the information presented here and should always be verified by ground truthing and other reliable information sources.</source>
-        <translation>Perkiraan dampak ini dihasilkan secara otomatis dan hanya memperhitungkan penduduk, data perkotaan dan penutup lahan yang terdampak oleh berbagai tingkat curahan abu vulkanik di permukaan tanah. Dampak potensial abu vulkanik di udara terhadap layanan penerbangan tidak termasuk dalam perkiraan dampak ini. Bandara disekitar gunungapi mungkin saja telah terdampak ataupun akan terdampak oleh jatuhan abu di permukaan tanah maupun oleh ancaman lainnya. Perkiraan ini berdasarkan pada data curahan abu vulkanik yang bersumber dari Badan Geologi, data jumlah penduduk yang diturunkan oleh DMInnovation dari worldpop.org.uk, informasi tempat dari geonames.org, data klasifikasi penutup lahan dari Portal Geospasial Indonesia di http://portal.ina-sdi.or.id dan perangkat lunak yang dikembangkan oleh BNPB. Batasan dalam perkiraan curahan abu vulkanik, data populasi, dan data nama tempat dapat menghasilkan kesalahan representasi yang signifikan dari situasi yang sebenarnya terjadi. Oleh karena itu, keputusan tidak seharusnya diambil semata-mata hanya berdasarkan informasi yang ditunjukkan disini dan seharusnya selalu diperiksa kebenarannya dengan survey lapangan ataupun dari sumber informasi lainnya yang terpercaya.</translation>
+        <location filename="report_text.py" line="106"/>
+        <source>This report does not include the potential impact of airborne volcanic ash on aviation services. Nearby airports may already be affected or become affected in future by ash fall on ground or other hazards.</source>
+        <translation>Dampak potensial abu vulkanik di udara terhadap layanan penerbangan tidak termasuk dalam laporan ini. Bandara disekitar gunungapi mungkin saja telah terdampak ataupun akan terdampak oleh jatuhan abu di permukaan tanah maupun oleh ancaman lainnya.</translation>
+    </message>
+    <message>
+        <location filename="report_text.py" line="210"/>
+        <source>No nearby cities or airports are affected by forecast ash fall on the ground in this report</source>
+        <translation>Tidak ada kota maupun bandara disekitar gunungapi yang terdampak oleh prakiraan jatuhan abu di permukaan tanah pada laporan ini.</translation>
     </message>
 </context>
 <context>
