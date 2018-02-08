@@ -6,11 +6,40 @@ from shutil import copy
 from PyQt4.QtCore import QObject
 from qgis.core import QgsRasterLayer
 
+from safe.definitions.hazard_category import hazard_category_single_event
+from safe.definitions.exposure import (
+    exposure_structure,
+    exposure_place,
+    exposure_land_cover,
+    exposure_road,
+    exposure_population,
+)
+from safe.definitions.hazard import hazard_volcanic_ash
+from safe.definitions.units import unit_centimetres
+from safe.definitions.layer_geometry import layer_geometry_raster
+from safe.definitions.layer_purposes import layer_purpose_hazard
+from safe.definitions.layer_modes import layer_mode_continuous
+from safe.definitions.versions import inasafe_keyword_version
+from safe.definitions.extra_keywords import (
+    extra_keyword_volcano_name,
+    extra_keyword_region,
+    extra_keyword_volcano_alert_level,
+    extra_keyword_time_zone,
+    extra_keyword_volcano_latitude,
+    extra_keyword_volcano_longitude,
+    extra_keyword_volcano_event_id,
+    extra_keyword_volcano_eruption_event_time,
+    extra_keyword_eruption_height,
+    extra_keyword_volcano_height,
+)
+from safe.definitions.hazard_classifications import ash_hazard_classes
+
+from safe.common.exceptions import NoKeywordsFoundError
+from safe.utilities.keyword_io import KeywordIO
+
 from realtime.ash.localizations import AshHazardString
 from realtime.ash.settings import ASH_HAZARD_DEFAULT_BASENAME, ASH_ID_FORMAT
 from realtime.utilities import realtime_logger_name, copy_layers
-from safe.common.exceptions import NoKeywordsFoundError
-from safe.utilities.keyword_io import KeywordIO
 
 LOGGER = logging.getLogger(realtime_logger_name())
 
@@ -130,82 +159,49 @@ class AshHazard(QObject):
     def write_keywords(self):
         keyword_io = KeywordIO()
 
+        hazard_classes = {
+            ash_hazard_classes['key']: {
+                u'active': True,
+                u'classes': {
+                    u'high': [5.0, 10.0],
+                    u'very high': [10.0, 9999.0],
+                    u'very low': [0.01, 0.1],
+                    u'medium': [2.0, 5.0],
+                    u'low': [0.1, 2.0]
+                }
+            }
+        }
+
         keywords = {
             'active_band': 1,
-            'hazard_category': u'single_event',
+            'hazard_category': hazard_category_single_event['key'],
             'title': self.ash_id,
             'thresholds': {
-                u'structure': {
-                    u'ash_hazard_classes': {
-                        u'active': True,
-                        u'classes': {
-                            u'high': [5.0, 10.0],
-                            u'very high': [10.0, 9999.0],
-                            u'very low': [0.01, 0.1],
-                            u'medium': [2.0, 5.0],
-                            u'low': [0.1, 2.0]
-                        }
-                    }
-                }, u'place': {
-                    u'ash_hazard_classes': {
-                        u'active': True,
-                        u'classes': {
-                            u'high': [5.0, 10.0],
-                            u'very high': [10.0, 9999.0],
-                            u'very low': [0.01, 0.1],
-                            u'medium': [2.0, 5.0],
-                            u'low': [0.1, 2.0]
-                        }
-                    }
-                }, u'land_cover': {
-                    u'ash_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [5.0, 10.0],
-                            u'very high': [10.0, 9999.0],
-                            u'very low': [0.01, 0.1],
-                            u'medium': [2.0, 5.0],
-                            u'low': [0.1, 2.0]
-                        }
-                    }
-                }, u'road': {
-                    u'ash_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [5.0, 10.0],
-                            u'very high': [10.0, 9999.0],
-                            u'very low': [0.01, 0.1],
-                            u'medium': [2.0, 5.0],
-                            u'low': [0.1, 2.0]
-                        }
-                    }
-                }, u'population': {
-                    u'ash_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [5.0, 10.0],
-                            u'very high': [10.0, 9999.0],
-                            u'very low': [0.01, 0.1],
-                            u'medium': [2.0, 5.0],
-                            u'low': [0.1, 2.0]
-                        }
-                    }
-                }
+                exposure_structure['key']: hazard_classes,
+                exposure_place['key']: hazard_classes,
+                exposure_land_cover['key']: hazard_classes,
+                exposure_road['key']: hazard_classes,
+                exposure_population['key']: hazard_classes
             },
-            'keyword_version': u'4.3',
-            'hazard': u'volcanic_ash',
-            'continuous_hazard_unit': u'centimetres',
-            'layer_geometry': u'raster',
-            'layer_purpose': u'hazard',
-            'layer_mode': u'continuous',
+            'keyword_version': inasafe_keyword_version,
+            'hazard': hazard_volcanic_ash['key'],
+            'continuous_hazard_unit': unit_centimetres['key'],
+            'layer_geometry': layer_geometry_raster['key'],
+            'layer_purpose': layer_purpose_hazard['key'],
+            'layer_mode': layer_mode_continuous['key'],
             'extra_keywords': {
-                u'volcano_name': self.volcano_name,
-                u'region': self.region,
-                u'volcano_alert_level': self.alert_level,
-                u'time_zone': str(self.time_zone),
-                u'volcano_latitude': str(self.latitude),
-                u'volcano_longitude': str(self.longitude),
-                u'volcano_event_id': self.ash_id,
-                u'volcano_eruption_event_time': str(self.event_time),
-                u'volcano_eruption_height': str(self.eruption_height),
-                u'volcano_height': str(self.vent_height),
+                extra_keyword_volcano_name['key']: self.volcano_name,
+                extra_keyword_region['key']: self.region,
+                extra_keyword_volcano_alert_level['key']: self.alert_level,
+                extra_keyword_time_zone['key']: str(self.time_zone),
+                extra_keyword_volcano_latitude['key']: str(self.latitude),
+                extra_keyword_volcano_longitude['key']: str(self.longitude),
+                extra_keyword_volcano_event_id['key']: self.ash_id,
+                extra_keyword_volcano_eruption_event_time['key']: str(
+                    self.event_time),
+                extra_keyword_eruption_height['key']: str(self.eruption_height),
+                extra_keyword_volcano_height: str(self.vent_height),
+                # Change it using definition after it's added
                 u'forecast_duration': str(self.forecast_duration)
             }
         }
