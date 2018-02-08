@@ -21,7 +21,7 @@ class AshHazard(QObject):
     def __init__(
             self, ash_file_path, volcano_name, region,
             latitude, longitude, alert_level,
-            event_time, eruption_height, vent_height,
+            event_time, eruption_height, vent_height, forecast_duration,
             ash_id=None, output_dir=None, output_basename=None):
         """Create Ash hazard event placeholder object.
 
@@ -54,6 +54,9 @@ class AshHazard(QObject):
         :param vent_height: Height of volcano / Height of vent
         :type vent_height: float
 
+        :param forecast_duration: Forecast duration of model in days
+        :type forecast_duration: float
+
         :param ash_id: Ash ID
         :type ash_id: str
 
@@ -75,6 +78,7 @@ class AshHazard(QObject):
         self._vent_height = vent_height
         self._latitude = latitude
         self._longitude = longitude
+        self._forecast_duration = forecast_duration
 
         if ash_id:
             self._ash_id = ash_id
@@ -201,7 +205,8 @@ class AshHazard(QObject):
                 u'volcano_event_id': self.ash_id,
                 u'volcano_eruption_event_time': str(self.event_time),
                 u'volcano_eruption_height': str(self.eruption_height),
-                u'volcano_height': str(self.vent_height)
+                u'volcano_height': str(self.vent_height),
+                u'forecast_duration': str(self.forecast_duration)
             }
         }
 
@@ -267,6 +272,11 @@ class AshHazard(QObject):
     def vent_height(self):
         """Return height of vent, calculated from above sea level."""
         return self._vent_height
+
+    @property
+    def forecast_duration(self):
+        """Return Forecast Duration of model in days"""
+        return self._forecast_duration
 
     @property
     def eruption_height_asl(self):

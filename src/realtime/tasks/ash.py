@@ -19,7 +19,7 @@ LOGGER = logging.getLogger(realtime_logger_name())
 def process_ash(
         ash_file_path, volcano_name, region,
         latitude, longitude, alert_level,
-        event_time, eruption_height, vent_height):
+        event_time, eruption_height, vent_height, forecast_duration):
     """Celery tasks to process ash hazard.
 
     :param ash_file_path: File path to ash layer
@@ -50,13 +50,16 @@ def process_ash(
 
     :param vent_height: Height of volcano / Height of vent
     :type vent_height: float
+
+    :param forecast_duration: Forecast duration of model in days
+    :type forecast_duration: float
     """
     LOGGER.info('-------------------------------------------')
 
     working_directory = ASH_WORKING_DIRECTORY
 
     try:
-        process_event(
+        result = process_event(
             working_dir=working_directory,
             ash_file_path=ash_file_path,
             volcano_name=volcano_name,
@@ -66,10 +69,10 @@ def process_ash(
             alert_level=alert_level,
             event_time=event_time,
             eruption_height=eruption_height,
-            vent_height=vent_height)
+            vent_height=vent_height,
+            forecast_duration=forecast_duration)
         LOGGER.info('Process event end.')
-        return True
-    except Exception as e:
+        return vars(result)
+    except BaseException as e:
         LOGGER.exception(e)
-
-    return False
+        raise

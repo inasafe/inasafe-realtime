@@ -74,6 +74,7 @@ class TestAshHazard(unittest.TestCase):
             alert_level='Normal',
             eruption_height=100,
             vent_height=2968,
+            forecast_duration=3,
             output_dir=self.output_dir)
 
         self.assertTrue(ash_hazard.hazard_exists)
@@ -89,7 +90,8 @@ class TestAshHazard(unittest.TestCase):
             'region': 'Magelang',
             'latitude': 110.444,
             'longitude': -7.575,
-            'alert_level': 'Normal'
+            'alert_level': 'Normal',
+            'forecast_duration': 3
         }
 
         actual_data = {
@@ -103,7 +105,8 @@ class TestAshHazard(unittest.TestCase):
             'region': ash_hazard.region,
             'latitude': ash_hazard.latitude,
             'longitude': ash_hazard.longitude,
-            'alert_level': ash_hazard.alert_level
+            'alert_level': ash_hazard.alert_level,
+            'forecast_duration': ash_hazard.forecast_duration
         }
 
         self.assertDictEqual(expected_data, actual_data)
@@ -141,7 +144,8 @@ class TestAshHazard(unittest.TestCase):
             u'volcano_event_id': u'201702211904+0700_Merapi',
             u'volcano_eruption_event_time': u'2017-02-21 19:04:00+07:00',
             u'volcano_eruption_height': u'100',
-            u'volcano_height': u'2968'
+            u'volcano_height': u'2968',
+            u'forecast_duration': u'3'
         }
 
         self.assertDictEqual(expected_keywords, actual_keywords)
@@ -163,6 +167,7 @@ class TestAshHazard(unittest.TestCase):
             alert_level='Normal',
             event_time=event_time,
             eruption_height=100,
-            vent_height=2968)
+            vent_height=2968,
+            forecast_duration=3)
 
         self.assertTrue(ret_val)

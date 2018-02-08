@@ -2,10 +2,9 @@
 
 import logging
 import os
+import pytz
 import re
 from datetime import datetime
-
-import pytz
 
 from realtime.exceptions import EventIdError
 from realtime.flood.data_source import load_data_api_object
@@ -13,7 +12,7 @@ from realtime.flood.flood_hazard import FloodHazard
 from realtime.flood.notify_rest import notify_flood_hazard_to_rest
 from realtime.flood.settings import FLOOD_ID_FORMAT, FLOOD_ID_REGEXP, \
     FLOOD_HAZARD_DEFAULT_BASENAME
-from realtime.utilities import realtime_logger_name
+from realtime.utilities import realtime_logger_name, BaseHazardTaskResult
 
 # Initialized in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -43,6 +42,9 @@ def process_event(
 
     :param data_source_args: Supply this for Data Source API method
     :type data_source_args: dict
+
+    :return: process event return value
+    :rtype: BaseHazardTaskResult
     """
 
     event_time = None
@@ -112,12 +114,16 @@ def process_event(
     except BaseException as e:
         LOGGER.exception(e)
         LOGGER.info('Hazard layer preparation failed.')
+        raise
 
     LOGGER.info('Successfully processed Flood ID {0}'.format(flood_id))
 
     notify_flood_hazard_to_rest(flood_hazard)
 
-    return True
+    result = BaseHazardTaskResult(
+        success=True, hazard_path=flood_hazard.hazard_path)
+
+    return result
 
 
 def validate_flood_id(flood_id):

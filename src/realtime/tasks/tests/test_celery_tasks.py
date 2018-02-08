@@ -6,14 +6,17 @@ import unittest
 
 import mock
 import pytz
+from datetime import datetime
 
 from realtime import settings
 from realtime.celeryconfig import task_always_eager
 from realtime.tasks.earthquake import process_shake
 from realtime.tasks.flood import process_flood
+from realtime.tasks.ash import process_ash
 from realtime.tasks.generic import check_broker_connection
 from realtime.tests.mock_server import InaSAFEDjangoMockServerHandler, \
     InaSAFEDjangoMockServer
+from realtime.utilities import copy_layers
 from safe.test.qgis_app import qgis_app
 
 APP, IFACE = qgis_app()
@@ -77,7 +80,7 @@ class TestEarthquakeCeleryTasks(unittest.TestCase):
     def test_process_shake(self):
         """Test processing shake file from celery task request."""
         result = process_shake.delay(self.event_id, self.grid_file_path)
-        self.assertTrue(result.get())
+        self.assertTrue(result.get()['success'])
 
 
 class TestFloodCeleryTasks(unittest.TestCase):
@@ -145,7 +148,7 @@ class TestFloodCeleryTasks(unittest.TestCase):
             data_source_args={
                 'filename': self.flood_hazard_file
             })
-        self.assertTrue(result.get())
+        self.assertTrue(result.get()['success'])
 
     @unittest.skipIf(
         not task_always_eager,
@@ -173,4 +176,80 @@ class TestFloodCeleryTasks(unittest.TestCase):
 
             # begin sending celery task using default argument
             result = process_flood.delay()
-            self.assertTrue(result.get())
+            self.assertTrue(result.get()['success'])
+
+
+class TestAshCeleryTasks(unittest.TestCase):
+
+    def setUp(self):
+        self.ash_work_dir = settings.ASH_WORKING_DIRECTORY
+        self.event_id = '201702211204+0000_Merapi'
+        self.ash_output_dir = os.path.join(
+            self.ash_work_dir, self.event_id)
+        self.ash_hazard_file = os.path.join(
+            self.ash_output_dir, 'ash_fall.tif')
+
+        # mock url
+        self.inasafe_django_rest_url = settings.INASAFE_REALTIME_REST_URL
+        self.mock_host = 'localhost'
+        self.mock_port = 8000
+        settings.INASAFE_REALTIME_REST_URL = (
+            'http://{host}:{port}/realtime/api/v1').format(
+            host=self.mock_host, port=self.mock_port)
+
+        # Configure Mock Server
+        self.mock_server = InaSAFEDjangoMockServer(
+            self.mock_host, self.mock_port, InaSAFEDjangoMockServerHandler)
+        self.mock_server.start_server()
+
+    def tearDown(self):
+        if settings.ON_TRAVIS:
+            try:
+                shutil.rmtree(self.ash_output_dir)
+            except OSError:
+                pass
+
+        # restore url
+        settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
+
+        # shutdown mock server
+        self.mock_server.shutdown()
+
+    @staticmethod
+    def ash_fixtures_path(*path):
+        current_dir = os.path.dirname(__file__)
+        return os.path.abspath(os.path.join(
+            current_dir, '../../ash/tests/fixtures', *path))
+
+    def test_process_event_file(self):
+        """Test celery executions for hazard file."""
+
+        # First, emulate file copy into a target directory
+
+        try:
+            os.makedirs(self.ash_output_dir)
+        except OSError:
+            pass
+
+        copy_layers(
+            self.ash_fixtures_path('201702211204+0000_Merapi-hazard.tif'),
+            self.ash_hazard_file)
+
+        # Second, initiate request to process hazard file.
+
+        time_zone = pytz.timezone('Asia/Jakarta')
+        event_time = datetime(2017, 02, 21, 12, 04, tzinfo=pytz.utc)
+        event_time = event_time.astimezone(time_zone)
+
+        result = process_ash.delay(
+            ash_file_path=self.ash_hazard_file,
+            volcano_name='Merapi',
+            region='Magelang',
+            latitude=110.444,
+            longitude=-7.575,
+            alert_level='Normal',
+            event_time=event_time,
+            eruption_height=100,
+            vent_height=2968,
+            forecast_duration=3)
+        self.assertTrue(result.get()['success'])
