@@ -31,6 +31,7 @@ from safe.definitions.extra_keywords import (
     extra_keyword_volcano_eruption_event_time,
     extra_keyword_eruption_height,
     extra_keyword_volcano_height,
+    extra_keyword_volcano_forecast_duration,
 )
 from safe.definitions.hazard_classifications import ash_hazard_classes
 
@@ -199,10 +200,11 @@ class AshHazard(QObject):
                 extra_keyword_volcano_event_id['key']: self.ash_id,
                 extra_keyword_volcano_eruption_event_time['key']: str(
                     self.event_time),
-                extra_keyword_eruption_height['key']: str(self.eruption_height),
-                extra_keyword_volcano_height: str(self.vent_height),
-                # Change it using definition after it's added
-                u'forecast_duration': str(self.forecast_duration)
+                extra_keyword_eruption_height['key']: str(
+                    self.eruption_height),
+                extra_keyword_volcano_height['key']: str(self.vent_height),
+                extra_keyword_volcano_forecast_duration['key']: str(
+                    self.forecast_duration)
             }
         }
 
