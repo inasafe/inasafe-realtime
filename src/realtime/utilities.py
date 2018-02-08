@@ -65,3 +65,11 @@ def copy_layers(source, destination):
                 d_filename = destination_basename + s_ext
                 dst = os.path.join(destination_dirname, d_filename)
                 shutil.copy(src, dst)
+
+
+class BaseHazardTaskResult(object):
+
+    def __init__(self, success, hazard_path=None):
+        super(BaseHazardTaskResult, self).__init__()
+        self.success = success
+        self.hazard_path = hazard_path

@@ -7,7 +7,7 @@ from errno import EEXIST
 from realtime.ash.ash_hazard import AshHazard
 from realtime.ash.notify_rest import notify_ash_hazard_to_rest
 from realtime.ash.settings import ASH_ID_FORMAT
-from realtime.utilities import realtime_logger_name
+from realtime.utilities import realtime_logger_name, BaseHazardTaskResult
 
 # Initialized in realtime.__init__
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -16,7 +16,7 @@ LOGGER = logging.getLogger(realtime_logger_name())
 def process_event(
         working_dir, ash_file_path, volcano_name, region,
         latitude, longitude, alert_level,
-        event_time, eruption_height, vent_height,
+        event_time, eruption_height, vent_height, forecast_duration,
         output_dir=None, output_basename=None):
     """Process ash hazard.
 
@@ -52,6 +52,9 @@ def process_event(
     :param vent_height: Height of volcano / Height of vent
     :type vent_height: float
 
+    :param forecast_duration: Forecast duration of model in days
+    :type forecast_duration: float
+
     :param output_dir: (Optional) if provided, will use the value for
         output directory
     :type output_dir: str
@@ -60,6 +63,8 @@ def process_event(
         basename
     :type output_basename: str
 
+    :return: process event return value
+    :rtype: BaseHazardTaskResult
     """
     ash_id = ASH_ID_FORMAT.format(
         event_time=event_time,
@@ -87,6 +92,7 @@ def process_event(
             event_time=event_time,
             eruption_height=eruption_height,
             vent_height=vent_height,
+            forecast_duration=forecast_duration,
             output_dir=output_dir,
             output_basename=output_basename)
 
@@ -96,9 +102,13 @@ def process_event(
     except BaseException as e:
         LOGGER.exception(e)
         LOGGER.info('Hazard layer preparation failed.')
+        raise
 
     LOGGER.info('Successfully processed Ash ID {0}'.format(ash_id))
 
     notify_ash_hazard_to_rest(ash_hazard)
 
-    return True
+    result = BaseHazardTaskResult(
+        success=True, hazard_path=ash_hazard.hazard_path)
+
+    return result

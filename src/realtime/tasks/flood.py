@@ -45,15 +45,14 @@ def process_flood(
             'level': 'rw'
         }
     try:
-        process_event(
+        result = process_event(
             working_dir=working_directory,
             flood_id=flood_id,
             time_zone=time_zone,
             data_source=data_source,
             data_source_args=data_source_args)
         LOGGER.info('Process event end.')
-        return True
-    except Exception as e:
+        return vars(result)
+    except BaseException as e:
         LOGGER.exception(e)
-
-    return False
+        raise

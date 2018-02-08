@@ -46,14 +46,13 @@ def process_shake(event_id=None, grid_file=None, source_type='initial'):
         grid_file_path = grid_file
 
     try:
-        process_event(
+        result = process_event(
             shake_id=event_id,
             grid_file=grid_file_path,
             source_type=source_type,
             output_dir=os.path.dirname(grid_file_path))
         LOGGER.info('Process event end.')
-        return True
-    except Exception as e:
+        return vars(result)
+    except BaseException as e:
         LOGGER.exception(e)
-
-    return False
+        raise
