@@ -145,7 +145,7 @@ class TestAshHazard(unittest.TestCase):
             u'volcano_eruption_event_time': u'2017-02-21 19:04:00+07:00',
             u'volcano_eruption_height': u'100',
             u'volcano_height': u'2968',
-            u'forecast_duration': u'3'
+            u'volcano_forecast_duration': u'3'
         }
 
         self.assertDictEqual(expected_keywords, actual_keywords)
