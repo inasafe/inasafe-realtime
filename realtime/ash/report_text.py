@@ -23,7 +23,7 @@ class ReportText(QObject):
         """Token string for QPT template"""
 
         eruption_height_asl = eruption_height + vent_height
-        model_expire = time + timedelta(days=forecast_duration)
+        model_expire = time + timedelta(days=1)
 
         event = {
             # This section is from event variable
