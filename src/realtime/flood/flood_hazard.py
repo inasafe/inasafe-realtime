@@ -4,13 +4,33 @@ import os
 from shutil import copy
 
 from PyQt4.QtCore import QObject
+
 from qgis.core import QgsVectorLayer
 
-from realtime.flood.localizations import FloodHazardString
-from realtime.flood.settings import FLOOD_HAZARD_DEFAULT_BASENAME, \
-    FLOOD_ID_FORMAT
-from realtime.utilities import realtime_logger_name
+from safe.definitions.hazard_category import hazard_category_single_event
+from safe.definitions.versions import inasafe_keyword_version
+from safe.definitions.exposure import (
+    exposure_structure,
+    exposure_place,
+    exposure_land_cover,
+    exposure_road,
+    exposure_population
+)
+from safe.definitions.hazard import hazard_flood
+from safe.definitions.layer_purposes import layer_purpose_hazard
+from safe.definitions.layer_geometry import layer_geometry_polygon
+from safe.definitions.layer_modes import layer_mode_classified
+from safe.definitions.fields import hazard_value_field
+from safe.definitions.hazard_classifications import (
+    flood_hazard_classes, flood_petabencana_hazard_classes
+)
+
 from safe.utilities.keyword_io import KeywordIO
+
+from realtime.flood.localizations import FloodHazardString
+from realtime.flood.settings import (
+    FLOOD_HAZARD_DEFAULT_BASENAME, FLOOD_ID_FORMAT)
+from realtime.utilities import realtime_logger_name
 
 LOGGER = logging.getLogger(realtime_logger_name())
 
@@ -112,70 +132,43 @@ class FloodHazard(QObject):
     def write_keywords(self):
         keyword_io = KeywordIO()
 
-        keywords = {
-            'hazard_category': u'single_event',
-            'title': self.localization.hazard_title.format(
-                timestamp=self.event_time_in_time_zone),
-            'keyword_version': u'4.3',
-            'value_maps': {
-                u'structure': {
-                    u'flood_hazard_classes': {
-                        u'active': False,
-                        u'classes': {u'dry': [0, 1], u'wet': [2, 3, 4]}
-                    }, u'flood_petabencana_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [4], u'medium': [3], u'use_caution': [1],
-                            u'low': [2]
-                        }
-                    }
-                }, u'place': {
-                    u'flood_hazard_classes': {
-                        u'active': False,
-                        u'classes': {u'dry': [0, 1], u'wet': [3, 4, 2]}
-                    }, u'flood_petabencana_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [4], u'medium': [3], u'use_caution': [1],
-                            u'low': [2]
-                        }
-                    }
-                }, u'land_cover': {
-                    u'flood_hazard_classes': {
-                        u'active': False,
-                        u'classes': {u'dry': [0, 1], u'wet': [2, 3, 4]}
-                    }, u'flood_petabencana_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [4], u'medium': [3], u'use_caution': [1],
-                            u'low': [2]
-                        }
-                    }
-                }, u'road': {
-                    u'flood_hazard_classes': {
-                        u'active': False,
-                        u'classes': {u'dry': [0, 1], u'wet': [3, 2, 4]}
-                    }, u'flood_petabencana_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [4], u'medium': [3], u'use_caution': [1],
-                            u'low': [2]
-                        }
-                    }
-                }, u'population': {
-                    u'flood_hazard_classes': {
-                        u'active': False,
-                        u'classes': {u'dry': [0, 1], u'wet': [2, 3, 4]}
-                    }, u'flood_petabencana_hazard_classes': {
-                        u'active': True, u'classes': {
-                            u'high': [4], u'medium': [3], u'use_caution': [1],
-                            u'low': [2]
-                        }
-                    }
+        hazard_classes = {
+            flood_hazard_classes['key']: {
+                u'active': False,
+                u'classes': {
+                    u'dry': [0, 1],
+                    u'wet': [2, 3, 4]
                 }
             },
-            'hazard': u'flood',
+            flood_petabencana_hazard_classes['key']: {
+                u'active': True,
+                u'classes': {
+                    u'high': [4],
+                    u'medium': [3],
+                    u'low': [2],
+                    u'use_caution': [1],
+                }
+            },
+        }
+
+        keywords = {
+            'hazard_category': hazard_category_single_event['key'],
+            'title': self.localization.hazard_title.format(
+                timestamp=self.event_time_in_time_zone),
+            'keyword_version': inasafe_keyword_version,
+            'value_maps': {
+                exposure_structure['key']: hazard_classes,
+                exposure_place['key']:  hazard_classes,
+                exposure_land_cover['key']:  hazard_classes,
+                exposure_road['key']:  hazard_classes,
+                exposure_population['key']:  hazard_classes,
+            },
+            'hazard': hazard_flood['key'],
             'source': self.data_source.source_name(),
-            'layer_purpose': u'hazard',
-            'layer_geometry': u'polygon',
-            'inasafe_fields': {u'hazard_value_field': u'state'},
-            'layer_mode': u'classified'
+            'layer_purpose': layer_purpose_hazard['key'],
+            'layer_geometry': layer_geometry_polygon['key'],
+            'inasafe_fields': {hazard_value_field['key']: u'state'},
+            'layer_mode': layer_mode_classified['key']
         }
 
         hazard_layer = self.hazard_layer
