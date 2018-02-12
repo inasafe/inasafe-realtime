@@ -62,11 +62,11 @@
 			</tr>
 			<tr style="background-color:#f2f2f2">
 				<td>{{ affected_header|safe }}</td>
-				<td style="font-weight:bold; text-align:right">{{ very_low }}</td>
-				<td style="font-weight:bold; text-align:right">{{ low }}</td>
-				<td style="font-weight:bold; text-align:right">{{ medium }}</td>
-				<td style="font-weight:bold; text-align:right">{{ high }}</td>
-				<td style="font-weight:bold; text-align:right">{{ very_high }}</td>
+				<td style="font-weight:bold; text-align:center">{{ very_low }}</td>
+				<td style="font-weight:bold; text-align:center">{{ low }}</td>
+				<td style="font-weight:bold; text-align:center">{{ medium }}</td>
+				<td style="font-weight:bold; text-align:center">{{ high }}</td>
+				<td style="font-weight:bold; text-align:center">{{ very_high }}</td>
 			</tr>
 			<tr style="font-size:11px; line-height:1.2">
 				{% for h in potential_impact_header %}
@@ -79,12 +79,12 @@
 				{% endfor %}
 			</tr>
 			<tr style="font:bold">
-				<td style="font-weight:bold">{{ ash_thickness_header|safe }}</td>
-				<td style="font-weight:bold">>0.01 - 0.1</td>
-				<td style="font-weight:bold">>0.1 - 2</td>
-				<td style="font-weight:bold">>2 - 5</td>
-				<td style="font-weight:bold">>5 - 10</td>
-				<td style="font-weight:bold">>10</td>
+				<td style="font-weight:bold; text-align:center">{{ ash_thickness_header|safe }}</td>
+				<td style="font-weight:bold; text-align:center">>0.01 - 0.1</td>
+				<td style="font-weight:bold; text-align:center">>0.1 - 2</td>
+				<td style="font-weight:bold; text-align:center">>2 - 5</td>
+				<td style="font-weight:bold; text-align:center">>5 - 10</td>
+				<td style="font-weight:bold; text-align:center">>10</td>
 			</tr>
 		</table>
 	</body>
