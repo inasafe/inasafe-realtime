@@ -6,7 +6,10 @@ from shutil import copy
 from PyQt4.QtCore import QObject
 from qgis.core import QgsRasterLayer
 
-from safe.definitions.hazard_category import hazard_category_single_event
+from realtime.ash.localizations import AshHazardString
+from realtime.ash.settings import ASH_HAZARD_DEFAULT_BASENAME, ASH_ID_FORMAT
+from realtime.utilities import realtime_logger_name, copy_layers
+from safe.common.exceptions import NoKeywordsFoundError
 from safe.definitions.exposure import (
     exposure_structure,
     exposure_place,
@@ -14,12 +17,6 @@ from safe.definitions.exposure import (
     exposure_road,
     exposure_population,
 )
-from safe.definitions.hazard import hazard_volcanic_ash
-from safe.definitions.units import unit_centimetres
-from safe.definitions.layer_geometry import layer_geometry_raster
-from safe.definitions.layer_purposes import layer_purpose_hazard
-from safe.definitions.layer_modes import layer_mode_continuous
-from safe.definitions.versions import inasafe_keyword_version
 from safe.definitions.extra_keywords import (
     extra_keyword_volcano_name,
     extra_keyword_region,
@@ -33,14 +30,15 @@ from safe.definitions.extra_keywords import (
     extra_keyword_volcano_height,
     extra_keyword_volcano_forecast_duration,
 )
+from safe.definitions.hazard import hazard_volcanic_ash
+from safe.definitions.hazard_category import hazard_category_single_event
 from safe.definitions.hazard_classifications import ash_hazard_classes
-
-from safe.common.exceptions import NoKeywordsFoundError
+from safe.definitions.layer_geometry import layer_geometry_raster
+from safe.definitions.layer_modes import layer_mode_continuous
+from safe.definitions.layer_purposes import layer_purpose_hazard
+from safe.definitions.units import unit_centimetres
+from safe.definitions.versions import inasafe_keyword_version
 from safe.utilities.keyword_io import KeywordIO
-
-from realtime.ash.localizations import AshHazardString
-from realtime.ash.settings import ASH_HAZARD_DEFAULT_BASENAME, ASH_ID_FORMAT
-from realtime.utilities import realtime_logger_name, copy_layers
 
 LOGGER = logging.getLogger(realtime_logger_name())
 
