@@ -261,7 +261,7 @@ class TestFloodHazard(unittest.TestCase):
                                            'flood/tests/output/'
                                            '{event_id}/'
                                            'flood_data.json'.format(
-                                event_id=event_id)
+                                                event_id=event_id)
                         }
                         test_instance.assertDictContainsSubset(
                             expected_value, body_dict)

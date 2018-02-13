@@ -197,8 +197,8 @@ class TestAshHazard(unittest.TestCase):
 
             def do_PUT(self):
                 try:
-                    if self.path.endswith(
-                            '/realtime/api/v1/ash/Merapi/20170221190400+0700/'):
+                    suffix = '/realtime/api/v1/ash/Merapi/20170221190400+0700/'
+                    if self.path.endswith(suffix):
                         self.logger_PUT()
                         # Check Ash hazard put
                         body_dict = self.parse_request_body()
@@ -206,10 +206,12 @@ class TestAshHazard(unittest.TestCase):
                         expected_value = {
                             'volcano_name': 'Merapi',
                             'event_time': str(event_time),
-                            'hazard_path': '/home/app/realtime/ash/tests/output/'
-                                           '201702211904+0700_Merapi/ash_fall.tif'
+                            'hazard_path': '/home/app/realtime/ash/tests/'
+                                           'output/201702211904+0700_Merapi/'
+                                           'ash_fall.tif'
                         }
-                        test_instance.assertDictEqual(body_dict, expected_value)
+                        test_instance.assertDictEqual(
+                            body_dict, expected_value)
 
                         # test parse datetime
                         test_instance.assertEqual(
