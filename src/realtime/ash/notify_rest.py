@@ -47,7 +47,7 @@ def notify_ash_hazard_to_rest(ash_hazard, fail_silent=True):
         timestring = ASH_TIMESTAMP_FORMAT
         ash_data = {
             'volcano_name': ash_hazard.volcano_name,
-            'event_time': dateformat.format(event_time=ash_hazard.event_time),
+            'event_time': str(ash_hazard.event_time),
             'hazard_path': ash_hazard.hazard_path
         }
 

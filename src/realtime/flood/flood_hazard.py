@@ -4,11 +4,12 @@ import os
 from shutil import copy
 
 from PyQt4.QtCore import QObject
-
 from qgis.core import QgsVectorLayer
 
-from safe.definitions.hazard_category import hazard_category_single_event
-from safe.definitions.versions import inasafe_keyword_version
+from realtime.flood.localizations import FloodHazardString
+from realtime.flood.settings import (
+    FLOOD_HAZARD_DEFAULT_BASENAME, FLOOD_ID_FORMAT)
+from realtime.utilities import realtime_logger_name
 from safe.definitions.exposure import (
     exposure_structure,
     exposure_place,
@@ -16,21 +17,17 @@ from safe.definitions.exposure import (
     exposure_road,
     exposure_population
 )
-from safe.definitions.hazard import hazard_flood
-from safe.definitions.layer_purposes import layer_purpose_hazard
-from safe.definitions.layer_geometry import layer_geometry_polygon
-from safe.definitions.layer_modes import layer_mode_classified
 from safe.definitions.fields import hazard_value_field
+from safe.definitions.hazard import hazard_flood
+from safe.definitions.hazard_category import hazard_category_single_event
 from safe.definitions.hazard_classifications import (
     flood_hazard_classes, flood_petabencana_hazard_classes
 )
-
+from safe.definitions.layer_geometry import layer_geometry_polygon
+from safe.definitions.layer_modes import layer_mode_classified
+from safe.definitions.layer_purposes import layer_purpose_hazard
+from safe.definitions.versions import inasafe_keyword_version
 from safe.utilities.keyword_io import KeywordIO
-
-from realtime.flood.localizations import FloodHazardString
-from realtime.flood.settings import (
-    FLOOD_HAZARD_DEFAULT_BASENAME, FLOOD_ID_FORMAT)
-from realtime.utilities import realtime_logger_name
 
 LOGGER = logging.getLogger(realtime_logger_name())
 

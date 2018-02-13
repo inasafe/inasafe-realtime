@@ -1,11 +1,14 @@
 # coding=utf-8
+import cgi
+import json
 import logging
 import os
 import signal
+import urlparse
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
 import requests
-from http.server import BaseHTTPRequestHandler, HTTPServer
 
 from realtime.utilities import realtime_logger_name
 
@@ -14,38 +17,75 @@ LOGGER = logging.getLogger(realtime_logger_name())
 
 class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
 
-    def do_GET(self):
+    def get_request_body(self):
+        content_len = int(self.headers.getheader('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        return post_body
+
+    def parse_request_body(self):
+        ctype, pdict = cgi.parse_header(
+            self.headers.getheader('content-type'))
+        if ctype == 'multipart/form-data':
+            postvars = cgi.parse_multipart(self.rfile, pdict)
+        elif ctype == 'application/x-www-form-urlencoded':
+            length = int(self.headers.getheader('content-length'))
+            postvars = urlparse.parse_qs(
+                self.rfile.read(length), keep_blank_values=1)
+
+            # Additional cleanup
+            # by spec it will always return a list. We might don't want that.
+            for key, value in postvars.iteritems():
+                postvars[key] = value[0]
+        elif ctype == 'application/json':
+            post_body = self.get_request_body()
+            postvars = json.loads(post_body)
+        else:
+            LOGGER.info('CTYPE: {0}'.format(ctype))
+            postvars = {}
+        return postvars
+
+    def logger_GET(self):
         LOGGER.info('Mock GET Requests.')
         LOGGER.info('Request path: {0}'.format(self.path))
+
+    def logger_POST(self):
+        LOGGER.info('Mock POST Requests.')
+        LOGGER.info('Request path: {0}'.format(self.path))
+
+    def logger_PUT(self):
+        LOGGER.info('Mock PUT Requests.')
+        LOGGER.info('Request path: {0}'.format(self.path))
+
+    def logger_DELETE(self):
+        LOGGER.info('Mock DELETE Requests.')
+        LOGGER.info('Request path: {0}'.format(self.path))
+
+    def do_GET(self):
+        self.logger_GET()
         self.send_response(requests.codes.ok)
         self.end_headers()
         return
 
     def do_POST(self):
-        LOGGER.info('Mock POST Requests.')
-        LOGGER.info('Request path: {0}'.format(self.path))
+        self.logger_POST()
         self.send_response(requests.codes.ok)
         LOGGER.info('Request body extraction.')
-        content_len = int(self.headers.getheader('content-length', 0))
-        post_body = self.rfile.read(content_len)
+        post_body = self.get_request_body()
         LOGGER.info('Request body: {0}'.format(post_body))
         self.end_headers()
         return
 
     def do_PUT(self):
-        LOGGER.info('Mock PUT Requests.')
-        LOGGER.info('Request path: {0}'.format(self.path))
+        self.logger_PUT()
         self.send_response(requests.codes.ok)
         LOGGER.info('Request body extraction.')
-        content_len = int(self.headers.getheader('content-length', 0))
-        post_body = self.rfile.read(content_len)
+        post_body = self.get_request_body()
         LOGGER.info('Request body: {0}'.format(post_body))
         self.end_headers()
         return
 
     def do_DELETE(self):
-        LOGGER.info('Mock DELETE Requests.')
-        LOGGER.info('Request path: {0}'.format(self.path))
+        self.logger_DELETE()
         self.send_response(requests.codes.ok)
         self.end_headers()
         return

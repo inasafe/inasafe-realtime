@@ -6,6 +6,8 @@ import unittest
 from datetime import datetime
 
 import pytz
+import requests
+from dateutil.parser import parse
 
 from realtime import settings
 from realtime.ash.ash_hazard import AshHazard
@@ -40,10 +42,8 @@ class TestAshHazard(unittest.TestCase):
             'http://{host}:{port}/realtime/api/v1').format(
             host=self.mock_host, port=self.mock_port)
 
-        # # Configure Mock Server
-        self.mock_server = InaSAFEDjangoMockServer(
-            self.mock_host, self.mock_port, InaSAFEDjangoMockServerHandler)
-        self.mock_server.start_server()
+        # Configure Mock Server
+        self.mock_server = None
 
     def tearDown(self):
         if ON_TRAVIS:
@@ -56,7 +56,8 @@ class TestAshHazard(unittest.TestCase):
         settings.INASAFE_REALTIME_REST_URL = self.inasafe_django_rest_url
 
         # shutdown mock server
-        self.mock_server.shutdown()
+        if self.mock_server:
+            self.mock_server.shutdown()
 
     def test_ash_fall_conversion(self):
         """Test GeoTIFF conversion to InaSAFE Hazard Layer."""
@@ -152,9 +153,79 @@ class TestAshHazard(unittest.TestCase):
 
     def test_process_event(self):
         """Test process event executions from hazard file."""
+
+        # Set Up handler
+        test_instance = self
+        test_instance.rest_errors = 0
+
         time_zone = pytz.timezone('Asia/Jakarta')
         event_time = datetime(2017, 02, 21, 12, 04, tzinfo=pytz.utc)
         event_time = event_time.astimezone(time_zone)
+
+        class ProcessEventCheckHandler(InaSAFEDjangoMockServerHandler):
+
+            def do_GET(self):
+                if self.path.endswith('/realtime/api/v1/auth/login/'):
+                    self.logger_GET()
+                    # Check login
+                    self.send_response(requests.codes.ok)
+                    self.send_header('Set-Cookie', 'csrftoken=thisisatoken')
+                    self.end_headers()
+                else:
+                    return InaSAFEDjangoMockServerHandler.do_GET(self)
+
+            def do_POST(self):
+                try:
+                    if self.path.endswith('/realtime/api/v1/auth/login/'):
+                        self.logger_POST()
+                        # Check login validation
+                        body_dict = self.parse_request_body()
+                        expected_value = {
+                            'username': 'test@realtime.inasafe.org',
+                            'password': 'thepaassword',
+                            'csrfmiddlewaretoken': 'thisisatoken'
+                        }
+                        test_instance.assertDictContainsSubset(
+                            expected_value, body_dict)
+                        self.send_response(requests.codes.ok)
+                        self.end_headers()
+                    else:
+                        return InaSAFEDjangoMockServerHandler.do_POST(self)
+                except BaseException:
+                    test_instance.rest_errors += 1
+                    raise
+
+            def do_PUT(self):
+                try:
+                    if self.path.endswith(
+                            '/realtime/api/v1/ash/Merapi/20170221190400+0700/'):
+                        self.logger_PUT()
+                        # Check Ash hazard put
+                        body_dict = self.parse_request_body()
+
+                        expected_value = {
+                            'volcano_name': 'Merapi',
+                            'event_time': str(event_time),
+                            'hazard_path': '/home/app/realtime/ash/tests/output/'
+                                           '201702211904+0700_Merapi/ash_fall.tif'
+                        }
+                        test_instance.assertDictEqual(body_dict, expected_value)
+
+                        # test parse datetime
+                        test_instance.assertEqual(
+                            parse(body_dict['event_time']),
+                            event_time)
+                        self.send_response(requests.codes.ok)
+                        self.end_headers()
+                    else:
+                        return InaSAFEDjangoMockServerHandler.do_PUT(self)
+                except BaseException:
+                    test_instance.rest_errors += 1
+                    raise
+
+        self.mock_server = InaSAFEDjangoMockServer(
+            self.mock_host, self.mock_port, ProcessEventCheckHandler)
+        self.mock_server.start_server()
 
         ret_val = process_event(
             working_dir=self.output_dir,
@@ -171,3 +242,4 @@ class TestAshHazard(unittest.TestCase):
             forecast_duration=3)
 
         self.assertTrue(ret_val)
+        self.assertTrue(test_instance.rest_errors == 0)
