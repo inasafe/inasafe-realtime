@@ -3,16 +3,16 @@ import json
 import os
 import shutil
 import unittest
+from datetime import datetime
 
 import mock
 import pytz
-from datetime import datetime
 
 from realtime import settings
 from realtime.celeryconfig import task_always_eager
+from realtime.tasks.ash import process_ash
 from realtime.tasks.earthquake import process_shake
 from realtime.tasks.flood import process_flood
-from realtime.tasks.ash import process_ash
 from realtime.tasks.generic import check_broker_connection
 from realtime.tests.mock_server import InaSAFEDjangoMockServerHandler, \
     InaSAFEDjangoMockServer
