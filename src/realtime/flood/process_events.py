@@ -2,9 +2,10 @@
 
 import logging
 import os
-import pytz
 import re
 from datetime import datetime
+
+import pytz
 
 from realtime.exceptions import EventIdError
 from realtime.flood.data_source import load_data_api_object

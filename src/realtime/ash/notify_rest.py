@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-from realtime.ash.settings import ASH_DATETIME_FORMAT, ASH_TIMESTAMP_FORMAT
+from realtime.ash.settings import ASH_TIMESTAMP_FORMAT
 from realtime.exceptions import RESTRequestFailedError
 from realtime.push_rest import (
     InaSAFEDjangoREST)
@@ -43,11 +43,10 @@ def notify_ash_hazard_to_rest(ash_hazard, fail_silent=True):
         session = inasafe_django.rest
 
         # build the data request:
-        dateformat = ASH_DATETIME_FORMAT
         timestring = ASH_TIMESTAMP_FORMAT
         ash_data = {
             'volcano_name': ash_hazard.volcano_name,
-            'event_time': dateformat.format(event_time=ash_hazard.event_time),
+            'event_time': str(ash_hazard.event_time),
             'hazard_path': ash_hazard.hazard_path
         }
 

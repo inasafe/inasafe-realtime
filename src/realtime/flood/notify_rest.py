@@ -55,7 +55,7 @@ def notify_flood_hazard_to_rest(flood_hazard, fail_silent=True):
             'event_id': flood_hazard.flood_id,
             'hazard_path': flood_hazard.hazard_path,
             'data_source': flood_hazard.data_source.source_name(),
-            'time': flood_hazard.event_time,
+            'time': str(flood_hazard.event_time),
             'interval': flood_hazard.duration,
             'source': flood_hazard.data_source.source_key(),
             'region': flood_hazard.data_source.region_name()
