@@ -60,7 +60,7 @@ def notify_ash_hazard_to_rest(ash_hazard, fail_silent=True):
         # Update using PUT url
         response = session.ash(
             ash_data['volcano_name'],
-            ash_hazard.event_time.strftime(timestring)).PUT(
+            timestring.format(event_time=ash_hazard.event_time)).PUT(
             data=ash_data,
             headers=headers)
 

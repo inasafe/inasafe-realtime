@@ -90,6 +90,7 @@ def notify_shake_hazard_to_rest(shake_hazard, fail_silent=True):
         # build the data request:
         earthquake_data = {
             'shake_id': shake_hazard.event_id,
+            'source_type': shake_hazard.source_type,
             'hazard_path': shake_hazard.hazard_path,
             'magnitude': shake_hazard.magnitude,
             'depth': shake_hazard.depth,
@@ -106,11 +107,13 @@ def notify_shake_hazard_to_rest(shake_hazard, fail_silent=True):
 
         # check does the shake event already exists?
         response = session.earthquake(
-            earthquake_data['shake_id']).GET()
+            earthquake_data['shake_id'],
+            earthquake_data['source_type']).GET()
         if response.status_code == requests.codes.ok:
             # event exists, we should update using PUT Url
             response = session.earthquake(
-                earthquake_data['shake_id']).PUT(
+                earthquake_data['shake_id'],
+                earthquake_data['source_type']).PUT(
                 data=json.dumps(earthquake_data),
                 headers=headers)
         elif response.status_code == requests.codes.not_found:
