@@ -25,6 +25,11 @@ class ReportText(QObject):
         eruption_height_asl = eruption_height + vent_height
         model_expire = time + timedelta(days=1)
 
+        try:
+            zone_name = time.tzinfo.zone
+        except AttributeError:
+            zone_name = ''
+
         event = {
             # This section is from event variable
             'event-volcano-name': volcano_name,
@@ -51,7 +56,7 @@ class ReportText(QObject):
                 '{zone} {time:%z}').format(
                     volcano_name=volcano_name,
                     time=time,
-                    zone=time.tzinfo.zone),
+                    zone=zone_name),
             'report-province': self.tr('Province: {region}').format(
                 region=region),
             'report-alert-level': self.tr(
@@ -76,7 +81,7 @@ class ReportText(QObject):
                 'Report expires: {time_expire:%-d-%b-%Y %H:%M:%S} '
                 '{zone} {time_expire:%z}').format(
                 time_expire=model_expire,
-                zone=model_expire.tzinfo.zone
+                zone=zone_name
             ),
             'header-impact-table': self.tr(
                 'Potential impact at each fallout level'),
