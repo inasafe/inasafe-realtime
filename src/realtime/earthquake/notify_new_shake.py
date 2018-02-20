@@ -17,10 +17,13 @@ from realtime.earthquake.process_event import process_event
 from realtime.earthquake.settings import GRID_FILE_PATTERN, \
     EQ_GRID_SOURCE_TYPE
 from realtime.utilities import realtime_logger_name
+from safe.test.qgis_app import qgis_app
 
 __author__ = 'Rizky Maulana Nugraha "lucernae" <lana.pcfre@gmail.com>'
 __date__ = '03/09/15'
 
+# initialize qgis_app
+APP, IFACE = qgis_app()
 
 LOGGER = logging.getLogger(realtime_logger_name())
 

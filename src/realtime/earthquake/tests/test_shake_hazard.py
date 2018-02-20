@@ -204,23 +204,45 @@ class TestShakeHazard(unittest.TestCase):
                         self.logger_PUT()
                         body_dict = self.parse_request_body()
 
-                        expected_value = {
-                            'shake_id': '20161214005704',
-                            'location_description': 'Aceh',
-                            'source_type': 'initial',
-                            'depth': 3.0,
-                            'magnitude': 3.5,
-                            'location': {
-                                'type': 'Point',
-                                'coordinates': [96.55, 4.92]
-                            },
-                            'time': '2016-12-14 00:57:04+07:00',
-                            'hazard_path': '/home/app/realtime/'
-                                           'earthquake/tests/'
-                                           'output/hazard-use_ascii.tif'
-                        }
-                        test_instance.assertDictEqual(
-                            expected_value, body_dict)
+                        # Checkt attempt to update data
+                        if 'shake_id' in body_dict:
+
+                            expected_value = {
+                                'shake_id': '20161214005704',
+                                'location_description': 'Aceh',
+                                'source_type': 'initial',
+                                'depth': 3.0,
+                                'magnitude': 3.5,
+                                'location': {
+                                    'type': 'Point',
+                                    'coordinates': [96.55, 4.92]
+                                },
+                                'time': '2016-12-14 00:57:04+07:00',
+                                'hazard_path': '/home/app/realtime/'
+                                               'earthquake/tests/'
+                                               'output/hazard-use_ascii.tif'
+                            }
+                            test_instance.assertEqual(
+                                expected_value, body_dict)
+
+                        # Check attempt to upload shake grid
+                        elif 'shake_grid' in body_dict:
+
+                            grid_xml_path = test_instance.fixture_path(
+                                'grid.xml')
+
+                            with open(grid_xml_path) as f:
+                                shake_grid_xml = f.read()
+
+                            # shake_grid file will be uploaded as multipart
+                            # data. So in this case, parsed as string
+                            expected_value = {
+                                'shake_grid': [shake_grid_xml]
+                            }
+
+                            test_instance.assertEqual(
+                                expected_value, body_dict)
+
                         self.send_response(requests.codes.ok)
                         self.end_headers()
                     else:

@@ -71,7 +71,8 @@ class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
         self.send_response(requests.codes.ok)
         LOGGER.info('Request body extraction.')
         post_body = self.get_request_body()
-        LOGGER.info('Request body: {0}'.format(post_body))
+        LOGGER.info('Request body: {0}'.format(
+            self.truncate_request_body(post_body)))
         self.end_headers()
         return
 
@@ -79,8 +80,9 @@ class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
         self.logger_PUT()
         self.send_response(requests.codes.ok)
         LOGGER.info('Request body extraction.')
-        post_body = self.get_request_body()
-        LOGGER.info('Request body: {0}'.format(post_body))
+        put_body = self.get_request_body()
+        LOGGER.info('Request body: {0}'.format(
+            self.truncate_request_body(put_body)))
         self.end_headers()
         return
 
@@ -89,6 +91,11 @@ class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
         self.send_response(requests.codes.ok)
         self.end_headers()
         return
+
+    @classmethod
+    def truncate_request_body(cls, request_body, max_length=75):
+        return (request_body[:(max_length - 4)] + ' ...') \
+            if len(request_body) >= max_length else request_body
 
 
 class InaSAFEDjangoMockServer(object):

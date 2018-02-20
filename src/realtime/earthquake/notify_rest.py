@@ -105,6 +105,12 @@ def notify_shake_hazard_to_rest(shake_hazard, fail_silent=True):
             'location_description': shake_hazard.location
         }
 
+        earthquake_file = {
+            'shake_grid': (
+                '{shake_id}-grid.xml'.format(shake_id=shake_hazard.event_id),
+                open(shake_hazard.grid_file))
+        }
+
         # check does the shake event already exists?
         response = session.earthquake(
             earthquake_data['shake_id'],
@@ -122,13 +128,25 @@ def notify_shake_hazard_to_rest(shake_hazard, fail_silent=True):
                 data=json.dumps(earthquake_data),
                 headers=headers)
 
+        # upload grid.xml
+        headers = {
+            'X-CSRFTOKEN': inasafe_django.csrf_token,
+        }
+        if response.status_code == requests.codes.ok:
+            response = session.earthquake(
+                earthquake_data['shake_id'],
+                earthquake_data['source_type']).PUT(
+                files=earthquake_file,
+                headers=headers)
+
         if not (response.status_code == requests.codes.ok or
                 response.status_code == requests.codes.created):
             # raise exceptions
             error = RESTRequestFailedError(
                 url=response.url,
                 status_code=response.status_code,
-                data=json.dumps(earthquake_data))
+                data=json.dumps(earthquake_data),
+                files=earthquake_file)
             if fail_silent:
                 LOGGER.info(error.message)
             else:
