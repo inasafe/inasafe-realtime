@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-# Run xvfb
-start-stop-daemon --start -b -x /usr/bin/Xvfb ${DISPLAY}
+# Wait run xvfb
+while [ -z  "$(pidof /usr/bin/Xvfb)" ]; do
+  start-stop-daemon --start -b -x /usr/bin/Xvfb ${DISPLAY}
+  sleep 5
+done
+
+echo "Xvfb pid $(pidof /usr/bin/Xvfb)"
 
 cp -n /home/app/realtime/celeryconfig_sample.py /home/app/realtime/celeryconfig.py
 
