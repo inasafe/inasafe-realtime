@@ -160,6 +160,9 @@ class FloodHazard(QObject):
             },
         }
 
+        event_time_store = self.event_time.strftime(
+            extra_keyword_flood_event_time['store_format2'])
+
         keywords = {
             hazard_category['key']: hazard_category_single_event['key'],
             'title': self.localization.hazard_title.format(
@@ -181,8 +184,7 @@ class FloodHazard(QObject):
 
             # Extra keywords
             property_extra_keywords['key']: {
-                extra_keyword_flood_event_time['key']: self.event_time.strftime(
-                    extra_keyword_flood_event_time['store_format2']),
+                extra_keyword_flood_event_time['key']: event_time_store,
                 extra_keyword_flood_event_id['key']: self.flood_id,
                 extra_keyword_time_zone['key']: (
                     self.time_zone.zone if self.time_zone else '')

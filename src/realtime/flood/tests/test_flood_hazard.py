@@ -115,6 +115,15 @@ class TestFloodHazard(unittest.TestCase):
 
         self.assertDictContainsSubset(expected_keywords, actual_keywords)
 
+        expected_extra_keywords = {
+            u'flood_event_time': u'2017-02-21T05:00:00',
+            u'flood_event_id': u'2017022105-6-rw',
+            u'time_zone': u'Asia/Jakarta'
+        }
+
+        extra_keywords = actual_keywords['extra_keywords']
+        self.assertDictEqual(expected_extra_keywords, extra_keywords)
+
     def test_process_event_file(self):
         """Test process event executions from hazard file."""
 
