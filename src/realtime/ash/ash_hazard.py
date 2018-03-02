@@ -10,6 +10,14 @@ from realtime.ash.localizations import AshHazardString
 from realtime.ash.settings import ASH_HAZARD_DEFAULT_BASENAME, ASH_ID_FORMAT
 from realtime.utilities import realtime_logger_name, copy_layers
 from safe.common.exceptions import NoKeywordsFoundError
+from safe.definitions import (
+    property_extra_keywords,
+    layer_mode,
+    layer_purpose,
+    continuous_hazard_unit,
+    layer_geometry,
+    inasafe_keyword_version_key,
+    hazard_category)
 from safe.definitions.exposure import (
     exposure_structure,
     exposure_place,
@@ -173,7 +181,7 @@ class AshHazard(QObject):
 
         keywords = {
             'active_band': 1,
-            'hazard_category': hazard_category_single_event['key'],
+            hazard_category['key']: hazard_category_single_event['key'],
             'title': self.ash_id,
             'thresholds': {
                 exposure_structure['key']: hazard_classes,
@@ -182,13 +190,13 @@ class AshHazard(QObject):
                 exposure_road['key']: hazard_classes,
                 exposure_population['key']: hazard_classes
             },
-            'keyword_version': inasafe_keyword_version,
-            'hazard': hazard_volcanic_ash['key'],
-            'continuous_hazard_unit': unit_centimetres['key'],
-            'layer_geometry': layer_geometry_raster['key'],
-            'layer_purpose': layer_purpose_hazard['key'],
-            'layer_mode': layer_mode_continuous['key'],
-            'extra_keywords': {
+            inasafe_keyword_version_key: inasafe_keyword_version,
+            layer_purpose['key']: layer_purpose_hazard['key'],
+            layer_purpose_hazard['key']: hazard_volcanic_ash['key'],
+            continuous_hazard_unit['key']: unit_centimetres['key'],
+            layer_geometry['key']: layer_geometry_raster['key'],
+            layer_mode['key']: layer_mode_continuous['key'],
+            property_extra_keywords['key']: {
                 extra_keyword_volcano_name['key']: self.volcano_name,
                 extra_keyword_region['key']: self.region,
                 extra_keyword_volcano_alert_level['key']: self.alert_level,
