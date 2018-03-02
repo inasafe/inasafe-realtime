@@ -8,8 +8,19 @@ from qgis.core import QgsVectorLayer
 
 from realtime.flood.localizations import FloodHazardString
 from realtime.flood.settings import (
-    FLOOD_HAZARD_DEFAULT_BASENAME, FLOOD_ID_FORMAT)
+    FLOOD_HAZARD_DEFAULT_BASENAME,
+    FLOOD_ID_FORMAT)
 from realtime.utilities import realtime_logger_name
+from safe.definitions import (
+    extra_keyword_flood_event_time,
+    extra_keyword_flood_event_id,
+    extra_keyword_time_zone,
+    hazard_category,
+    inasafe_keyword_version_key,
+    layer_purpose,
+    layer_geometry,
+    layer_mode,
+    property_extra_keywords)
 from safe.definitions.exposure import (
     exposure_structure,
     exposure_place,
@@ -21,7 +32,8 @@ from safe.definitions.fields import hazard_value_field
 from safe.definitions.hazard import hazard_flood
 from safe.definitions.hazard_category import hazard_category_single_event
 from safe.definitions.hazard_classifications import (
-    flood_hazard_classes, flood_petabencana_hazard_classes
+    flood_hazard_classes,
+    flood_petabencana_hazard_classes
 )
 from safe.definitions.layer_geometry import layer_geometry_polygon
 from safe.definitions.layer_modes import layer_mode_classified
@@ -149,10 +161,10 @@ class FloodHazard(QObject):
         }
 
         keywords = {
-            'hazard_category': hazard_category_single_event['key'],
+            hazard_category['key']: hazard_category_single_event['key'],
             'title': self.localization.hazard_title.format(
                 timestamp=self.event_time_in_time_zone),
-            'keyword_version': inasafe_keyword_version,
+            inasafe_keyword_version_key: inasafe_keyword_version,
             'value_maps': {
                 exposure_structure['key']: hazard_classes,
                 exposure_place['key']:  hazard_classes,
@@ -160,12 +172,21 @@ class FloodHazard(QObject):
                 exposure_road['key']:  hazard_classes,
                 exposure_population['key']:  hazard_classes,
             },
-            'hazard': hazard_flood['key'],
+            layer_purpose['key']: layer_purpose_hazard['key'],
+            layer_purpose_hazard['key']: hazard_flood['key'],
             'source': self.data_source.source_name(),
-            'layer_purpose': layer_purpose_hazard['key'],
-            'layer_geometry': layer_geometry_polygon['key'],
+            layer_geometry['key']: layer_geometry_polygon['key'],
             'inasafe_fields': {hazard_value_field['key']: u'state'},
-            'layer_mode': layer_mode_classified['key']
+            layer_mode['key']: layer_mode_classified['key'],
+
+            # Extra keywords
+            property_extra_keywords['key']: {
+                extra_keyword_flood_event_time['key']: self.event_time.strftime(
+                    extra_keyword_flood_event_time['store_format2']),
+                extra_keyword_flood_event_id['key']: self.flood_id,
+                extra_keyword_time_zone['key']: (
+                    self.time_zone.zone if self.time_zone else '')
+            }
         }
 
         hazard_layer = self.hazard_layer
