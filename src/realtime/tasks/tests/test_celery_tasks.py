@@ -7,6 +7,7 @@ from datetime import datetime
 
 import mock
 import pytz
+from qgis.core import QgsMapLayerRegistry
 
 from realtime import settings
 from realtime.celeryconfig import task_always_eager
@@ -33,6 +34,11 @@ class TestGenericCeleryTasks(unittest.TestCase):
 
 
 class TestEarthquakeCeleryTasks(unittest.TestCase):
+
+    def check_layer_registry_empty(self):
+        # Layer registry should be empty between run
+        layer_registry = QgsMapLayerRegistry.instance()
+        self.assertDictEqual(layer_registry.mapLayers(), {})
 
     def setUp(self):
         self.shake_work_dir = settings.EARTHQUAKE_WORKING_DIRECTORY
@@ -82,8 +88,15 @@ class TestEarthquakeCeleryTasks(unittest.TestCase):
         result = process_shake.delay(self.event_id, self.grid_file_path)
         self.assertTrue(result.get()['success'])
 
+        self.check_layer_registry_empty()
+
 
 class TestFloodCeleryTasks(unittest.TestCase):
+
+    def check_layer_registry_empty(self):
+        # Layer registry should be empty between run
+        layer_registry = QgsMapLayerRegistry.instance()
+        self.assertDictEqual(layer_registry.mapLayers(), {})
 
     def setUp(self):
         self.flood_work_dir = settings.FLOOD_WORKING_DIRECTORY
@@ -150,6 +163,8 @@ class TestFloodCeleryTasks(unittest.TestCase):
             })
         self.assertTrue(result.get()['success'])
 
+        self.check_layer_registry_empty()
+
     @unittest.skipIf(
         not task_always_eager,
         'Only run this tests synchronously. '
@@ -178,8 +193,15 @@ class TestFloodCeleryTasks(unittest.TestCase):
             result = process_flood.delay()
             self.assertTrue(result.get()['success'])
 
+            self.check_layer_registry_empty()
+
 
 class TestAshCeleryTasks(unittest.TestCase):
+
+    def check_layer_registry_empty(self):
+        # Layer registry should be empty between run
+        layer_registry = QgsMapLayerRegistry.instance()
+        self.assertDictEqual(layer_registry.mapLayers(), {})
 
     def setUp(self):
         self.ash_work_dir = settings.ASH_WORKING_DIRECTORY
@@ -253,3 +275,5 @@ class TestAshCeleryTasks(unittest.TestCase):
             vent_height=2968,
             forecast_duration=3)
         self.assertTrue(result.get()['success'])
+
+        self.check_layer_registry_empty()
