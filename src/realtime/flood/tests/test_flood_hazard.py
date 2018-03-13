@@ -104,7 +104,7 @@ class TestFloodHazard(unittest.TestCase):
             'layer_purpose': 'hazard',
             'hazard': 'flood',
             'hazard_category': 'single_event',
-            'keyword_version': '4.3',
+            'keyword_version': '4.4',
             'title': 'Jakarta Floods - 2017-02-21 12:00:00+07:00',
             'source': 'PetaBencana'
         }

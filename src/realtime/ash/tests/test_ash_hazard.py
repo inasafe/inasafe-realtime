@@ -122,7 +122,7 @@ class TestAshHazard(unittest.TestCase):
             'active_band': 1,
             'hazard': 'volcanic_ash',
             'hazard_category': 'single_event',
-            'keyword_version': '4.3',
+            'keyword_version': '4.4',
             'layer_geometry': 'raster',
             'layer_mode': 'continuous',
             'layer_purpose': 'hazard',
