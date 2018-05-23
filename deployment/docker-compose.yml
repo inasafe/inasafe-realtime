@@ -31,6 +31,7 @@ services:
       - SHAKEMAPS_DIR=/home/realtime/shakemaps
       - FLOODMAPS_DIR=/home/realtime/floodmaps
       - ASHMAPS_DIR=/home/realtime/ashmaps
+      - QGIS_DEBUG=0
     links:
       - rabbitmq
     network_mode: bridge
@@ -57,6 +58,7 @@ services:
       - SHAKEMAPS_DIR=/home/realtime/shakemaps
       - FLOODMAPS_DIR=/home/realtime/floodmaps
       - ASHMAPS_DIR=/home/realtime/ashmaps
+      - QGIS_DEBUG=0
     network_mode: bridge
 
   shakemap-corrected-monitor:
@@ -81,4 +83,5 @@ services:
       - SHAKEMAPS_DIR=/home/realtime/shakemaps
       - FLOODMAPS_DIR=/home/realtime/floodmaps
       - ASHMAPS_DIR=/home/realtime/ashmaps
+      - QGIS_DEBUG=0
     network_mode: bridge
