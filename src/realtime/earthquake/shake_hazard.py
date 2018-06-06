@@ -8,6 +8,7 @@ from qgis.core import QgsRasterLayer
 from realtime.earthquake.localizations import ShakeHazardString
 from realtime.earthquake.settings import EQ_GRID_SOURCE_TYPE, EQ_GRID_SOURCE
 from realtime.utilities import realtime_logger_name
+from safe.definitions import extra_keyword_earthquake_source
 from safe.gui.tools.shake_grid.shake_grid import ShakeGrid, USE_ASCII
 
 LOGGER = logging.getLogger(realtime_logger_name())
@@ -50,15 +51,20 @@ class ShakeHazard(QObject):
 
         grid_source = EQ_GRID_SOURCE or self.localization.grid_source
 
-        self._shake_grid = ShakeGrid(
-            '', grid_source, self.grid_file,
-            output_dir=output_dir,
-            output_basename=output_basename)
-        self.hazard_path = self.shake_grid.mmi_to_raster(
-            force_flag=force_flag, algorithm=algorithm)
         if not source_type:
             source_type = EQ_GRID_SOURCE_TYPE
         self.source_type = source_type
+        extra_keywords = {
+            extra_keyword_earthquake_source['key']: source_type
+        }
+
+        self._shake_grid = ShakeGrid(
+            '', grid_source, self.grid_file,
+            output_dir=output_dir,
+            output_basename=output_basename,
+            extra_keywords=extra_keywords)
+        self.hazard_path = self.shake_grid.mmi_to_raster(
+            force_flag=force_flag, algorithm=algorithm)
 
     @property
     def shake_grid(self):
