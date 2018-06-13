@@ -1,5 +1,5 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM kartoza/qgis-desktop:LTR
+FROM kartoza/qgis-desktop:2.18
 
 RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
@@ -38,4 +38,5 @@ RUN chmod +x /docker-entrypoint.sh
 
 # Environment variable
 
-CMD ["/docker-entrypoint.sh", "prod", "inasafe-headless"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["prod", "inasafe-headless"]

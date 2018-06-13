@@ -1,5 +1,5 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM kartoza/qgis-desktop:LTR
+FROM kartoza/qgis-desktop:2.18
 
 RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
@@ -33,4 +33,5 @@ ARG INASAFE_REALTIME_TAG=develop
 RUN git clone --branch ${INASAFE_REALTIME_TAG} --depth 1 https://github.com/inasafe/inasafe-realtime.git source
 RUN ln -s source/src/realtime realtime
 
-CMD ["/docker-entrypoint.sh", "prod", "inasafe-realtime-worker"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["prod", "inasafe-realtime-worker"]
