@@ -1,0 +1,16 @@
+
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PYTHONPATH" value="/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app" />
+        <env name="DISPLAY" value=":99" />
+        <env name="INASAFE_LOCALE" value="id" />
+        <env name="C_FORCE_ROOT" value="True" />
+        <env name="TASK_ALWAYS_EAGER" value="True" />
+        <env name="INASAFE_REALTIME_BROKER_HOST" value="amqp://guest:guest@rabbitmq:5672/" />
+        <env name="INASAFE_REALTIME_REST_USER" value="{{ realtime_rest_api.user }}" />
+        <env name="INASAFE_REALTIME_REST_PASSWORD" value="{{ realtime_rest_api.password }}" />
+        <env name="INASAFE_REALTIME_REST_URL" value="http://{{ realtime_rest_api.host }}:{{ realtime_rest_api.port }}/realtime/api/v1" />
+        <env name="INASAFE_WORK_DIR" value="/home/realtime/" />
+        <env name="SHAKEMAPS_DIR" value="/home/realtime/shakemaps" />
+        <env name="FLOODMAPS_DIR" value="/home/realtime/floodmaps" />
+        <env name="ASHMAPS_DIR" value="/home/realtime/ashmaps" />
+        <env name="QGIS_DEBUG" value="0" />

@@ -1,0 +1,8 @@
+codecov:
+  branch: develop
+
+coverage:
+  precision: 2
+
+fixes:
+  - "/home/app/::home/travis/build/inasafe/inasafe-realtime/src/"

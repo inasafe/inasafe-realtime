@@ -1,0 +1,87 @@
+version: '2'
+services:
+
+  rabbitmq:
+    image: library/rabbitmq:3.6
+    restart: on-failure
+    network_mode: bridge
+
+  worker:
+    build: docker-realtime
+    command: /docker-entrypoint.sh prod inasafe-realtime-worker
+    working_dir: /home/app
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/usr/share/qgis/python/plugins/inasafe
+      - ../src:/home/app
+      - ../floodmaps:/home/realtime/floodmaps
+      - ../ashmaps:/home/realtime/ashmaps
+      - ../shakemaps:/home/realtime/shakemaps
+      - ../shakemaps-corrected:/home/realtime/shakemaps-corrected
+    environment:
+      - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      - DISPLAY=:99
+      - C_FORCE_ROOT=True
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
+      - INASAFE_LOCALE=id
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_WORK_DIR=/home/realtime
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      - ASHMAPS_DIR=/home/realtime/ashmaps
+      - QGIS_DEBUG=0
+    links:
+      - rabbitmq
+    network_mode: bridge
+
+  shakemap-monitor:
+    build: docker-realtime
+    command: /docker-entrypoint.sh prod inasafe-realtime-monitor
+    working_dir: /home/app
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/usr/share/qgis/python/plugins/inasafe
+      - ../src:/home/app
+      - ../shakemaps:/home/realtime/shakemaps
+    environment:
+      - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      - DISPLAY=:99
+      - C_FORCE_ROOT=True
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
+      - INASAFE_LOCALE=id
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_WORK_DIR=/home/realtime
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      - ASHMAPS_DIR=/home/realtime/ashmaps
+      - QGIS_DEBUG=0
+    network_mode: bridge
+
+  shakemap-corrected-monitor:
+    build: docker-realtime
+    command: /docker-entrypoint.sh prod inasafe-realtime-monitor
+    working_dir: /home/app
+    env_file:
+      - ./docker-realtime/realtime-rest.env
+    volumes:
+      - ../inasafe:/usr/share/qgis/python/plugins/inasafe
+      - ../src:/home/app
+      - ../shakemaps-corrected:/home/realtime/shakemaps
+    environment:
+      - PYTHONPATH=/usr/share/qgis/python:/usr/share/qgis/python/plugins:/usr/share/qgis/python/plugins/inasafe:/home/app
+      - DISPLAY=:99
+      - C_FORCE_ROOT=True
+      - TASK_ALWAYS_EAGER=False
+      - ON_TRAVIS=False
+      - INASAFE_LOCALE=id
+      - INASAFE_REALTIME_BROKER_HOST=amqp://guest:guest@rabbitmq:5672/
+      - INASAFE_WORK_DIR=/home/realtime
+      - SHAKEMAPS_DIR=/home/realtime/shakemaps
+      - FLOODMAPS_DIR=/home/realtime/floodmaps
+      - ASHMAPS_DIR=/home/realtime/ashmaps
+      - QGIS_DEBUG=0
+    network_mode: bridge
