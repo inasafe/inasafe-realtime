@@ -28,20 +28,20 @@ interpreters:
 inasafe:
   repo: https://github.com/inasafe/inasafe.git
   remote: upstream
-  version: master
+  version: version-4_4_0
   depth: 1
 
 inasafe_realtime_worker:
-  command: /docker-entrypoint.sh prod inasafe-realtime-worker
+  command: prod inasafe-realtime-worker
   environment:
     task_always_eager: "${TASK_ALWAYS_EAGER}"
     on_travis: "${ON_TRAVIS}"
 
 inasafe_shakemap_monitor:
-  command: /docker-entrypoint.sh prod inasafe-realtime-monitor
+  command: prod inasafe-realtime-monitor
 
 inasafe_shakemap_corrected_monitor:
-  command: /docker-entrypoint.sh prod inasafe-realtime-monitor
+  command: prod inasafe-realtime-monitor
 
 docker_port_forward:
   inasafe_realtime:

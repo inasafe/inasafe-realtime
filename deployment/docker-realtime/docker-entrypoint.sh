@@ -17,3 +17,5 @@ elif [ $# -eq 2 ] && [ $1 = "prod" ] && [ $2 = "inasafe-realtime-monitor" ]; the
 elif [ $# -eq 1 ] && [ $1 = "dev" ]; then
 	/usr/sbin/sshd -D
 fi
+
+exec "$@"

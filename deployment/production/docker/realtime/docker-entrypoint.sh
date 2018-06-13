@@ -15,3 +15,5 @@ if [ $# -eq 2 ] && [ $1 = "prod" ] && [ $2 = "inasafe-realtime-worker" ]; then
 elif [ $# -eq 2 ] && [ $1 = "prod" ] && [ $2 = "inasafe-realtime-monitor" ]; then
 	python realtime/earthquake/notify_new_shake.py ${SHAKEMAPS_DIR}
 fi
+
+exec "$@"
