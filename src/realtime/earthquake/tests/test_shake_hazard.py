@@ -113,7 +113,8 @@ class TestShakeHazard(unittest.TestCase):
             u'earthquake_latitude': 4.92,
             u'earthquake_y_maximum': 6.165,
             u'earthquake_depth': 3.0,
-            u'earthquake_event_time': u'2016-12-14T00:57:04'
+            u'earthquake_event_time': u'2016-12-14T00:57:04',
+            u'earthquake_source': u'initial'
         }
 
         keywords_io = KeywordIO()
