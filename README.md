@@ -6,12 +6,15 @@ gather and integrate Hazard data from various agencies and convert it
 into InaSAFE Hazard Layers to be further processed by InaSAFE Realtime
 System.
 
-Statuses:
+**Statuses:**
 
 [![Build Status](https://travis-ci.org/inasafe/inasafe-realtime.svg?branch=develop)](https://travis-ci.org/inasafe/inasafe-realtime)
 
 [![codecov](https://codecov.io/gh/inasafe/inasafe-realtime/branch/develop/graph/badge.svg)](https://codecov.io/gh/inasafe/inasafe-realtime)
 
+**Architecture:**
+
+[![Architecture](https://github.com/inasafe/inasafe-realtime/raw/develop/docs/Kartoza%20-%20DFAT-%2031%20January%20-%202018%20-%20Status.png)]
 
 
 # Development Guide
