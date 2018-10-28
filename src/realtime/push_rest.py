@@ -45,9 +45,9 @@ class InaSAFEDjangoREST(object):
 
         :return: True if Realtime REST credentials is provided in os.environ
         """
-        return (settings.INASAFE_REALTIME_REST_URL and
-                settings.INASAFE_REALTIME_REST_USER and
-                settings.INASAFE_REALTIME_REST_PASSWORD)
+        return (settings.INASAFE_REALTIME_REST_URL
+                and settings.INASAFE_REALTIME_REST_USER
+                and settings.INASAFE_REALTIME_REST_PASSWORD)
 
     @property
     def cookies(self):

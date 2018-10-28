@@ -31,13 +31,13 @@ def notify_realtime_rest(timestamp):
         timestamp_utc = timestamp.astimezone(tz=pytz.utc)
         data = {
             'timestamp': timestamp_utc.strftime(
-                    INASAFE_REALTIME_DATETIME_FORMAT)
+                INASAFE_REALTIME_DATETIME_FORMAT)
         }
         headers = {
             'X-CSRFTOKEN': inasafe_django.csrf_token
         }
         LOGGER.info(
-                'Is Logged in %s' % session.is_logged_in.GET(headers=headers))
+            'Is Logged in %s' % session.is_logged_in.GET(headers=headers))
 
         response = session.indicator.notify_shakemap_push.POST(
             data=data, headers=headers)
@@ -139,8 +139,8 @@ def notify_shake_hazard_to_rest(shake_hazard, fail_silent=True):
                 files=earthquake_file,
                 headers=headers)
 
-        if not (response.status_code == requests.codes.ok or
-                response.status_code == requests.codes.created):
+        if not (response.status_code == requests.codes.ok
+                or response.status_code == requests.codes.created):
             # raise exceptions
             error = RESTRequestFailedError(
                 url=response.url,

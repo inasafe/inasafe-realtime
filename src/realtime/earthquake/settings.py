@@ -9,7 +9,7 @@ from safe.gui.tools.shake_grid.shake_grid import USE_ASCII
 # Grid xml file pattern to catch
 GRID_FILE_PATTERN = os.environ.get(
     'GRID_FILE_PATTERN',
-    '(?P<shake_id>\d{14})/grid\.xml$')
+    r'(?P<shake_id>\d{14})/grid\.xml$')
 
 GRID_FILE_DEFAULT_LOCATION = os.environ.get(
     'GRID_FILE_DEFAULT_LOCATION',

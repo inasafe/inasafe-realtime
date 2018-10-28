@@ -58,4 +58,4 @@ task_acks_late = True
 task_reject_on_worker_lost = True
 
 task_always_eager = ast.literal_eval(os.environ.get(
-       'TASK_ALWAYS_EAGER', 'False'))
+    'TASK_ALWAYS_EAGER', 'False'))

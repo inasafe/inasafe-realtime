@@ -63,8 +63,8 @@ def notify_ash_hazard_to_rest(ash_hazard, fail_silent=True):
             data=ash_data,
             headers=headers)
 
-        if not (response.status_code == requests.codes.ok or
-                response.status_code == requests.codes.created):
+        if not (response.status_code == requests.codes.ok
+                or response.status_code == requests.codes.created):
             error = RESTRequestFailedError(
                 url=response.url,
                 status_code=response.status_code,
