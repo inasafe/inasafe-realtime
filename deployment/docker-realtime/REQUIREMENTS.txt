@@ -6,3 +6,6 @@ coverage==4.4.2
 pyinotify==0.9.6
 celery==4.1.1
 mock==2.0.0
+
+# For testing
+flake8==3.6.0

@@ -81,8 +81,8 @@ def notify_flood_hazard_to_rest(flood_hazard, fail_silent=True):
                 data=flood_data,
                 headers=headers)
 
-        if not (response.status_code == requests.codes.ok or
-                response.status_code == requests.codes.created):
+        if not (response.status_code == requests.codes.ok
+                or response.status_code == requests.codes.created):
             # raise exceptions
             error = RESTRequestFailedError(
                 url=response.url,

@@ -277,7 +277,7 @@ class TestFloodHazard(unittest.TestCase):
                             expected_value, body_dict)
                         # compare time because it may have different seconds
                         seconds_diff = (
-                                parse(body_dict['time']) - event_time).seconds
+                            parse(body_dict['time']) - event_time).seconds
                         test_instance.assertTrue(seconds_diff < 60)
                         self.send_response(requests.codes.ok)
                         self.end_headers()
