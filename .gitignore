@@ -21,3 +21,5 @@ site.retry
 !/deployment/ansible/development/roles/inasafe/tasks/main.yml
 /src/realtime/*/tests/output/
 /src/realtime/celeryconfig.py
+
+.python-version

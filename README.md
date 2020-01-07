@@ -28,7 +28,8 @@ setup will automatically generate project configuration for PyCharm.
 - Running MacOS or Ubuntu 16.04/16.10
 - Docker Engine installed
 - Ansible is installed (pip install ansible or brew install ansible)
-- PyCharm professional is installed (tested versions: 2016.3, 2017.1, 2017.2, or 2017.3)
+- PyCharm professional is (optionally) installed (tested versions: 2016.3, 2017.1, 2017.2, or 2017.3).
+  PyCharm is recommended but not necessary to use.
 
 
 ## Step 1: Checkout inasafe-realtime repo
@@ -63,6 +64,7 @@ use_pycharm (set to **yes** if using pycharm, **no** for otherwise)
 remote_user (your username)
 remote_group (your user’s group)
 project_path (the location of the project)
+interpreters -> inasafe_realtime -> domain_alias: (your preferred domain alias, leave default if no change)
 interpreters →  inasafe_realtime →  ipaddress: (your local machine ipaddress)
 ```
 
@@ -83,6 +85,8 @@ Example:
  14     ipaddress: &inasafe_realtime_host_ip 192.168.1.113
  ```
 
+The ip address settings is needed because this is a microservice package.
+It needs to figure out the address to be used for testing the connections.
 
 Generate your project config:
 
@@ -91,7 +95,7 @@ make setup-ansible
 ```
 
 Fill in your sudo password (to change /etc/hosts entry)
-Choose your pycharm version.
+Choose your pycharm version, but skip if you didn't use pycharm.
 
 Ansible should return something like this:
 
