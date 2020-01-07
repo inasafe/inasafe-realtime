@@ -260,7 +260,7 @@ class TestAshCeleryTasks(unittest.TestCase):
         # Second, initiate request to process hazard file.
 
         time_zone = pytz.timezone('Asia/Jakarta')
-        event_time = datetime(2017, 02, 21, 12, 04, tzinfo=pytz.utc)
+        event_time = datetime(2017, 0o2, 21, 12, 0o4, tzinfo=pytz.utc)
         event_time = event_time.astimezone(time_zone)
 
         result = process_ash.delay(

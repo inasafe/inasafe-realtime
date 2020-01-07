@@ -131,7 +131,7 @@ class TestShakeHazard(unittest.TestCase):
         test_instance.rest_errors = 0
 
         time_zone = pytz.timezone('Asia/Jakarta')
-        event_time = datetime.datetime(2016, 12, 14, 00, 57, 04)
+        event_time = datetime.datetime(2016, 12, 14, 00, 57, 0o4)
         event_time = time_zone.localize(event_time)
 
         # Make sure timezone correction is, well, *correct*

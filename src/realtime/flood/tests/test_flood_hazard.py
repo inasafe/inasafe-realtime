@@ -67,7 +67,7 @@ class TestFloodHazard(unittest.TestCase):
         time_zone = pytz.timezone('Asia/Jakarta')
         data_source = DATA_SOURCE_DICT['petabencana']
         flood_hazard = FloodHazard(
-            event_time=datetime(2017, 02, 21, 05, tzinfo=pytz.utc),
+            event_time=datetime(2017, 0o2, 21, 0o5, tzinfo=pytz.utc),
             time_zone=time_zone,
             duration=6,
             level='rw',

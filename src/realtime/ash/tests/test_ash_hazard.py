@@ -62,7 +62,7 @@ class TestAshHazard(unittest.TestCase):
     def test_ash_fall_conversion(self):
         """Test GeoTIFF conversion to InaSAFE Hazard Layer."""
         time_zone = pytz.timezone('Asia/Jakarta')
-        event_time = datetime(2017, 02, 21, 12, 04, tzinfo=pytz.utc)
+        event_time = datetime(2017, 0o2, 21, 12, 0o4, tzinfo=pytz.utc)
         event_time = event_time.astimezone(time_zone)
         ash_hazard = AshHazard(
             event_time=event_time,
@@ -159,7 +159,7 @@ class TestAshHazard(unittest.TestCase):
         test_instance.rest_errors = 0
 
         time_zone = pytz.timezone('Asia/Jakarta')
-        event_time = datetime(2017, 02, 21, 12, 04, tzinfo=pytz.utc)
+        event_time = datetime(2017, 0o2, 21, 12, 0o4, tzinfo=pytz.utc)
         event_time = event_time.astimezone(time_zone)
 
         class ProcessEventCheckHandler(InaSAFEDjangoMockServerHandler):
