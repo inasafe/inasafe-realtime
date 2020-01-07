@@ -1,11 +1,10 @@
-requests>=2.6.2
-tzlocal==1.2
+requests>=2.22.0
+tzlocal>=2.0.0
 hammock==0.2.4
-nose2==0.6.5
-coverage==4.4.2
+coverage>=5.0.0
 pyinotify==0.9.6
-celery==4.1.1
-mock==2.0.0
+celery>=4.4.0
+mock>=3.0.5
 
 # For testing
-flake8==3.6.0
+flake8>=3.7.0
