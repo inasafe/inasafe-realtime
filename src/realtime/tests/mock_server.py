@@ -1,11 +1,15 @@
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import object
 # coding=utf-8
 import cgi
 import json
 import logging
 import os
 import signal
-import urlparse
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import urllib.parse
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
 import requests
@@ -29,12 +33,12 @@ class InaSAFEDjangoMockServerHandler(BaseHTTPRequestHandler):
             postvars = cgi.parse_multipart(self.rfile, pdict)
         elif ctype == 'application/x-www-form-urlencoded':
             length = int(self.headers.getheader('content-length'))
-            postvars = urlparse.parse_qs(
+            postvars = urllib.parse.parse_qs(
                 self.rfile.read(length), keep_blank_values=1)
 
             # Additional cleanup
             # by spec it will always return a list. We might don't want that.
-            for key, value in postvars.iteritems():
+            for key, value in postvars.items():
                 postvars[key] = value[0]
         elif ctype == 'application/json':
             post_body = self.get_request_body()
