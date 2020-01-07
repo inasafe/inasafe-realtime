@@ -1,5 +1,6 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
-FROM kartoza/qgis-desktop:2.18
+# FROM kartoza/qgis-desktop:2.18
+FROM qgis/qgis:release-3_10
 
 RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 
@@ -9,7 +10,10 @@ RUN apt-get -y update; apt-get -y --force-yes install pwgen git inotify-tools
 RUN apt-get update -y; apt-get install -y --force-yes openssh-server sudo
 RUN mkdir /var/run/sshd
 RUN echo 'root:docker' | chpasswd
-RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# Comment out PermitRootLogin setting, whatever it is
+RUN sed -i 's/^PermitRootLogin */#PermitRootLogin /' /etc/ssh/sshd_config
+# Write out PermitRootLogin setting at the end
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
@@ -21,8 +25,8 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 #-------------Application Specific Stuff ----------------------------------------------------
 # Install git, xvfb
-RUN apt-get -y update; apt-get -y --force-yes install git xvfb python-setuptools python-dev libssl-dev libffi-dev python-scipy
-RUN easy_install pip==9.0.1
+RUN apt-get -y update; apt-get -y --force-yes install git xvfb python3-setuptools python3-dev libssl-dev libffi-dev python3-scipy
+RUN pip3 install -U pip
 # Copy ubuntu fonts
 RUN apt-get -y update; apt-get -y --force-yes install wget unzip
 ADD ubuntu-font-family-0.83.zip /ubuntu-font-family-0.83.zip
